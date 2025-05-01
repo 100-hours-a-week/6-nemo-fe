@@ -1,0 +1,93 @@
+@layer utilities {
+  /* Typography Utilities */
+
+  .text-display-1 {
+    font-size: 56px;
+    line-height: 1.4;
+    font-family: 'Pretendard', sans-serif;
+  }
+
+  .text-display-2 {
+    font-size: 40px;
+    line-height: 1.4;
+    font-family: 'Pretendard', sans-serif;
+  }
+
+  .text-title-1 {
+    font-size: 36px;
+    line-height: 1.4;
+    font-family: 'Pretendard', sans-serif;
+  }
+
+  .text-title-2 {
+    font-size: 28px;
+    line-height: 1.4;
+    font-family: 'Pretendard', sans-serif;
+  }
+
+  .text-title-3 {
+    font-size: 24px;
+    line-height: 1.4;
+    font-family: 'Pretendard', sans-serif;
+  }
+
+  .text-heading-1 {
+    font-size: 22px;
+    line-height: 1.4;
+    font-family: 'Pretendard', sans-serif;
+  }
+
+  .text-heading-2 {
+    font-size: 20px;
+    line-height: 1.4;
+    font-family: 'Pretendard', sans-serif;
+  }
+
+  .text-headline-1 {
+    font-size: 18px;
+    line-height: 1.4;
+    font-family: 'Pretendard', sans-serif;
+  }
+
+  .text-headline-2 {
+    font-size: 17px;
+    line-height: 1.4;
+    font-family: 'Pretendard', sans-serif;
+  }
+
+  .text-body-1 {
+    font-size: 16px;
+    line-height: 1.4;
+    font-family: 'Pretendard', sans-serif;
+  }
+
+  .text-body-2 {
+    font-size: 15px;
+    line-height: 1.4;
+    font-family: 'Pretendard', sans-serif;
+  }
+
+  .text-label-1 {
+    font-size: 14px;
+    line-height: 1.4;
+    font-family: 'Pretendard', sans-serif;
+  }
+
+  .text-label-2 {
+    font-size: 13px;
+    line-height: 1.4;
+    font-family: 'Pretendard', sans-serif;
+  }
+
+  .text-caption-1 {
+    font-size: 12px;
+    line-height: 1.4;
+    font-family: 'Pretendard', sans-serif;
+  }
+
+  .text-caption-2 {
+    font-size: 11px;
+    line-height: 1.4;
+    font-family: 'Pretendard', sans-serif;
+  }
+}
