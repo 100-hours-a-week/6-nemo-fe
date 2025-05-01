@@ -10,6 +10,89 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* 커스텀 테마 */
+  /* Primitive Colors */
+  --color-white: #FFFFFF;
+  --color-black: #000000;
+  
+  /* 그린 색상 */
+  --color-green-50: #eefaf8;
+  --color-green-100: #e6f7f5;
+  --color-green-200: #caefe9;
+  --color-green-300: #55cbb9;
+  --color-green-400: #4db7a7;
+  --color-green-500: #44a294;
+  --color-green-600: #40988b;
+  --color-green-700: #337a6f;
+  --color-green-800: #265b53;
+  --color-green-900: #1e4741;
+  
+  /* 그레이 색상 */
+  --color-gray-50: #F9F8FD;
+  --color-gray-100: #F1F0F5;
+  --color-gray-200: #E7E6EB;
+  --color-gray-300: #D6D5DA;
+  --color-gray-400: #B2B1B6;
+  --color-gray-500: #929195;
+  --color-gray-600: #6A696D;
+  --color-gray-700: #56555A;
+  --color-gray-800: #38373B;
+  --color-gray-900: #18171B;
+  
+  /* 퍼플 색상 */
+  --color-purple-50: #f4e8ff;
+  --color-purple-100: #e0c7fe;
+  --color-purple-200: #cba0fe;
+  --color-purple-300: #b575ff;
+  --color-purple-400: #a350fd;
+  --color-purple-500: #8f2bf3;
+  --color-purple-600: #8425ec;
+  --color-purple-700: #7519e3;
+  --color-purple-800: #6712db;
+  --color-purple-900: #5100cd;
+  
+  /* 핑크 색상 */
+  --color-pink-50: #ffe1ff;
+  --color-pink-100: #feafd9;
+  --color-pink-200: #ff75bf;
+  --color-pink-300: #fc28a1;
+  --color-pink-400: #f60087;
+  --color-pink-500: #f2006d;
+  --color-pink-600: #e1006a;
+  --color-pink-700: #ca0065;
+  --color-pink-800: #b30062;
+  --color-pink-900: #8b005b;
+  
+  /* 옐로우 색상 */
+  --color-yellow-400: #ffd966;
+  
+  /* Semantic Colors */
+  --color-primary: #55cbb9;
+  --color-primary-hover: #4db7a7;
+  --color-primary-active: #44a294;
+  --color-primary-light: #eefaf8;
+  --color-primary-dark: #337a6f;
+  
+  --color-secondary: #b575ff;
+  --color-secondary-hover: #a350fd;
+  --color-secondary-active: #8f2bf3;
+  --color-secondary-light: #f4e8ff;
+  --color-secondary-dark: #7519e3;
+  
+  --color-light-gray: #B2B1B6;
+  --color-dark-gray: #56555A;
+  --color-gray-container: #F1F0F5;
+  --color-light-gray-container: #F9F8FD;
+  
+  --color-error: #ff75bf;
+  --color-error-container: #ffe1ff;
+  --color-on-error-container: #fc28a1;
+  --color-warn: #ffd966;
+  --color-complete: #55cbb9;
+  
+  --color-kakao: #FEE500;
+  --color-on-kakao: #181600;
 }
 
 @media (prefers-color-scheme: dark) {
