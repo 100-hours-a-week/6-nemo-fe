@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import localFont from 'next/font/local';
-import "@/styles/globals.css";
+import localFont from "next/font/local";
+import "@/shared/styles/globals.css";
 
 const pretendard = localFont({
-  src: '../public/fonts/PretendardVariable.woff2',
-  variable: '--font-pretendard',
-  display: 'swap'
-})
+  src: "../src/shared/assets/fonts/PretendardVariable.woff2",
+  variable: "--font-pretendard",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Nemo",
@@ -21,9 +21,10 @@ export default function RootLayout({
   return (
     <html lang="ko" className={pretendard.variable}>
       <body>
-        {children}
-        dsd
+        <div className="mobile-container">
+          {children}
+        </div>
       </body>
-    </html>
+    </html >
   );
 }

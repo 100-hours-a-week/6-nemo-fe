@@ -1,13 +1,12 @@
 @layer utilities {
   /* 컨테이너 패딩 */
-  .container-padding-sm {
+  .ctn-p-sm {
     padding-left: 0.5rem;
     padding-right: 0.5rem;
     padding-top: 0.75rem;
     padding-bottom: 0.75rem;
   }
-
-  .container-padding-md {
+  .ctn-p-md {
     padding-left: 0.75rem;
     padding-right: 0.75rem;
     padding-top: 1rem;
