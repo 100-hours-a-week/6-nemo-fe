@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import "@/shared/styles/globals.css";
+import "./globals.css";
 
 const pretendard = localFont({
-  src: "../src/shared/assets/fonts/PretendardVariable.woff2",
+  src: "../shared/assets/fonts/PretendardVariable.woff2",
   variable: "--font-pretendard",
   display: "swap",
 });
@@ -21,10 +21,8 @@ export default function RootLayout({
   return (
     <html lang="ko" className={pretendard.variable}>
       <body>
-        <div className="mobile-container">
-          {children}
-        </div>
+        <div className="mobile-container border">{children}</div>
       </body>
-    </html >
+    </html>
   );
 }

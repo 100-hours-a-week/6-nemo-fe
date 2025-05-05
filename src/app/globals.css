@@ -1,7 +1,7 @@
 @import "tailwindcss";
-@import "./colors.css";
-@import "./typography.css";
-@import "./container.css";
+@import "../shared/styles/colors.css";
+@import "../shared/styles/typography.css";
+@import "../shared/styles/container.css";
 
 :root {
   --background: #ffffff;
@@ -38,14 +38,15 @@ body {
     rgba(238, 250, 248, 1) 51%,
     rgba(77, 183, 167, 1) 100%
   );
-  @apply md:bg-[url('../assets/images/background.png')] md:bg-cover md:bg-center md:bg-no-repeat;
+  /* @apply md:bg-[url('../assets/images/bg_group.png')] md:bg-cover md:bg-center md:bg-no-repeat; */
+  @apply md:bg-[url('../shared/assets/images/bg_group2.webp')] md:bg-contain md:bg-center md:bg-no-repeat;
   /* background-image: url(../assets/images/background.png);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center; */
 
   .mobile-container {
-    /* 서비스 '반려동물' 기준 (428x100vh) */
+    /* 430x100vh */
     width: 100%;
     max-width: 430px;
     min-height: 100vh;
