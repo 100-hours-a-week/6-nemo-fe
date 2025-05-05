@@ -1,14 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { cn } from "lib/utils";
-import { Group } from "../model/types";
 import { bg_group2, users_icon } from "@/shared/assets/images/index";
-
-// 그룹 카드에 필요한 데이터 타입 정의
-type GroupCardProps = {
-  group: Group;
-  className?: string;
-};
+import { GroupCardProps } from "../model/types";
 
 export const GroupCard = ({ group, className }: GroupCardProps) => {
   return (

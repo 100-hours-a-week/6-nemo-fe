@@ -10,3 +10,8 @@ export type Group = {
     tags: string[];
     plan?: string;
 }
+
+export type GroupCardProps = {
+    group: Group;
+    className?: string;
+};
