@@ -3,14 +3,15 @@ import { no_access } from "../assets/images";
 
 const NoAccess = () => {
   return (
-    <div className="h-full w-full">
+    <div className="text-display-2 flex h-full w-full items-center justify-center gap-4">
       <Image
         src={no_access}
-        alt="접근금지"
+        alt="공사 중"
         width={64}
         height={64}
         className="text-cetner"
       />
+      공 사 중
     </div>
   );
 };

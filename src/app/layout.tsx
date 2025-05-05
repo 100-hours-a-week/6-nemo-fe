@@ -21,7 +21,7 @@ export default function RootLayout({
   return (
     <html lang="ko" className={pretendard.variable}>
       <body>
-        <div className="mobile-container border">{children}</div>
+        <div className="mobile-container">{children}</div>
       </body>
     </html>
   );
