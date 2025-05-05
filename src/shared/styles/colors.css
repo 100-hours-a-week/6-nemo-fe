@@ -1,11 +1,9 @@
-@import "tailwindcss";
-
 @theme {
   /* 커스텀 테마 */
   /* Primitive Colors */
-  --color-common-100: #FFFFFF;
+  --color-common-100: #ffffff;
   --color-common-0: #000000;
-  
+
   /* 그린 색상 */
   --color-green-50: #eefaf8;
   --color-green-100: #e6f7f5;
@@ -17,42 +15,41 @@
   --color-green-700: #337a6f;
   --color-green-800: #265b53;
   --color-green-900: #1e4741;
-  
-  /* 그레이 색상 */
-  --color-gray-50: #F9F8FD;
-  --color-gray-100: #F1F0F5;
-  --color-gray-200: #E7E6EB;
-  --color-gray-300: #D6D5DA;
-  --color-gray-400: #B2B1B6;
-  --color-gray-500: #929195;
-  --color-gray-600: #6A696D;
-  --color-gray-700: #56555A;
-  --color-gray-800: #38373B;
-  --color-gray-900: #18171B;
 
-  --color-coolNeutral-99: #F7F7F8;
-  --color-coolNeutral-98: #F4F4F5;
-  --color-coolNeutral-97: #EAEBEC;
-  --color-coolNeutral-96: #E1E2E4;
-  --color-coolNeutral-95: #DBDCDF;
-  --color-coolNeutral-90: #C2C4C8;
-  --color-coolNeutral-80: #AEB0B6;
-  --color-coolNeutral-70: #989BA2;
-  --color-coolNeutral-60: #878A93;
-  --color-coolNeutral-50: #70737C;
-  --color-coolNeutral-40: #5A5C63;
-  --color-coolNeutral-30: #46474C;
-  --color-coolNeutral-25: #37383C;
+  /* 그레이 색상 */
+  --color-gray-50: #f9f8fd;
+  --color-gray-100: #f1f0f5;
+  --color-gray-200: #e7e6eb;
+  --color-gray-300: #d6d5da;
+  --color-gray-400: #b2b1b6;
+  --color-gray-500: #929195;
+  --color-gray-600: #6a696d;
+  --color-gray-700: #56555a;
+  --color-gray-800: #38373b;
+  --color-gray-900: #18171b;
+
+  --color-coolNeutral-99: #f7f7f8;
+  --color-coolNeutral-98: #f4f4f5;
+  --color-coolNeutral-97: #eaebec;
+  --color-coolNeutral-96: #e1e2e4;
+  --color-coolNeutral-95: #dbdcdf;
+  --color-coolNeutral-90: #c2c4c8;
+  --color-coolNeutral-80: #aeb0b6;
+  --color-coolNeutral-70: #989ba2;
+  --color-coolNeutral-60: #878a93;
+  --color-coolNeutral-50: #70737c;
+  --color-coolNeutral-40: #5a5c63;
+  --color-coolNeutral-30: #46474c;
+  --color-coolNeutral-25: #37383c;
   --color-coolNeutral-23: #333438;
-  --color-coolNeutral-22: #2E2F33;
-  --color-coolNeutral-20: #292A2D;
+  --color-coolNeutral-22: #2e2f33;
+  --color-coolNeutral-20: #292a2d;
   --color-coolNeutral-17: #212225;
-  --color-coolNeutral-15: #1B1C1E;
+  --color-coolNeutral-15: #1b1c1e;
   --color-coolNeutral-10: #171719;
   --color-coolNeutral-7: #141415;
-  --color-coolNeutral-5: #0F0F10;
+  --color-coolNeutral-5: #0f0f10;
 
-  
   /* 퍼플 색상 */
   --color-purple-50: #f4e8ff;
   --color-purple-100: #e0c7fe;
@@ -64,7 +61,7 @@
   --color-purple-700: #7519e3;
   --color-purple-800: #6712db;
   --color-purple-900: #5100cd;
-  
+
   /* 핑크 색상 */
   --color-pink-50: #ffe1ff;
   --color-pink-100: #feafd9;
@@ -76,10 +73,10 @@
   --color-pink-700: #ca0065;
   --color-pink-800: #b30062;
   --color-pink-900: #8b005b;
-  
+
   /* 옐로우 색상 */
   --color-yellow-400: #ffd966;
-  
+
   /* Semantic Colors */
   --color-primary: var(--color-green-300);
   --color-primary-strong: var(--color-green-400);
@@ -93,25 +90,37 @@
   --color-secondary-light: var(--color-purple-50);
   --color-secondary-dark: var(--color-purple-700);
 
-  --color-light-gray: var(--color-gray-400);
-  --color-gray: var(--color-gray-500);
-  --color-dark-gray: var(--color-gray-700);
-  --color-gray-container: var(--color-gray-100);
-  --color-light-gray-container: var(--color-gray-50);
+  /* --color-light-gray: var(--color-gray-400);
+  --color-gray: var(--color-gray-500); */
 
   /* Label */
-  --color-label-normal: var(--color-coolNeutral-10);
+  /* --color-label-normal: var(--color-coolNeutral-10);
   --color-label-strong: var(--color-common-0);
-  --color-label-neutral: rgba(var(--color-coolNeutral-22), 0.88);
-  --color-label-alternative: rgba(var(--color-coolNeutral-25), 0.61);
+  --color-label-neutral: rgba(var(--color-coolNeutral-22), 0.88); */
+  --color-label-neutral: var(--color-gray-400);
+  --color-label-normal: var(--color-gray-500);
   --color-label-assistive: rgba(var(--color-coolNeutral-25), 0.28);
-  --color-label-disable: rgba(var(--color-coolNeutral-25), 0.16);
+  --color-label-strong-2: rgba(var(--color-coolNeutral-22), 0.88);
+  --color-label-strong-1: var(--color-common-0);
+  /* --color-label-alternative: rgba(var(--color-coolNeutral-25), 0.61); */
+  /* --color-label-disable: rgba(var(--color-coolNeutral-25), 0.16); */
 
   /* Background */
-  --color-background-normal-normal: var(--color-common-100);
-  --color-background-normal-alternative: var(--color-coolNeutral-99);
+  /* --color-background-normal-neutral: var(--color-common-100);
+  --color-background-normal-normal: var(--color-gray-50);
+  --color-background-normal-strong: var(--color-gray-100); */
+  --color-neutral: var(--color-common-100);
+  --color-normal: var(--color-gray-50);
+  --color-strong: var(--color-gray-100);
+  /* --color-background-normal-alternative: var(--color-coolNeutral-99);
   --color-background-elevated-normal: var(--color-common-100);
-  --color-background-elevated-alternative: var(--color-coolNeutral-99);
+  --color-background-elevated-alternative: var(--color-coolNeutral-99); */
+  --color-gradient-green: linear-gradient(
+    90deg,
+    rgba(238, 250, 248, 1) 0%,
+    rgba(85, 203, 185, 1) 70%,
+    rgba(64, 152, 139, 1) 100%
+  );
 
   /* Interaction */
   --color-interaction-inactive: var(--color-coolNeutral-70);
@@ -125,14 +134,13 @@
   --color-line-solid-neutral: var(--color-coolNeutral-97);
   --color-line-solid-alternative: var(--color-coolNeutral-98);
 
-
   --color-error: var(--color-pink-200);
   --color-error-container: var(--color-pink-50);
   --color-on-error-container: var(--color-pink-300);
 
   --color-warn: var(--color-yellow-400);
   --color-complete: var(--color-green-300);
-  
-  --color-kakao: #FEE500;
+
+  --color-kakao: #fee500;
   --color-on-kakao: #181600;
 }

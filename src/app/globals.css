@@ -1,0 +1,60 @@
+@import "tailwindcss";
+@import "../shared/styles/colors.css";
+@import "../shared/styles/typography.css";
+@import "../shared/styles/container.css";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+
+  --font-size-abc-1: 100px;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* @media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+} */
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: "Pretendard Variable", Arial, Helvetica, sans-serif;
+
+  width: 100%;
+  min-height: 100vh;
+  overflow: hidden;
+
+  background: #eefaf8;
+  background: radial-gradient(
+    circle,
+    rgba(238, 250, 248, 1) 51%,
+    rgba(77, 183, 167, 1) 100%
+  );
+  /* @apply md:bg-[url('../assets/images/bg_group.png')] md:bg-cover md:bg-center md:bg-no-repeat; */
+  @apply md:bg-[url('../shared/assets/images/bg_group2.webp')] md:bg-contain md:bg-center md:bg-no-repeat;
+  /* background-image: url(../assets/images/background.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center; */
+
+  .mobile-container {
+    /* 430x100vh */
+    width: 100%;
+    max-width: 430px;
+    min-height: 100vh;
+    margin: 0 auto;
+    background: var(--background);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    transition: max-width 0.3s ease-in-out;
+    overflow-x: hidden;
+  }
+}
