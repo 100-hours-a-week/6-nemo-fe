@@ -90,26 +90,32 @@
   --color-secondary-light: var(--color-purple-50);
   --color-secondary-dark: var(--color-purple-700);
 
-  --color-light-gray: var(--color-gray-400);
-  --color-gray: var(--color-gray-500);
-  --color-dark-gray: var(--color-gray-700);
-  --color-gray-container: var(--color-gray-100);
-  --color-light-gray-container: var(--color-gray-50);
+  /* --color-light-gray: var(--color-gray-400);
+  --color-gray: var(--color-gray-500); */
 
   /* Label */
-  --color-label-normal: var(--color-coolNeutral-10);
+  /* --color-label-normal: var(--color-coolNeutral-10);
   --color-label-strong: var(--color-common-0);
-  --color-label-neutral: rgba(var(--color-coolNeutral-22), 0.88);
-  --color-label-alternative: rgba(var(--color-coolNeutral-25), 0.61);
+  --color-label-neutral: rgba(var(--color-coolNeutral-22), 0.88); */
+  --color-label-neutral: var(--color-gray-400);
+  --color-label-normal: var(--color-gray-500);
   --color-label-assistive: rgba(var(--color-coolNeutral-25), 0.28);
-  --color-label-disable: rgba(var(--color-coolNeutral-25), 0.16);
+  --color-label-strong-2: rgba(var(--color-coolNeutral-22), 0.88);
+  --color-label-strong-1: var(--color-common-0);
+  /* --color-label-alternative: rgba(var(--color-coolNeutral-25), 0.61); */
+  /* --color-label-disable: rgba(var(--color-coolNeutral-25), 0.16); */
 
   /* Background */
-  --color-background-normal-normal: var(--color-common-100);
-  --color-background-normal-alternative: var(--color-coolNeutral-99);
+  /* --color-background-normal-neutral: var(--color-common-100);
+  --color-background-normal-normal: var(--color-gray-50);
+  --color-background-normal-strong: var(--color-gray-100); */
+  --color-neutral: var(--color-common-100);
+  --color-normal: var(--color-gray-50);
+  --color-strong: var(--color-gray-100);
+  /* --color-background-normal-alternative: var(--color-coolNeutral-99);
   --color-background-elevated-normal: var(--color-common-100);
-  --color-background-elevated-alternative: var(--color-coolNeutral-99);
-  --color-background-gradient-green: linear-gradient(
+  --color-background-elevated-alternative: var(--color-coolNeutral-99); */
+  --color-gradient-green: linear-gradient(
     90deg,
     rgba(238, 250, 248, 1) 0%,
     rgba(85, 203, 185, 1) 70%,

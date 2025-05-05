@@ -1,3 +1,5 @@
+export { default as bg_group1 } from "./bg_group1.png";
+export { default as bg_group2 } from "./bg_group2.webp";
 export { default as nemo_logo } from "./nemo_logo.svg";
 export { default as home_icon } from "./home_icon.svg";
 export { default as magnifying_glass_icon } from "./magnifying_glass_icon.svg";
