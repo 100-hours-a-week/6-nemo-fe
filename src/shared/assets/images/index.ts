@@ -21,3 +21,5 @@ export { default as location_icon } from "./location_icon.svg";
 export { default as location_bk_icon } from "./location_bk_icon.svg";
 export { default as time_icon } from "./time_icon.svg";
 export { default as time_bk_icon } from "./time_bk_icon.svg";
+// 이미지
+export { default as no_access } from "./no_access.png"
