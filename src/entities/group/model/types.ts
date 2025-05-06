@@ -15,3 +15,23 @@ export type GroupCardProps = {
     group: Group;
     className?: string;
 };
+
+export type SearchParams = {
+    keyword?: string;
+    category?: string;
+    page?: number;
+    size?: number;
+    sort?: string;
+};
+
+export type SearchResponse = {
+    code: number;
+    message: string;
+    data: {
+        groups: Group[];
+        totalPages: number;
+        totalElements: number;
+        pageNumber: number;
+        isLast: boolean;
+    };
+};

@@ -1,1 +1,1 @@
-export { GroupCard } from './ui/GroupCard'
+export { GroupCard } from './ui/group-card'
