@@ -99,8 +99,8 @@
   --color-label-neutral: rgba(var(--color-coolNeutral-22), 0.88); */
   --color-label-neutral: var(--color-gray-400);
   --color-label-normal: var(--color-gray-500);
-  --color-label-assistive: rgba(var(--color-coolNeutral-25), 0.28);
-  --color-label-strong-2: rgba(var(--color-coolNeutral-22), 0.88);
+  --color-label-assistive: var(--color-coolNeutral-25);
+  --color-label-strong-2: var(--color-coolNeutral-22);
   --color-label-strong-1: var(--color-common-0);
   /* --color-label-alternative: rgba(var(--color-coolNeutral-25), 0.61); */
   /* --color-label-disable: rgba(var(--color-coolNeutral-25), 0.16); */

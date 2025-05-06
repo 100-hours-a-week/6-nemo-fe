@@ -21,7 +21,7 @@ export const TAB_NAVIGATION_ITEMS: BottomNavigationItemProps[] = [
         label: '홈',
     },
     {
-        href: '/search',
+        href: '/groups',
         activeIcon: magnifying_glass_active_icon,
         inactiveIcon: magnifying_glass_icon,
         label: '검색',

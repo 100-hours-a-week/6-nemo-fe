@@ -1,4 +1,4 @@
-import { BottomNavigation } from "@/widgets/BottomNavigation";
+import { BottomNavigation } from "@/widgets/bottom-navigation";
 
 export default function Layout({
   children,
