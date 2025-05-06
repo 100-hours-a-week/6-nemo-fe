@@ -1,0 +1,1 @@
+export { CategoryFilterBar } from './ui/category-filter-bar';
