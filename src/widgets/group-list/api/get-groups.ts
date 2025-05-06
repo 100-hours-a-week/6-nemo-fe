@@ -1,7 +1,6 @@
-// src/shared/api/groupsApi.ts
 import { SearchParams, SearchResponse } from "@/entities/group/model/types";
 
-export const searchGroups = async (params: SearchParams): Promise<SearchResponse> => {
+export const getGroups = async (params: SearchParams): Promise<SearchResponse> => {
     const queryParams = new URLSearchParams();
 
     if (params.keyword) queryParams.set('keyword', params.keyword);
