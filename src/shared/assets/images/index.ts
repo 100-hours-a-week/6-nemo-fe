@@ -23,3 +23,4 @@ export { default as time_icon } from "./time_icon.svg";
 export { default as time_bk_icon } from "./time_bk_icon.svg";
 // 이미지
 export { default as no_access } from "./no_access.png"
+export { default as dog } from "./dog.png"
