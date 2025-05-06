@@ -1,0 +1,44 @@
+{
+    "code": 200,
+    "message": "요청이 성공적으로 처리되었습니다.",
+    "data": {
+        "participants": [
+            {
+                "userId": 1,
+                "nickname": "Ray",
+                "profileImageUrl": "/api/placeholder/40/40",
+                "role": "admin"
+            },
+            {
+                "userId": 2,
+                "nickname": "Lillian",
+                "profileImageUrl": "/api/placeholder/40/40",
+                "role": "member"
+            },
+            {
+                "userId": 3,
+                "nickname": "Daniel",
+                "profileImageUrl": "/api/placeholder/40/40",
+                "role": "member"
+            },
+            {
+                "userId": 4,
+                "nickname": "Glenn",
+                "profileImageUrl": "/api/placeholder/40/40",
+                "role": "member"
+            },
+            {
+                "userId": 5,
+                "nickname": "Sophia",
+                "profileImageUrl": "/api/placeholder/40/40",
+                "role": "member"
+            },
+            {
+                "userId": 6,
+                "nickname": "Emma",
+                "profileImageUrl": "/api/placeholder/40/40",
+                "role": "member"
+            }
+        ]
+    }
+}
