@@ -16,6 +16,14 @@ export type GroupCardProps = {
     className?: string;
 };
 
+export type SearchParams = {
+    keyword?: string;
+    category?: string;
+    page?: number;
+    size?: number;
+    sort?: string;
+};
+
 export type SearchResponse = {
     code: number;
     message: string;
@@ -26,11 +34,4 @@ export type SearchResponse = {
         pageNumber: number;
         isLast: boolean;
     };
-};
-
-export type SearchParams = {
-    keyword?: string;
-    category?: string;
-    page?: number;
-    size?: number;
 };

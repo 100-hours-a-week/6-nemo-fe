@@ -2,21 +2,21 @@
 
 import { useEffect, useRef } from "react";
 import { GroupCard } from "@/entities/group";
-import { useGroupsListInfiniteQuery } from "../api/group.query";
+import {
+  useGroupsListInfiniteQuery,
+  useGroupsSearchInfiniteQuery,
+} from "../api/group.query";
 import { GroupsListProps } from "../model/types";
 
 export const GroupsList = ({ params = {} }: GroupsListProps) => {
   const observerRef = useRef<IntersectionObserver | null>(null);
   const loadMoreRef = useRef<HTMLDivElement>(null);
 
-  const {
-    data,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    status,
-    isLoading,
-  } = useGroupsListInfiniteQuery(params);
+  // keyword 유무에 따라 적절한 쿼리 훅 사용
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
+    params.keyword
+      ? useGroupsSearchInfiniteQuery(params)
+      : useGroupsListInfiniteQuery(params);
 
   useEffect(() => {
     // 이전 observer 해제
@@ -49,7 +49,7 @@ export const GroupsList = ({ params = {} }: GroupsListProps) => {
   // 모든 그룹 리스트 생성
   const allGroups = data?.pages.flatMap((page) => page.groups) || [];
 
-  if (isLoading) {
+  if (status === "pending") {
     return (
       <div className="flex items-center justify-center py-10">
         <div className="border-primary h-6 w-6 animate-spin rounded-full border-2 border-t-transparent"></div>
@@ -75,12 +75,6 @@ export const GroupsList = ({ params = {} }: GroupsListProps) => {
 
   return (
     <div className="space-y-4">
-      {params.keyword && data?.pages[0]?.totalElements && (
-        <div className="text-body-2 text-label-normal mb-4">
-          "{params.keyword}" 검색 결과 ({data.pages[0].totalElements}개)
-        </div>
-      )}
-
       {allGroups.map((group) => (
         <GroupCard key={group.id} group={group} />
       ))}
@@ -95,9 +89,9 @@ export const GroupsList = ({ params = {} }: GroupsListProps) => {
       </div>
 
       {/* 모든 결과를 로드한 경우 안내 메시지 */}
-      {!hasNextPage && allGroups.length > 0 && data?.pages[0].totalElements && (
+      {!hasNextPage && allGroups.length > 0 && (
         <div className="text-caption-1 text-label-normal pt-2 text-center">
-          모든 결과를 불러왔습니다. (총 {data.pages[0].totalElements}개)
+          모든 결과를 불러왔습니다. (총 {data?.pages[0].totalElements}개)
         </div>
       )}
     </div>
