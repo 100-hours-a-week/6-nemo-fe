@@ -1,10 +1,12 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { GroupDetailHeader } from "@/widgets/group-detail/ui/group-detail-header";
 import { MembersList } from "@/widgets/group-detail/ui/members-list";
 import { GroupPlan } from "@/widgets/group-detail/ui/group-plan";
+import { GroupInfoTabs } from "@/widgets/group-detail/ui/group-info-tabs";
+import { ScheduleList } from "@/widgets/group-detail/ui/schedule-list";
 import { useGroup } from "@/widgets/group-detail/lib/use-group";
 
 export default function GroupDetailPage() {
@@ -39,35 +41,12 @@ export default function GroupDetailPage() {
   }
 
   return (
-    <div className="relative flex min-h-screen flex-col pb-16">
+    <div className="relative flex min-h-screen flex-col pb-24">
       {/* 모임 상세 헤더 */}
       <GroupDetailHeader group={group} />
 
       {/* 탭 메뉴 */}
-      <div className="border-b border-gray-200">
-        <div className="flex">
-          <button
-            className={`flex-1 border-b-2 py-3 text-center ${
-              activeTab === "info"
-                ? "border-primary text-primary font-semibold"
-                : "border-transparent text-gray-500"
-            }`}
-            onClick={() => setActiveTab("info")}
-          >
-            상세 정보
-          </button>
-          <button
-            className={`flex-1 border-b-2 py-3 text-center ${
-              activeTab === "schedule"
-                ? "border-primary text-primary font-semibold"
-                : "border-transparent text-gray-500"
-            }`}
-            onClick={() => setActiveTab("schedule")}
-          >
-            일정
-          </button>
-        </div>
-      </div>
+      <GroupInfoTabs activeTab={activeTab} onTabChange={setActiveTab} />
 
       {/* 탭 내용 */}
       <div className="p-ctn-md">
@@ -106,10 +85,8 @@ export default function GroupDetailPage() {
         )}
 
         {activeTab === "schedule" && (
-          <div className="py-4 text-center">
-            <p className="text-body-1 text-label-normal">
-              모임 일정 준비 중입니다
-            </p>
+          <div className="py-4">
+            <ScheduleList groupId={groupId} />
           </div>
         )}
       </div>

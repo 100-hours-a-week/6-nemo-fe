@@ -1,0 +1,45 @@
+{
+    "code": 200,
+    "message": "요청이 성공적으로 처리되었습니다.",
+    "data": {
+        "schedules": [
+            {
+                "id": 4,
+                "title": "일정명1212",
+                "startAt": "2025-05-25 20:00",
+                "address": "카카오테크 부트캠프 교육장, RYON 3",
+                "description": "API 설계에 대해 학습할 예정입니다.!!!",
+                "ownerName": "glenn",
+                "ScheduleStatus": "RECRUITING",
+                "currentUserCount": 1,
+                "maxUserCount": 10
+            },
+            {
+                "id": 3,
+                "title": "일정명",
+                "startAt": "2025-05-01 20:00",
+                "address": "카카오테크 부트캠프 교육장, RYON 3",
+                "description": "API 설계에 대해 학습할 예정입니다.",
+                "ownerName": "glenn",
+                "ScheduleStatus": "CLOSED",
+                "currentUserCount": 1,
+                "maxUserCount": 10
+            },
+            {
+                "id": 2,
+                "title": "일정명",
+                "startAt": "2025-04-25 20:00",
+                "address": "카카오테크 부트캠프 교육장, RYON 3",
+                "description": "API 설계에 대해 학습할 예정입니다.",
+                "ownerName": "glenn",
+                "ScheduleStatus": "CLOSED",
+                "currentUserCount": 1,
+                "maxUserCount": 8
+            }
+        ],
+        "totalPages": 1,
+        "totalElements": 3,
+        "pageNumber": 0,
+        "isLast": true
+    }
+}
