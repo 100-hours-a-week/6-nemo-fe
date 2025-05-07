@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { no_access } from "../assets/images";
 
-const NoAccess = () => {
+export const NoAccess = () => {
   return (
     <div className="text-display-2 flex h-full w-full items-center justify-center gap-4">
       <Image
@@ -15,4 +15,3 @@ const NoAccess = () => {
     </div>
   );
 };
-export default NoAccess;
