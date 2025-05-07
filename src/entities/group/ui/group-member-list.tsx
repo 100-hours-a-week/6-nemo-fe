@@ -2,11 +2,14 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { MembersListProps, Member } from "../model/types";
+import {
+  MemberListProps,
+  Member,
+} from "../../../widgets/group-details/model/types";
 import { dog, profile_icon } from "@/shared/assets/images";
 import mockParticipants from "mocks/group-participants.json";
 
-export const MembersList = ({ groupId }: MembersListProps) => {
+export const GroupMemberList = ({ groupId }: MemberListProps) => {
   const [members, setMembers] = useState<Member[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -18,20 +21,20 @@ export const MembersList = ({ groupId }: MembersListProps) => {
         // const response = await fetch(`/api/v1/groups/${groupId}/participants`);
         // const data = await response.json();
         // if (data.code === 200) {
-        //   const membersList = data.data.participants.map((participant: any) => ({
+        //   const memberList = data.data.participants.map((participant: any) => ({
         //     id: participant.userId.toString(),
         //     name: participant.nickname,
         //     role: participant.role || "member",
         //     profileImage: participant.profileImageUrl
         //   }));
-        //   setMembers(membersList);
+        //   setMembers(memberList);
         // } else {
         //   throw new Error(data.message || "모임원 목록을 불러오는데 실패했습니다.");
         // }
 
         // Mock 데이터 사용
         if (mockParticipants.code === 200) {
-          const membersList = mockParticipants.data.participants.map(
+          const memberList = mockParticipants.data.participants.map(
             (participant: any) => ({
               id: participant.userId.toString(),
               name: participant.nickname,
@@ -39,7 +42,7 @@ export const MembersList = ({ groupId }: MembersListProps) => {
               profileImage: participant.profileImageUrl,
             }),
           );
-          setMembers(membersList);
+          setMembers(memberList);
         } else {
           throw new Error("모임원 목록을 불러오는데 실패했습니다.");
         }

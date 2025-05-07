@@ -5,7 +5,7 @@ import { GroupCard } from "@/entities/group";
 import {
   useGroupsListInfiniteQuery,
   useGroupsSearchInfiniteQuery,
-} from "../api/group.query";
+} from "../../../entities/group/api/group.query";
 import { GroupsListProps } from "../model/types";
 
 export const GroupsList = ({ params = {} }: GroupsListProps) => {

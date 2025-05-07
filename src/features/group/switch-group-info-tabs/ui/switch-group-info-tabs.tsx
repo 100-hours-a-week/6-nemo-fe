@@ -1,9 +1,9 @@
-import { GroupInfoTabsProps } from "../model/types";
+import { SwitchGroupInfoTabsProps } from "../model/types";
 
-export const GroupInfoTabs = ({
+export const SwitchGroupInfoTabs = ({
   activeTab,
   onTabChange,
-}: GroupInfoTabsProps) => {
+}: SwitchGroupInfoTabsProps) => {
   return (
     <div className="border-b border-gray-200">
       <div className="flex">

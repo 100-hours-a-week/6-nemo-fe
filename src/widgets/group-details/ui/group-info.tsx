@@ -3,7 +3,7 @@ import Link from "next/link";
 import { GroupDetailHeaderProps } from "../model/types";
 import { bg_group2 } from "@/shared/assets/images";
 
-export const GroupDetailHeader = ({ group }: GroupDetailHeaderProps) => {
+export const GroupInfo = ({ group }: GroupDetailHeaderProps) => {
   return (
     <div className="relative">
       {/* 뒤로가기 버튼 */}

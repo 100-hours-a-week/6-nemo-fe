@@ -1,5 +1,5 @@
-import { CategoryFilterBar } from "@/features/category-filter";
-import { SearchBar } from "@/features/search";
+import { CategoryFilterBar } from "@/features/category/category-filter";
+import { SearchBar } from "@/features/search/search-groups";
 import { GroupsList } from "@/widgets/group-list";
 
 export default function GroupsPage() {

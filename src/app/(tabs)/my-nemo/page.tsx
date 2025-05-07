@@ -2,11 +2,10 @@
 
 import { useParams } from "next/navigation";
 import { useState } from "react";
-
-import { SwitchGroupInfoTabs } from "@/features/group";
 import { GroupInfo, useGroup } from "@/widgets/group-details";
-import { ScheduleList } from "@/widgets/schdule-list";
 import { GroupMemberList, GroupPlan } from "@/entities/group";
+import { ScheduleList } from "@/widgets/schdule-list";
+import { SwitchGroupInfoTabs } from "@/features/group";
 
 export default function GroupDetailPage() {
   const params = useParams();

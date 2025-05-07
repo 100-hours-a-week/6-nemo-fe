@@ -1,4 +1,4 @@
-import { GroupPlanProps } from "../model/types";
+import { GroupPlanProps } from "../../../widgets/group-details/model/types";
 
 // 단계별 계획 문자열 파싱 함수
 const parsePlan = (planStr: string) => {

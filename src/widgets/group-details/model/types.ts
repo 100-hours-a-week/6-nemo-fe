@@ -4,7 +4,7 @@ export type GroupDetailHeaderProps = {
     group: Group;
 };
 
-export type MembersListProps = {
+export type MemberListProps = {
     groupId: string;
 };
 

@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { SearchBar } from "@/features/search";
+import { SearchBar } from "@/features/search/search-groups";
 import { GroupsList } from "@/widgets/group-list";
 
 export default async function SearchPage({

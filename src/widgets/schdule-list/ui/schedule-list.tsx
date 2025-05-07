@@ -1,9 +1,10 @@
-import { useRouter } from "next/navigation";
-import { ScheduleListProps } from "../model/types";
-import { useSchedules } from "../lib/use-schedules";
-import { ScheduleItem } from "./schedule-item";
+"use client";
 
-export const ScheduleList = ({ groupId }: ScheduleListProps) => {
+import { useRouter } from "next/navigation";
+import { useSchedules } from "../../group-details/lib/use-schedules";
+import { ScheduleItem } from "../../../entities/schdule/ui/schedule-item";
+
+export const ScheduleList = ({ groupId }: { groupId: string }) => {
   const router = useRouter();
   const {
     schedules,
@@ -12,7 +13,7 @@ export const ScheduleList = ({ groupId }: ScheduleListProps) => {
     totalCount,
     isLastPage,
     loadMoreSchedules,
-  } = useSchedules(groupId);
+  } = useSchedules(Number(groupId));
 
   // 일정 상세 페이지로 이동
   const handleScheduleClick = (scheduleId: number) => {

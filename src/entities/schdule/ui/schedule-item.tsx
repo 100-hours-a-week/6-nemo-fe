@@ -1,4 +1,4 @@
-import { Schedule } from "../model/types";
+import { Schedule } from "../../../widgets/group-details/model/types";
 
 type ScheduleItemProps = {
   schedule: Schedule;
