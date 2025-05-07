@@ -1,8 +1,10 @@
+'use client'
+
 import { useState, useEffect } from "react";
-import { Schedule, SchedulesResponse } from "../model/types";
+import { Schedule } from "../model/types";
 import mockSchedules from "mocks/group-schedules.json";
 
-export const useSchedules = (groupId: string) => {
+export const useSchedules = (groupId: number) => {
     const [schedules, setSchedules] = useState<Schedule[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<Error | null>(null);

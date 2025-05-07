@@ -4,11 +4,6 @@ export type GroupDetailHeaderProps = {
     group: Group;
 };
 
-export type GroupInfoTabsProps = {
-    activeTab: "info" | "schedule";
-    onTabChange: (tab: "info" | "schedule") => void;
-};
-
 export type MembersListProps = {
     groupId: string;
 };
@@ -65,9 +60,4 @@ export type SchedulesResponse = {
         pageNumber: number;
         isLast: boolean;
     };
-};
-
-// 일정 목록 프로퍼티 타입 정의
-export type ScheduleListProps = {
-    groupId: string;
 };

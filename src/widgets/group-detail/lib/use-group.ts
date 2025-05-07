@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Group } from "@/entities/group/model/types";
 import mockGroupDetail from "mocks/group-detail.json";
 
-export const useGroup = (groupId: string) => {
+export const useGroup = (groupId: number) => {
     const [group, setGroup] = useState<Group | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<Error | null>(null);

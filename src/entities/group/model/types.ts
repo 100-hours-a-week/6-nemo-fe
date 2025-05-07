@@ -1,5 +1,5 @@
 export type Group = {
-    id?: string;
+    id?: number;
     name: string;
     description: string;
     category: string;
@@ -35,3 +35,11 @@ export type SearchResponse = {
         isLast: boolean;
     };
 };
+
+export type MyGroupsResponse = {
+    code: number;
+    message: string;
+    data: {
+        groups: Group[]
+    }
+}
