@@ -130,7 +130,7 @@ export const ScheduleItem = ({ schedule, onClick }: ScheduleItemProps) => {
         </div>
       </div>
 
-      <div className="text-body-2 text-label-normal line-clamp-2 rounded-md bg-gray-50 p-2">
+      <div className="text-body-2 text-label-normal line-clamp-2 rounded-md bg-gray-50 p-1">
         {schedule.description}
       </div>
 
