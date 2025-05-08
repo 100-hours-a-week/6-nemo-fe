@@ -35,6 +35,37 @@
   }
 }
 
+@keyframes bgTransition {
+  0% {
+    background-image: url("../shared/assets/images/background/bg-1.jpg");
+    opacity: 1;
+  }
+  45% {
+    background-image: url("../shared/assets/images/background/bg-1.jpg");
+    opacity: 1;
+  }
+  50% {
+    background-image: url("../shared/assets/images/background/bg-1.jpg");
+    opacity: 0;
+  }
+  55% {
+    background-image: url("../shared/assets/images/background/bg-2.jpg");
+    opacity: 0;
+  }
+  60% {
+    background-image: url("../shared/assets/images/background/bg-2.jpg");
+    opacity: 1;
+  }
+  95% {
+    background-image: url("../shared/assets/images/background/bg-2.jpg");
+    opacity: 1;
+  }
+  100% {
+    background-image: url("../shared/assets/images/background/bg-2.jpg");
+    opacity: 0;
+  }
+}
+
 /* 배경 이미지를 위한 가상 요소 추가 */
 body::before {
   content: "";
@@ -50,10 +81,17 @@ body::before {
     rgba(238, 250, 248, 1) 51%,
     rgba(77, 183, 167, 1) 100%
   );
-  background-image: url("../shared/assets/images/bg_group2.webp");
+  background-image: url("../shared/assets/images/background/bg-1.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  animation: bgTransition 6s ease-in-out infinite;
+}
+
+@media (min-width: 768px) {
+  body::before {
+    background-size: cover;
+  }
 }
 
 body {
@@ -64,20 +102,13 @@ body {
   overflow-x: hidden;
 }
 
-@media (min-width: 768px) {
-  body::before {
-    background-image: url("../shared/assets/images/bg_group2.webp");
-    background-size: contain;
-  }
-}
-
 body .mobile-container {
   /* 430x100vh */
   width: 100%;
   max-width: 430px;
   min-height: 100vh;
   margin: 0 auto;
-  background: var(--color-normal);
+  background: var(--background);
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
   transition: max-width 0.3s ease-in-out;
   overflow-x: hidden;
