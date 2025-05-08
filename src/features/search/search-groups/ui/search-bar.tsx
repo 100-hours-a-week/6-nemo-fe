@@ -3,8 +3,8 @@
 import Image from "next/image";
 import { cn } from "lib/utils";
 import { magnifying_glass_icon } from "@/shared/assets/images";
-import { useSearch } from "../lib/use-search";
 import { SearchBarProps } from "../model/types";
+import { useSearch } from "../lib/use-search";
 
 export const SearchBar = ({ className }: SearchBarProps) => {
   const { searchText, handleSubmit, handleChange } = useSearch();

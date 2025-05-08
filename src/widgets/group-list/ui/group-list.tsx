@@ -1,53 +1,35 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
+import { useInView } from "react-intersection-observer";
+import { useInfiniteSearchGroups } from "../model/use-infinite-search-groups";
+import { useInfiniteCategoryGroups } from "../model/use-infinite-category-groups";
+import { useInfiniteAllGroups } from "../model/use-infinite-all-groups";
 import { GroupCard } from "@/entities/group";
-import {
-  useGroupsListInfiniteQuery,
-  useGroupsSearchInfiniteQuery,
-} from "../../../entities/group/api/group.query";
-import { GroupsListProps } from "../model/types";
 
-export const GroupsList = ({ params = {} }: GroupsListProps) => {
-  const observerRef = useRef<IntersectionObserver | null>(null);
-  const loadMoreRef = useRef<HTMLDivElement>(null);
+export const GroupList = ({
+  category,
+  keyword,
+}: {
+  keyword?: string;
+  category?: string;
+}) => {
+  const { ref: loadMoreRef, inView } = useInView();
 
-  // keyword 유무에 따라 적절한 쿼리 훅 사용
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
-    params.keyword
-      ? useGroupsSearchInfiniteQuery(params)
-      : useGroupsListInfiniteQuery(params);
+    category
+      ? useInfiniteCategoryGroups(category)
+      : keyword
+        ? useInfiniteSearchGroups(keyword)
+        : useInfiniteAllGroups();
 
   useEffect(() => {
-    // 이전 observer 해제
-    if (observerRef.current) {
-      observerRef.current.disconnect();
+    if (inView && hasNextPage) {
+      fetchNextPage();
     }
+  }, [inView, hasNextPage, fetchNextPage]);
 
-    // 새 observer 생성
-    observerRef.current = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
-          fetchNextPage();
-        }
-      },
-      { threshold: 0.5 },
-    );
-
-    // observer 연결
-    if (loadMoreRef.current) {
-      observerRef.current.observe(loadMoreRef.current);
-    }
-
-    return () => {
-      if (observerRef.current) {
-        observerRef.current.disconnect();
-      }
-    };
-  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
-
-  // 모든 그룹 리스트 생성
-  const allGroups = data?.pages.flatMap((page) => page.groups) || [];
+  const allGroups = data?.pages.flatMap((page) => page.groups) ?? [];
 
   if (status === "pending") {
     return (
@@ -79,7 +61,6 @@ export const GroupsList = ({ params = {} }: GroupsListProps) => {
         <GroupCard key={group.id} group={group} />
       ))}
 
-      {/* 더 불러오기를 위한 참조 요소 */}
       <div ref={loadMoreRef} className="h-10 w-full">
         {isFetchingNextPage && (
           <div className="flex items-center justify-center py-2">
@@ -88,10 +69,9 @@ export const GroupsList = ({ params = {} }: GroupsListProps) => {
         )}
       </div>
 
-      {/* 모든 결과를 로드한 경우 안내 메시지 */}
       {!hasNextPage && allGroups.length > 0 && (
         <div className="text-caption-1 text-label-normal pt-2 text-center">
-          모든 결과를 불러왔습니다. (총 {data?.pages[0].totalElements}개)
+          마지막 데이터입니다.
         </div>
       )}
     </div>
