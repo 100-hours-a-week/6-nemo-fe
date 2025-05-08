@@ -1,21 +1,23 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useSchedules } from "../../group-details/lib/use-schedules";
 import { ScheduleItem } from "../../../entities/schdule/ui/schedule-item";
+import { useInfiniteSchedules } from "../model/use-infinite-schedules";
 
-export const ScheduleList = ({ groupId }: { groupId: string }) => {
+export const ScheduleList = ({ groupId }: { groupId: number }) => {
   const router = useRouter();
   const {
-    schedules,
+    data,
     isLoading,
-    error,
-    totalCount,
-    isLastPage,
-    loadMoreSchedules,
-  } = useSchedules(Number(groupId));
+    isError,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteSchedules(groupId);
 
-  // 일정 상세 페이지로 이동
+  const schedules = data?.pages.flatMap((page) => page.schedules) ?? [];
+  const totalCount = data?.pages[0]?.totalCount ?? 0;
+
   const handleScheduleClick = (scheduleId: number) => {
     router.push(`/groups/${groupId}/schedules/${scheduleId}`);
   };
@@ -28,7 +30,7 @@ export const ScheduleList = ({ groupId }: { groupId: string }) => {
     );
   }
 
-  if (error) {
+  if (isError) {
     return (
       <div className="text-body-1 text-error bg-error-container mt-4 rounded-md p-4 text-center">
         일정 목록을 불러오는데 실패했습니다.
@@ -76,14 +78,14 @@ export const ScheduleList = ({ groupId }: { groupId: string }) => {
         ))}
       </div>
 
-      {!isLastPage && (
+      {hasNextPage && (
         <div className="mt-4 text-center">
           <button
-            onClick={loadMoreSchedules}
+            onClick={() => fetchNextPage()}
             className="text-body-2 text-label-normal rounded-md border border-gray-200 px-4 py-2"
-            disabled={isLoading}
+            disabled={isFetchingNextPage}
           >
-            {isLoading ? "로딩 중..." : "더 보기"}
+            {isFetchingNextPage ? "로딩 중..." : "더 보기"}
           </button>
         </div>
       )}
