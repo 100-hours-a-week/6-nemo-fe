@@ -3,7 +3,7 @@ import { no_access } from "../assets/images";
 
 export const NoAccess = () => {
   return (
-    <div className="text-display-2 flex h-full w-full items-center justify-center gap-4">
+    <div className="text-display-2 flex h-[100vh] w-full items-center justify-center gap-4">
       <Image
         src={no_access}
         alt="공사 중"

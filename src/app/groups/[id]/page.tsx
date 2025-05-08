@@ -40,7 +40,7 @@ export default function GroupDetailPage() {
   }
 
   return (
-    <div className="relative flex min-h-screen flex-col pb-24">
+    <div className="bg-common-100 relative flex min-h-screen flex-col pb-24">
       {/* 모임 상세 헤더 */}
       <GroupInfo group={groupDetails} />
 
@@ -50,10 +50,10 @@ export default function GroupDetailPage() {
       {/* 탭 내용 */}
       <div className="p-ctn-md">
         {activeTab === "info" && (
-          <div className="space-y-6">
+          <div className="mt-4 space-y-6">
             {/* 모임원 섹션 */}
             <section>
-              <h3 className="text-heading-2 text-label-strong-1 mb-3 font-semibold">
+              <h3 className="text-heading-2 text-label-strong-2 mb-3 border-l-4 border-gray-700 pl-2 font-semibold">
                 모임원
               </h3>
               <GroupMemberList groupId={groupId} />
@@ -61,11 +61,11 @@ export default function GroupDetailPage() {
 
             {/* 모임 상세 소개 */}
             <section>
-              <h3 className="text-heading-2 text-label-strong-1 mb-3 font-semibold">
+              <h3 className="text-heading-2 text-label-strong-2 mb-3 border-l-4 border-gray-700 pl-2 font-semibold">
                 모임 상세 소개
               </h3>
-              <div className="bg-common-100 rounded-md p-4 shadow-sm">
-                <p className="text-body-1 whitespace-pre-line">
+              <div className="bg-common-100 rounded-md p-4 shadow-xs">
+                <p className="text-body-1 text-label-assistive whitespace-pre-line">
                   {groupDetails.summary}
                 </p>
               </div>
@@ -74,7 +74,7 @@ export default function GroupDetailPage() {
             {/* 단계별 계획 */}
             {groupDetails.plan && (
               <section>
-                <h3 className="text-heading-2 text-label-strong-1 mb-3 font-semibold">
+                <h3 className="text-heading-2 text-label-strong-2 mb-3 border-l-4 border-gray-700 pl-2 font-semibold">
                   단계별 계획
                 </h3>
                 <GroupPlan plan={groupDetails.plan} />
@@ -85,7 +85,7 @@ export default function GroupDetailPage() {
 
         {activeTab === "schedule" && (
           <div className="py-4">
-            <ScheduleList groupId={groupId} />
+            <ScheduleList groupId={Number(groupId)} />
           </div>
         )}
       </div>

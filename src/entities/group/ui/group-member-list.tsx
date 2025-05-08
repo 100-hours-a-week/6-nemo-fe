@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { dog } from "@/shared/assets/images";
+import { crown_yello, user } from "@/shared/assets/images";
 import { Member } from "../model/types";
 import { BASE_URL } from "@/shared/constants";
 
@@ -78,7 +78,7 @@ export const GroupMemberList = ({ groupId }: { groupId: string }) => {
                 />
               ) : (
                 <Image
-                  src={dog}
+                  src={user}
                   alt={member.nickname}
                   width={40}
                   height={40}
@@ -90,7 +90,13 @@ export const GroupMemberList = ({ groupId }: { groupId: string }) => {
           </div>
 
           {member.role === "LEADER" && (
-            <span className="text-caption-1 text-primary bg-primary-light rounded-full px-2 py-0.5">
+            <span className="text-caption-1 text-primary bg-primary-light flex items-center gap-1 rounded-full px-2 py-1">
+              <Image
+                src={crown_yello}
+                alt={member.role}
+                width={16}
+                height={16}
+              />
               모임장
             </span>
           )}
@@ -100,7 +106,7 @@ export const GroupMemberList = ({ groupId }: { groupId: string }) => {
       {members.length > 4 && (
         <button
           onClick={() => setIsExpanded(!isExpanded)}
-          className="text-body-2 text-label-normal mt-2 w-full rounded-md border border-gray-200 py-2 text-center"
+          className="text-label-2 text-label-normal mt-2 w-full rounded-md border border-gray-200 py-2 text-center"
         >
           {isExpanded ? "접기" : "모임원 더보기"}
         </button>

@@ -16,7 +16,6 @@ export const ScheduleList = ({ groupId }: { groupId: number }) => {
   } = useInfiniteSchedules(groupId);
 
   const schedules = data?.pages.flatMap((page) => page.schedules) ?? [];
-  const totalCount = data?.pages[0]?.totalCount ?? 0;
 
   const handleScheduleClick = (scheduleId: number) => {
     router.push(`/groups/${groupId}/schedules/${scheduleId}`);
@@ -58,7 +57,7 @@ export const ScheduleList = ({ groupId }: { groupId: number }) => {
     <div className="space-y-2">
       <div className="mb-4 flex items-center justify-between">
         <h3 className="text-heading-2 text-label-strong-1 font-semibold">
-          일정 목록 ({totalCount})
+          일정 목록 ({schedules.length})
         </h3>
         <button
           className="bg-primary text-common-100 rounded-full px-4 py-1 text-sm"

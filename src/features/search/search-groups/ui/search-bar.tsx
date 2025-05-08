@@ -13,7 +13,7 @@ export const SearchBar = ({ className }: SearchBarProps) => {
     <form
       onSubmit={handleSubmit}
       className={cn(
-        "bg-common-100 flex w-full items-center gap-2 overflow-hidden rounded-full border border-gray-200 px-4 py-2 shadow-sm",
+        "bg-common-100 rounded-ctn-sm flex w-full items-center gap-2 overflow-hidden border border-gray-200 px-4 py-2",
         className,
       )}
     >
@@ -30,8 +30,8 @@ export const SearchBar = ({ className }: SearchBarProps) => {
         type="text"
         value={searchText as string}
         onChange={handleChange}
-        placeholder="모임을 검색해보세요"
-        className="text-body-2 w-full flex-1 bg-transparent outline-none placeholder:text-gray-400"
+        placeholder="어떤 모임을 찾으시나요?"
+        className="text-label-1 w-full flex-1 bg-transparent outline-none placeholder:text-gray-400"
       />
     </form>
   );

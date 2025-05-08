@@ -77,7 +77,7 @@ body .mobile-container {
   max-width: 430px;
   min-height: 100vh;
   margin: 0 auto;
-  background: var(--background);
+  background: var(--color-normal);
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
   transition: max-width 0.3s ease-in-out;
   overflow-x: hidden;

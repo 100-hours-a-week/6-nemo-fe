@@ -13,12 +13,12 @@ export const CategoryFilterBar = () => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   // 현재 선택된 카테고리 (기본값은 'ALL')
-  const currentCategory = searchParams.get("category") || "ALL";
+  const currentCategory = searchParams.get("category") || "전체";
 
   const handleCategoryChange = (categoryId: string) => {
     const params = new URLSearchParams(searchParams.toString());
 
-    if (categoryId === "ALL") {
+    if (categoryId === "전체") {
       params.delete("category");
     } else {
       params.set("category", categoryId);
@@ -65,14 +65,14 @@ export const CategoryFilterBar = () => {
       className="no-scrollbar flex overflow-x-auto"
       style={{ scrollBehavior: "smooth" }}
     >
-      <div className="flex gap-4 px-2">
+      <div className="flex gap-4">
         {CATEGORIES.map((category) => (
           <button
             key={category.id}
             data-category={category.id}
-            onClick={() => handleCategoryChange(category.id)}
+            onClick={() => handleCategoryChange(category.label)}
             className={cn(
-              "flex flex-col items-center justify-center gap-1",
+              "flex flex-col items-center justify-center",
               "transition-transform",
               currentCategory === category.id ? "scale-110" : "opacity-80",
             )}
@@ -85,16 +85,16 @@ export const CategoryFilterBar = () => {
               <Image
                 src={category.icon}
                 alt={category.label}
-                width={18}
-                height={18}
+                width={currentCategory === category.label ? 24 : 22}
+                height={currentCategory === category.label ? 24 : 22}
                 className="object-contain"
               />
             </div>
             <span
               className={cn(
-                "text-[0.675rem] whitespace-nowrap",
-                currentCategory === category.id
-                  ? "text-caption-2 text-primary font-semibold"
+                "pb-2 text-[0.675rem] whitespace-nowrap",
+                currentCategory === category.label || !currentCategory
+                  ? "text-primary text-[0.775rem] font-semibold"
                   : "text-caption-2 text-label-normal",
               )}
             >

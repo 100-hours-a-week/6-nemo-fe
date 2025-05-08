@@ -1,6 +1,8 @@
 import { CategoryFilterBar } from "@/features/category/category-filter";
 import { SearchBar } from "@/features/search/search-groups";
+import { bell_bk_icon, bell_icon, nemo_logo } from "@/shared/assets/images";
 import { GroupList } from "@/widgets/group-list";
+import Image from "next/image";
 
 export default async function GroupsPage({
   searchParams,
@@ -12,17 +14,34 @@ export default async function GroupsPage({
   const { category } = await searchParams;
 
   return (
-    <div className="p-ctn-md space-y-2">
-      <h1 className="text-title-2 text-label-strong-2 font-semibold">
-        모임 탐색
-      </h1>
-      <SearchBar />
+    <>
+      <header className="space-y-4 px-2">
+        <div className="flex justify-between px-4 pt-6">
+          <Image
+            src={nemo_logo}
+            alt="logo"
+            width={64}
+            height={64}
+            className="object-contain opacity-60"
+          />
+          <Image
+            src={bell_bk_icon}
+            alt="검색"
+            width={18}
+            height={18}
+            className="object-contain opacity-60"
+          />
+        </div>
+        <SearchBar />
+      </header>
       <CategoryFilterBar />
-      {category && category.length > 0 ? (
-        <GroupList category={category} />
-      ) : (
-        <GroupList />
-      )}
-    </div>
+      <main className="p-ctn-md">
+        {category && category.length > 0 ? (
+          <GroupList category={category} />
+        ) : (
+          <GroupList />
+        )}
+      </main>
+    </>
   );
 }
