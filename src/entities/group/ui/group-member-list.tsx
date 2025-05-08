@@ -24,7 +24,7 @@ export const GroupMemberList = ({ groupId }: { groupId: string }) => {
             (participant: Member) => ({
               userId: participant.userId,
               nickname: participant.nickname,
-              profileImage: participant.profileImageUrl || "",
+              profileImageUrl: participant.profileImageUrl,
               role: participant.role,
             }),
           );
