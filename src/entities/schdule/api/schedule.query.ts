@@ -10,8 +10,8 @@ export const schedulesQueryFns = {
     list: ({ groupId, pageParam }: { groupId: number; pageParam: number }) =>
         getSchedules({ groupId, pageParam }),
 
-    // detail: ({ groupId, scheduleId }: { groupId: number; scheduleId: number }) =>
-    //     fetch(`/api/groups/${groupId}/schedules/${scheduleId}`).then((res) =>
-    //         res.json()
-    //     ),
+    detail: ({ groupId, scheduleId }: { groupId: number; scheduleId: number }) =>
+        fetch(`/api/groups/${groupId}/schedules/${scheduleId}`).then((res) =>
+            res.json()
+        ),
 };

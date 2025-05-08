@@ -1,4 +1,4 @@
-import { Schedule } from "../../../widgets/group-details/model/types";
+import { Schedule } from "../model/types";
 
 type ScheduleItemProps = {
   schedule: Schedule;
@@ -125,8 +125,7 @@ export const ScheduleItem = ({ schedule, onClick }: ScheduleItemProps) => {
             <path d="M16 3.13a4 4 0 0 1 0 7.75" />
           </svg>
           <span className="text-body-2 text-label-normal">
-            {schedule.currentUserCount}/{schedule.maxUserCount || "무제한"} 명
-            참여
+            {schedule.currentUserCount}명 참가
           </span>
         </div>
       </div>

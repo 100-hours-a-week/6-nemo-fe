@@ -54,7 +54,7 @@ export const GroupInfo = ({ group }: GroupDetailHeaderProps) => {
                   key={tag}
                   className="text-caption-2 bg-strong text-label-normal rounded-full px-2 py-0.5"
                 >
-                  #{tag}
+                  # {tag}
                 </span>
               ))}
             </div>
