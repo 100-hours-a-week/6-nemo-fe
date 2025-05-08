@@ -13,7 +13,7 @@ export default function GroupDetailPage() {
   const groupId = params.id as string;
   const [activeTab, setActiveTab] = useState<"info" | "schedule">("info");
 
-  const { group, isLoading, error } = useGroup(Number(groupId));
+  const { groupDetails, isLoading, error } = useGroup(Number(groupId));
 
   if (isLoading) {
     return (
@@ -23,7 +23,7 @@ export default function GroupDetailPage() {
     );
   }
 
-  if (error || !group) {
+  if (error || !groupDetails) {
     return (
       <div className="p-ctn-md flex h-screen w-full flex-col items-center justify-center">
         <p className="text-body-1 text-label-normal mb-4">
@@ -42,7 +42,7 @@ export default function GroupDetailPage() {
   return (
     <div className="relative flex min-h-screen flex-col pb-24">
       {/* 모임 상세 헤더 */}
-      <GroupInfo group={group} />
+      <GroupInfo group={groupDetails} />
 
       {/* 탭 메뉴 */}
       <SwitchGroupInfoTabs activeTab={activeTab} onTabChange={setActiveTab} />
@@ -66,18 +66,18 @@ export default function GroupDetailPage() {
               </h3>
               <div className="bg-common-100 rounded-md p-4 shadow-sm">
                 <p className="text-body-1 whitespace-pre-line">
-                  {group.description}
+                  {groupDetails.summary}
                 </p>
               </div>
             </section>
 
             {/* 단계별 계획 */}
-            {group.plan && (
+            {groupDetails.plan && (
               <section>
                 <h3 className="text-heading-2 text-label-strong-1 mb-3 font-semibold">
                   단계별 계획
                 </h3>
-                <GroupPlan plan={group.plan} />
+                <GroupPlan plan={groupDetails.plan} />
               </section>
             )}
           </div>

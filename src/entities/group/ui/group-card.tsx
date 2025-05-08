@@ -2,9 +2,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { cn } from "lib/utils";
 import { bg_group2, users_icon } from "@/shared/assets/images/index";
-import { GroupCardProps } from "../model/types";
+import { Group } from "../model/types";
 
-export const GroupCard = ({ group, className }: GroupCardProps) => {
+export const GroupCard = ({
+  group,
+  className,
+}: {
+  group: Group;
+  className?: string;
+}) => {
   return (
     <Link href={`/groups/${group.id}`} className={cn("block", className)}>
       <div className="rounded-ctn-md overflow-hidden shadow-md">
@@ -33,7 +39,7 @@ export const GroupCard = ({ group, className }: GroupCardProps) => {
             </span>
           </div>
           <p className="text-label-1 text-label-assistive mt-1 line-clamp-2">
-            {group.description}
+            {group.summary}
           </p>
 
           <div className="flex items-center justify-between">
@@ -43,9 +49,9 @@ export const GroupCard = ({ group, className }: GroupCardProps) => {
                 ? `${group.currentUserCount}/${group.maxUserCount}명`
                 : `${group.currentUserCount}명`}
             </div>
-            {group.tags.length > 0 && (
+            {group.tags && (
               <div className="flex flex-wrap items-center gap-1">
-                {group.tags.slice(0, 2).map((tag) => (
+                {group.tags?.slice(0, 2).map((tag) => (
                   <span
                     key={tag}
                     className="text-caption-2 bg-strong text-label-normal rounded-full px-2 py-0.5"

@@ -49,7 +49,7 @@ export const GroupInfo = ({ group }: GroupDetailHeaderProps) => {
             </h1>
             <p className="text-body-2 text-label-normal">{group.location}</p>
             <div className="mt-1 flex gap-1">
-              {group.tags.map((tag) => (
+              {group.tags?.map((tag) => (
                 <span
                   key={tag}
                   className="text-caption-2 bg-strong text-label-normal rounded-full px-2 py-0.5"

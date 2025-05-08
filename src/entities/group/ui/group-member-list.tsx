@@ -2,14 +2,11 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import {
-  MemberListProps,
-  Member,
-} from "../../../widgets/group-details/model/types";
-import { dog, profile_icon } from "@/shared/assets/images";
-import mockParticipants from "mocks/group-participants.json";
+import { dog } from "@/shared/assets/images";
+import { Member } from "../model/types";
+import { BASE_URL } from "@/shared/constants";
 
-export const GroupMemberList = ({ groupId }: MemberListProps) => {
+export const GroupMemberList = ({ groupId }: { groupId: string }) => {
   const [members, setMembers] = useState<Member[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -17,29 +14,18 @@ export const GroupMemberList = ({ groupId }: MemberListProps) => {
   useEffect(() => {
     const fetchMembers = async () => {
       try {
-        // 실제 API 호출 코드
-        // const response = await fetch(`/api/v1/groups/${groupId}/participants`);
-        // const data = await response.json();
-        // if (data.code === 200) {
-        //   const memberList = data.data.participants.map((participant: any) => ({
-        //     id: participant.userId.toString(),
-        //     name: participant.nickname,
-        //     role: participant.role || "member",
-        //     profileImage: participant.profileImageUrl
-        //   }));
-        //   setMembers(memberList);
-        // } else {
-        //   throw new Error(data.message || "모임원 목록을 불러오는데 실패했습니다.");
-        // }
+        const response = await fetch(
+          `${BASE_URL}/api/v1/groups/${groupId}/participants`,
+        );
+        const data = await response.json();
 
-        // Mock 데이터 사용
-        if (mockParticipants.code === 200) {
-          const memberList = mockParticipants.data.participants.map(
-            (participant: any) => ({
-              id: participant.userId.toString(),
-              name: participant.nickname,
-              role: participant.role || "member",
-              profileImage: participant.profileImageUrl,
+        if (data.code === 200) {
+          const memberList = data.data.participants.map(
+            (participant: Member) => ({
+              userId: participant.userId,
+              nickname: participant.nickname,
+              profileImage: participant.profileImageUrl || "",
+              role: participant.role,
             }),
           );
           setMembers(memberList);
@@ -76,32 +62,35 @@ export const GroupMemberList = ({ groupId }: MemberListProps) => {
   return (
     <div className="bg-common-100 rounded-md p-4 shadow-sm">
       {displayMembers.map((member) => (
-        <div key={member.id} className="flex items-center justify-between py-2">
+        <div
+          key={member.userId}
+          className="flex items-center justify-between py-2"
+        >
           <div className="flex items-center gap-3">
             <div className="relative h-10 w-10 overflow-hidden rounded-full bg-gray-200">
-              {member.profileImage ? (
+              {member.profileImageUrl ? (
                 <Image
-                  src={dog}
-                  alt={member.name}
+                  src={member.profileImageUrl}
+                  alt={member.nickname}
                   width={40}
                   height={40}
                   className="object-cover"
                 />
               ) : (
                 <Image
-                  src={profile_icon}
-                  alt={member.name}
-                  width={16}
-                  height={16}
+                  src={dog}
+                  alt={member.nickname}
+                  width={40}
+                  height={40}
                   className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform"
                 />
               )}
             </div>
-            <span className="text-body-2 font-medium">{member.name}</span>
+            <span className="text-body-2 font-medium">{member.nickname}</span>
           </div>
 
-          {member.role === "admin" && (
-            <span className="text-caption-2 text-primary bg-primary-light rounded-full px-2 py-0.5">
+          {member.role === "LEADER" && (
+            <span className="text-caption-1 text-primary bg-primary-light rounded-full px-2 py-0.5">
               모임장
             </span>
           )}

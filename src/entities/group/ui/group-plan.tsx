@@ -1,5 +1,3 @@
-import { GroupPlanProps } from "../../../widgets/group-details/model/types";
-
 // 단계별 계획 문자열 파싱 함수
 const parsePlan = (planStr: string) => {
   try {
@@ -21,7 +19,7 @@ const parsePlan = (planStr: string) => {
   }
 };
 
-export const GroupPlan = ({ plan }: GroupPlanProps) => {
+export const GroupPlan = ({ plan }: { plan: string }) => {
   const steps = parsePlan(plan);
 
   return (
