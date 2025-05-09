@@ -1,3 +1,2 @@
-export { GroupInfo } from './ui/group-info';
-export { useGroup } from './lib/use-group';
-export * from './lib/use-group';
+export * from './ui/group-info';
+export * from '../../entities/group/model/use-group-by-id';

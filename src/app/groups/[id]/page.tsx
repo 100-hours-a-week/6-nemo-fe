@@ -4,16 +4,20 @@ import { useParams } from "next/navigation";
 import { useState } from "react";
 
 import { SwitchGroupInfoTabs } from "@/features/group";
-import { GroupInfo, useGroup } from "@/widgets/group-details";
 import { ScheduleList } from "@/widgets/schdule-list";
-import { GroupMemberList, GroupPlan } from "@/entities/group";
+import { GroupMemberList, GroupPlan, useGroupById } from "@/entities/group";
+import { GroupInfo } from "@/widgets/group-details";
 
 export default function GroupDetailPage() {
   const params = useParams();
   const groupId = params.id as string;
   const [activeTab, setActiveTab] = useState<"info" | "schedule">("info");
 
-  const { groupDetails, isLoading, error } = useGroup(Number(groupId));
+  const {
+    data: groupDetails,
+    isLoading,
+    error,
+  } = useGroupById(Number(groupId));
 
   if (isLoading) {
     return (
