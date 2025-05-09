@@ -2,19 +2,18 @@
 
 import { useParams } from "next/navigation";
 import { useState } from "react";
-import { GroupDetailHeader } from "@/widgets/group-detail/ui/group-detail-header";
-import { MembersList } from "@/widgets/group-detail/ui/members-list";
-import { GroupPlan } from "@/widgets/group-detail/ui/group-plan";
-import { GroupInfoTabs } from "@/widgets/group-detail/ui/group-info-tabs";
-import { ScheduleList } from "@/widgets/group-detail/ui/schedule-list";
-import { useGroup } from "@/widgets/group-detail/lib/use-group";
+
+import { SwitchGroupInfoTabs } from "@/features/group";
+import { GroupInfo, useGroup } from "@/widgets/group-details";
+import { ScheduleList } from "@/widgets/schdule-list";
+import { GroupMemberList, GroupPlan } from "@/entities/group";
 
 export default function GroupDetailPage() {
   const params = useParams();
   const groupId = params.id as string;
   const [activeTab, setActiveTab] = useState<"info" | "schedule">("info");
 
-  const { group, isLoading, error } = useGroup(groupId);
+  const { groupDetails, isLoading, error } = useGroup(Number(groupId));
 
   if (isLoading) {
     return (
@@ -24,7 +23,7 @@ export default function GroupDetailPage() {
     );
   }
 
-  if (error || !group) {
+  if (error || !groupDetails) {
     return (
       <div className="p-ctn-md flex h-screen w-full flex-col items-center justify-center">
         <p className="text-body-1 text-label-normal mb-4">
@@ -41,44 +40,44 @@ export default function GroupDetailPage() {
   }
 
   return (
-    <div className="relative flex min-h-screen flex-col pb-24">
+    <div className="bg-common-100 relative flex min-h-screen flex-col pb-24">
       {/* 모임 상세 헤더 */}
-      <GroupDetailHeader group={group} />
+      <GroupInfo group={groupDetails} />
 
       {/* 탭 메뉴 */}
-      <GroupInfoTabs activeTab={activeTab} onTabChange={setActiveTab} />
+      <SwitchGroupInfoTabs activeTab={activeTab} onTabChange={setActiveTab} />
 
       {/* 탭 내용 */}
       <div className="p-ctn-md">
         {activeTab === "info" && (
-          <div className="space-y-6">
+          <div className="mt-4 space-y-6">
             {/* 모임원 섹션 */}
             <section>
-              <h3 className="text-heading-2 text-label-strong-1 mb-3 font-semibold">
+              <h3 className="text-heading-2 text-label-strong-2 mb-3 border-l-4 border-gray-700 pl-2 font-semibold">
                 모임원
               </h3>
-              <MembersList groupId={groupId} />
+              <GroupMemberList groupId={groupId} />
             </section>
 
             {/* 모임 상세 소개 */}
             <section>
-              <h3 className="text-heading-2 text-label-strong-1 mb-3 font-semibold">
+              <h3 className="text-heading-2 text-label-strong-2 mb-3 border-l-4 border-gray-700 pl-2 font-semibold">
                 모임 상세 소개
               </h3>
-              <div className="bg-common-100 rounded-md p-4 shadow-sm">
-                <p className="text-body-1 whitespace-pre-line">
-                  {group.description}
+              <div className="bg-common-100 rounded-md p-4 shadow-xs">
+                <p className="text-body-1 text-label-assistive whitespace-pre-line">
+                  {groupDetails.summary}
                 </p>
               </div>
             </section>
 
             {/* 단계별 계획 */}
-            {group.plan && (
+            {groupDetails.plan && (
               <section>
-                <h3 className="text-heading-2 text-label-strong-1 mb-3 font-semibold">
+                <h3 className="text-heading-2 text-label-strong-2 mb-3 border-l-4 border-gray-700 pl-2 font-semibold">
                   단계별 계획
                 </h3>
-                <GroupPlan plan={group.plan} />
+                <GroupPlan plan={groupDetails.plan} />
               </section>
             )}
           </div>
@@ -86,7 +85,7 @@ export default function GroupDetailPage() {
 
         {activeTab === "schedule" && (
           <div className="py-4">
-            <ScheduleList groupId={groupId} />
+            <ScheduleList groupId={Number(groupId)} />
           </div>
         )}
       </div>

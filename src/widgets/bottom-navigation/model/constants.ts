@@ -33,7 +33,7 @@ export const TAB_NAVIGATION_ITEMS: BottomNavigationItemProps[] = [
         label: '챗봇',
     },
     {
-        href: '/my-groups',
+        href: '/my-nemo',
         activeIcon: dashboard_active_icon,
         inactiveIcon: dashboard_icon,
         label: '나의네모',

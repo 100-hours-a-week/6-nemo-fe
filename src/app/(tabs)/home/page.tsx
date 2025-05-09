@@ -1,4 +1,4 @@
-import NoAccess from "@/shared/ui/NoAccess";
+import { NoAccess } from "@/shared/ui";
 
 export default function Page() {
   return (

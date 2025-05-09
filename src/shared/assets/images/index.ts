@@ -1,5 +1,5 @@
-export { default as bg_group1 } from "./bg_group1.png";
-export { default as bg_group2 } from "./bg_group2.webp";
+export { default as bg_group1 } from "./background/bg_group1.png";
+export { default as bg_group2 } from "./background/bg_group2.webp";
 export { default as nemo_logo } from "./nemo_logo.svg";
 // 하단 네비게이션 바
 export { default as home_icon } from "./home_icon.svg";
@@ -23,4 +23,21 @@ export { default as time_icon } from "./time_icon.svg";
 export { default as time_bk_icon } from "./time_bk_icon.svg";
 // 이미지
 export { default as no_access } from "./no_access.png"
-export { default as dog } from "./dog.png"
+export { default as user } from "./user.png"
+export { default as users } from './users.png'
+export { default as crown } from './crown.png'
+export { default as crown_yello } from './crown_yellow.png'
+// 카테고리
+export { default as all } from './category/all.png'
+export { default as sports } from './category/sports.svg'
+export { default as music } from './category/music.svg'
+export { default as money } from './category/money.svg'
+export { default as career } from './category/career.svg'
+export { default as etc } from './category/etc.svg'
+export { default as animals } from './category/animals.svg'
+export { default as friends } from './category/friends.svg'
+export { default as game } from './category/game.svg'
+export { default as language } from './category/language.svg'
+export { default as book } from './category/book.svg'
+export { default as art } from './category/art.svg'
+export { default as it } from './category/it.svg'

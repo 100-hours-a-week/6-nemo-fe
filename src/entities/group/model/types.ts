@@ -1,20 +1,18 @@
 export type Group = {
-    id?: string;
+    id?: number;
     name: string;
-    description: string;
-    category: string;
+    summary: string;
     location: string;
     currentUserCount: number;
     maxUserCount: number;
+    category: string;
     imageUrl?: string;
-    tags: string[];
-    plan?: string;
+    tags?: string[];
 }
 
-export type GroupCardProps = {
-    group: Group;
-    className?: string;
-};
+export type GroupDetails = Group & {
+    plan?: string;
+}
 
 export type SearchParams = {
     keyword?: string;
@@ -34,4 +32,19 @@ export type SearchResponse = {
         pageNumber: number;
         isLast: boolean;
     };
+};
+
+export type MyGroupsResponse = {
+    code: number;
+    message: string;
+    data: {
+        groups: Group[]
+    }
+}
+
+export type Member = {
+    userId: string;
+    nickname: string;
+    profileImageUrl?: string;
+    role: "LEADER" | "MEMBER";
 };
