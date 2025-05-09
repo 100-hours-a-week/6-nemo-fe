@@ -1,8 +1,8 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { ScheduleItem } from "../../../entities/schdule/ui/schedule-item";
 import { useInfiniteSchedules } from "../model/use-infinite-schedules";
+import { ScheduleCard } from "@/entities/schdule";
 
 export const ScheduleList = ({ groupId }: { groupId: number }) => {
   const router = useRouter();
@@ -69,7 +69,7 @@ export const ScheduleList = ({ groupId }: { groupId: number }) => {
 
       <div className="space-y-4">
         {schedules.map((schedule) => (
-          <ScheduleItem
+          <ScheduleCard
             key={schedule.id}
             schedule={schedule}
             onClick={() => handleScheduleClick(schedule.id)}

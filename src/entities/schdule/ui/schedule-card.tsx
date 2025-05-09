@@ -1,6 +1,6 @@
 import { Schedule } from "../model/types";
 
-type ScheduleItemProps = {
+type ScheduleCardProps = {
   schedule: Schedule;
   onClick?: () => void;
 };
@@ -26,7 +26,7 @@ const formatDatetime = (dateTimeStr: string) => {
   }
 };
 
-export const ScheduleItem = ({ schedule, onClick }: ScheduleItemProps) => {
+export const ScheduleCard = ({ schedule, onClick }: ScheduleCardProps) => {
   const { date, time } = formatDatetime(schedule.startAt);
 
   // 일정 상태에 따른 태그 스타일
