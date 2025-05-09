@@ -1,6 +1,7 @@
 // src/widgets/group-details/lib/use-group.ts
 import { useQuery } from "@tanstack/react-query";
-import { getGroupDetails } from "@/entities/group/api/get-group-details";
+import { getGroupDetails } from "../api/get-group-details";
+
 
 export const useGroupById = (groupId: number) => {
     return useQuery({
