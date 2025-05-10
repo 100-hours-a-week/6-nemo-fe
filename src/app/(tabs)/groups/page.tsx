@@ -22,14 +22,14 @@ export default async function GroupsPage({
             alt="logo"
             width={64}
             height={64}
-            className="object-contain opacity-60"
+            className="object-contain"
           />
           <Image
             src={bell_bk_icon}
             alt="검색"
             width={18}
             height={18}
-            className="object-contain opacity-60"
+            className="object-contain opacity-70"
           />
         </div>
         <SearchBar />

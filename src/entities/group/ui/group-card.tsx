@@ -26,7 +26,7 @@ export const GroupCard = ({
               alt={group.name}
               fill
               sizes="100%"
-              className="object-cover"
+              className="object-cover opacity-90"
             />
           ) : (
             <Image
