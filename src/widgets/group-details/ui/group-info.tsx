@@ -1,40 +1,10 @@
 import Image from "next/image";
-import Link from "next/link";
 import { GroupDetailHeaderProps } from "../model/types";
-import {
-  bg_group2,
-  crown_yello,
-  location_icon,
-  users,
-  users_bk_icon,
-  users_icon,
-} from "@/shared/assets/images";
+import { bg_group2 } from "@/shared/assets/images";
 
 export const GroupInfo = ({ group }: GroupDetailHeaderProps) => {
   return (
     <div className="relative">
-      {/* 뒤로가기 버튼 */}
-      <Link
-        href="/groups"
-        className="bg-common-100 absolute top-4 left-4 z-10 flex h-9 w-9 items-center justify-center rounded-full shadow-md"
-      >
-        <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M15 18L9 12L15 6"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      </Link>
-
       {/* 이미지 배경 */}
       <div className="relative h-64 w-full overflow-hidden">
         <Image
