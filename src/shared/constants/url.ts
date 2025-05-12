@@ -1,0 +1,2 @@
+export const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+export const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.KAKAO_CLIENT_ID}&redirect_uri=${process.env.KAKAO_CLIENT_SECRET}`
