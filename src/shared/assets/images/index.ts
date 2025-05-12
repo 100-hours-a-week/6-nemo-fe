@@ -28,7 +28,7 @@ export { default as users } from './users.png'
 export { default as crown } from './crown.png'
 export { default as crown_yello } from './crown_yellow.png'
 // 카테고리
-export { default as all } from './category/all.png'
+export { default as all } from './category/all.svg'
 export { default as sports } from './category/sports.svg'
 export { default as music } from './category/music.svg'
 export { default as money } from './category/money.svg'

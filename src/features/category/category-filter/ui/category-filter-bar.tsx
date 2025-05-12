@@ -73,8 +73,7 @@ export const CategoryFilterBar = () => {
             onClick={() => handleCategoryChange(category.label)}
             className={cn(
               "flex flex-col items-center justify-center",
-              "transition-transform",
-              currentCategory === category.id ? "scale-110" : "opacity-80",
+              "opacity-90 transition-transform",
             )}
           >
             <div

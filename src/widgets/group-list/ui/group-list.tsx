@@ -71,7 +71,7 @@ export const GroupList = ({
 
       {!hasNextPage && allGroups.length > 0 && (
         <div className="text-caption-1 text-label-normal pt-2 text-center">
-          마지막 데이터입니다.
+          모든 데이터를 불러왔습니다.
         </div>
       )}
     </div>

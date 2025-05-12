@@ -34,14 +34,6 @@ export type SearchResponse = {
     };
 };
 
-export type MyGroupsResponse = {
-    code: number;
-    message: string;
-    data: {
-        groups: Group[]
-    }
-}
-
 export type Member = {
     userId: string;
     nickname: string;

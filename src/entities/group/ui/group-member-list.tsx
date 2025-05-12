@@ -82,21 +82,23 @@ export const GroupMemberList = ({ groupId }: { groupId: string }) => {
                   alt={member.nickname}
                   width={40}
                   height={40}
-                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform"
+                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform opacity-50"
                 />
               )}
             </div>
             <span className="text-body-2 font-medium">{member.nickname}</span>
-          </div>
-
-          {member.role === "LEADER" && (
-            <span className="text-caption-1 text-primary bg-primary-light flex items-center gap-1 rounded-full px-2 py-1">
+            {member.role === "LEADER" && (
               <Image
                 src={crown_yello}
                 alt={member.role}
                 width={16}
                 height={16}
               />
+            )}
+          </div>
+
+          {member.role === "LEADER" && (
+            <span className="text-caption-1 text-primary bg-primary-light flex items-center gap-1 rounded-full px-2 py-1">
               모임장
             </span>
           )}

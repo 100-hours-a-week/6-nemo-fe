@@ -1,4 +1,4 @@
-import { all, animals, art, book, career, etc, friends, game, it, language, money, music, sports, users_icon } from "@/shared/assets/images";
+import { all, animals, art, book, career, etc, friends, game, it, language, money, music, sports } from "@/shared/assets/images";
 import { CategoryType } from "./types";
 
 export const CATEGORIES: CategoryType[] = [

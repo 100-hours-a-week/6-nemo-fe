@@ -4,16 +4,21 @@ import { useParams } from "next/navigation";
 import { useState } from "react";
 
 import { SwitchGroupInfoTabs } from "@/features/group";
-import { GroupInfo, useGroup } from "@/widgets/group-details";
 import { ScheduleList } from "@/widgets/schdule-list";
-import { GroupMemberList, GroupPlan } from "@/entities/group";
+import { GroupMemberList, GroupPlan, useGroupById } from "@/entities/group";
+import { GroupInfo } from "@/widgets/group-details";
+import BackButton from "@/shared/ui/back-button";
 
 export default function GroupDetailPage() {
   const params = useParams();
-  const groupId = params.id as string;
+  const groupId = params.groupId as string;
   const [activeTab, setActiveTab] = useState<"info" | "schedule">("info");
 
-  const { groupDetails, isLoading, error } = useGroup(Number(groupId));
+  const {
+    data: groupDetails,
+    isLoading,
+    error,
+  } = useGroupById(Number(groupId));
 
   if (isLoading) {
     return (
@@ -41,6 +46,11 @@ export default function GroupDetailPage() {
 
   return (
     <div className="bg-common-100 relative flex min-h-screen flex-col pb-24">
+      <BackButton
+        href="/groups"
+        fill={true}
+        className="absolute top-4 left-4 opacity-75"
+      />
       {/* 모임 상세 헤더 */}
       <GroupInfo group={groupDetails} />
 
