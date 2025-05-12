@@ -1,14 +1,26 @@
 import { cn } from "lib/utils";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
-const BackButton = ({ href, fill }: { href: string; fill: boolean }) => {
+const BackButton = ({
+  href,
+  fill = false,
+  className,
+}: {
+  href?: string;
+  fill?: boolean;
+  className?: string;
+}) => {
+  const router = useRouter();
+
   return (
-    <Link
-      href={href}
+    <div
       className={cn(
-        "absolute top-4 left-4 z-10 flex h-8 w-8 items-center justify-center rounded-full shadow-md",
-        fill ? "bg-common-100" : "",
+        "z-10 flex h-8 w-8 items-center justify-center rounded-full",
+        fill ? "bg-common-100 shadow-md" : "",
+        className,
       )}
+      onClick={() => (href ? router.push(href) : router.back())}
     >
       <svg
         width="24"
@@ -25,7 +37,7 @@ const BackButton = ({ href, fill }: { href: string; fill: boolean }) => {
           strokeLinejoin="round"
         />
       </svg>
-    </Link>
+    </div>
   );
 };
 
