@@ -12,7 +12,7 @@ export default async function SearchPage({
   const { keyword } = await searchParams;
 
   return (
-    <div className="p-ctn-md flex flex-col gap-4">
+    <div className="p-ctn-lg flex flex-col gap-4">
       <SearchBar />
       <Suspense
         fallback={

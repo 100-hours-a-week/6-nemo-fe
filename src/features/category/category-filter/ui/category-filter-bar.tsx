@@ -62,10 +62,10 @@ export const CategoryFilterBar = () => {
   return (
     <div
       ref={scrollContainerRef}
-      className="no-scrollbar flex overflow-x-auto"
+      className="no-scrollbar"
       style={{ scrollBehavior: "smooth" }}
     >
-      <div className="flex gap-4">
+      <div className="mt-2 flex gap-4">
         {CATEGORIES.map((category) => (
           <button
             key={category.id}
@@ -78,7 +78,7 @@ export const CategoryFilterBar = () => {
           >
             <div
               className={cn(
-                "relative flex h-12 w-12 items-center justify-center overflow-hidden rounded-full",
+                "relative flex h-12 w-12 items-center justify-center overflow-hidden",
               )}
             >
               <Image

@@ -29,7 +29,7 @@ export default function ScheduleDetailPage() {
 
   if (error || !schedule) {
     return (
-      <div className="p-ctn-md flex h-screen w-full flex-col items-center justify-center">
+      <div className="p-ctn-lg flex h-screen w-full flex-col items-center justify-center">
         <p className="text-body-1 text-label-normal mb-4">
           일정 정보를 불러올 수 없습니다.
         </p>
@@ -87,7 +87,7 @@ export default function ScheduleDetailPage() {
         </button>
       </header>
 
-      <div className="p-ctn-md">
+      <div className="p-ctn-lg">
         {/* 일정 제목 */}
         <div className="my-0 flex items-center">
           <span className="text-body-2 text-primary bg-primary-light inline-block rounded-full px-3 py-1">

@@ -21,7 +21,7 @@ export default async function GroupsPage({
         <SearchBar />
       </LogoHeader>
       <CategoryFilterBar />
-      <main className="p-ctn-md">
+      <main className="p-ctn-lg">
         <GroupList category={category} />
       </main>
     </>
