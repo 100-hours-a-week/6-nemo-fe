@@ -1,6 +1,9 @@
+// 서비스 로고/이미지
 export { default as bg_group1 } from "./background/bg_group1.png";
 export { default as bg_group2 } from "./background/bg_group2.webp";
+export { default as bg_post } from "./background/bg_post.svg";
 export { default as nemo_logo } from "./nemo_logo.svg";
+export { default as kakao_logo } from "./kakao_logo.svg";
 // 하단 네비게이션 바
 export { default as home_icon } from "./home_icon.svg";
 export { default as magnifying_glass_icon } from "./magnifying_glass_icon.svg";
