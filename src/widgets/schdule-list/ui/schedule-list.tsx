@@ -17,10 +17,6 @@ export const ScheduleList = ({ groupId }: { groupId: number }) => {
 
   const schedules = data?.pages.flatMap((page) => page.schedules) ?? [];
 
-  const handleScheduleClick = (scheduleId: number) => {
-    router.push(`/groups/${groupId}/schedules/${scheduleId}`);
-  };
-
   if (isLoading && schedules.length === 0) {
     return (
       <div className="flex h-40 items-center justify-center">
@@ -72,7 +68,7 @@ export const ScheduleList = ({ groupId }: { groupId: number }) => {
           <ScheduleCard
             key={schedule.id}
             schedule={schedule}
-            onClick={() => handleScheduleClick(schedule.id)}
+            href={`/groups/${groupId}/schedule/${schedule.id}`}
           />
         ))}
       </div>
