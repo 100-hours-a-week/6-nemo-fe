@@ -18,9 +18,11 @@ export type ScheduleDetials = Schedule & {
         name: string;
         currentUser: number
     }
-    participants: {
-        id: number;
-        user: Member;
-        status: "ACCEPTED" | "REJECTED" | "PENDING";
-    }[]
+    participants: ScheduleParticipant[]
+}
+
+export type ScheduleParticipant = {
+    id: number;
+    user: Member;
+    status: "ACCEPTED" | "REJECTED" | "PENDING";
 }
