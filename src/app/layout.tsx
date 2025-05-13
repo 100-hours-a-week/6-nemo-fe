@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { QueryProvider } from "./_providers";
+import AuthInterceptor from "@/features/auth/model/auth-check";
 
 const pretendard = localFont({
   src: "../shared/assets/fonts/PretendardVariable.woff2",
@@ -23,6 +24,7 @@ export default function RootLayout({
     <html lang="ko" className={pretendard.variable}>
       <body>
         <QueryProvider>
+          <AuthInterceptor />
           <div className="mobile-container">{children}</div>
         </QueryProvider>
       </body>
