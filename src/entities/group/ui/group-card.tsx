@@ -18,7 +18,7 @@ export const GroupCard = ({
 }) => {
   return (
     <Link href={`/groups/${group.id}`} className={cn("block", className)}>
-      <div className="bg-common-100 rounded-ctn-md overflow-hidden shadow-sm">
+      <div className="bg-common-100 rounded-ctn-sm overflow-hidden shadow-sm">
         <div className="relative h-50 w-full">
           {group.imageUrl ? (
             <Image

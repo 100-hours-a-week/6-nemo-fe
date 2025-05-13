@@ -30,7 +30,7 @@ export default function GroupDetailPage() {
 
   if (error || !groupDetails) {
     return (
-      <div className="p-ctn-md flex h-screen w-full flex-col items-center justify-center">
+      <div className="p-ctn-lg flex h-screen w-full flex-col items-center justify-center">
         <p className="text-body-1 text-label-normal mb-4">
           모임 정보를 불러올 수 없습니다.
         </p>
@@ -58,7 +58,7 @@ export default function GroupDetailPage() {
       <SwitchGroupInfoTabs activeTab={activeTab} onTabChange={setActiveTab} />
 
       {/* 탭 내용 */}
-      <div className="p-ctn-md">
+      <div className="p-ctn-lg">
         {activeTab === "info" && (
           <div className="mt-4 space-y-6">
             {/* 모임원 섹션 */}
