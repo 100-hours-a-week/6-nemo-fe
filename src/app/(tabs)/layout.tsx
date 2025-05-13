@@ -1,3 +1,4 @@
+import LogoHeader from "@/shared/ui/logo-header";
 import { BottomNavigation } from "@/widgets/bottom-navigation";
 
 export default function Layout({
@@ -7,6 +8,7 @@ export default function Layout({
 }>) {
   return (
     <div>
+      <LogoHeader />
       {children}
       <BottomNavigation />
     </div>

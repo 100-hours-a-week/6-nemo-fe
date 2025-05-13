@@ -3,17 +3,16 @@
 import Image from "next/image";
 import { cn } from "lib/utils";
 import { magnifying_glass_icon } from "@/shared/assets/images";
-import { SearchBarProps } from "../model/types";
 import { useSearch } from "../lib/use-search";
 
-export const SearchBar = ({ className }: SearchBarProps) => {
+export const SearchBar = ({ className }: { className?: string }) => {
   const { searchText, handleSubmit, handleChange } = useSearch();
 
   return (
     <form
       onSubmit={handleSubmit}
       className={cn(
-        "bg-common-100 rounded-ctn-sm flex w-full items-center gap-2 overflow-hidden border border-gray-200 px-4 py-2",
+        "bg-common-100 rounded-ctn-sm flex items-center gap-2 overflow-hidden border border-gray-200 px-4 py-2",
         className,
       )}
     >
