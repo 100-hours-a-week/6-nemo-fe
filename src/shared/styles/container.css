@@ -21,6 +21,7 @@
 }
 
 @theme {
+  --radius-ctn-xs: 0.5rem;
   --radius-ctn-sm: 0.75rem;
   --radius-ctn-md: 1rem;
 }
