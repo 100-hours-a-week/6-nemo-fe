@@ -7,12 +7,12 @@ export type Schedule = {
     address: string;
     description: string;
     ownerName: string;
-    ScheduleStatus?: 'RECRUITING' | 'CLOSED';
+    scheduleStatus?: 'RECRUITING' | 'CLOSED';
     currentUserCount?: number;
 };
 
 export type ScheduleDetials = Schedule & {
-    createAt: string;
+    createdAt: string;
     group: {
         groupId: number;
         name: string;

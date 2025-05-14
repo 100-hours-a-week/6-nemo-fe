@@ -65,9 +65,7 @@ export default function ScheduleDetailPage() {
   };
 
   const eventDate = formatDate(schedule.startAt);
-  const createdDate = formatDate(schedule.createAt);
-
-  console.log(schedule);
+  const createdDate = formatDate(schedule.createdAt);
 
   // 참가자 상태별 분류
   const acceptedParticipants =
@@ -90,30 +88,30 @@ export default function ScheduleDetailPage() {
 
       <div className="p-ctn-lg">
         {/* 일정 제목 */}
-        <div className="my-0 flex items-center">
-          <span className="text-body-2 text-primary bg-primary-light inline-block rounded-full px-3 py-1">
-            {schedule.ScheduleStatus}
+        <div className="mb-4 flex items-center gap-2">
+          <span className="text-label-2 text-primary bg-primary-light rounded-full px-2 py-1">
+            {schedule.scheduleStatus}
           </span>
-          <h2 className="text-title-3 text-label-strong-1 mb-4 font-bold">
+          <h2 className="text-title-3 text-label-strong-1 font-bold">
             {schedule.title}
           </h2>
         </div>
 
         {/* 모임 정보 */}
-        <div className="bg-primary-light mb-6 rounded-lg p-4">
-          <p className="text-body-2 text-primary-strong">
+        <span className="bg-secondary-light mt-2 mb-4 inline-block rounded-lg p-1 px-2">
+          <p className="text-body-2 text-secondary">
             {schedule.participants.length}명 참여 중
           </p>
-        </div>
+        </span>
 
         {/* 일정 정보 */}
         <div className="mb-8 space-y-4">
           <div className="flex items-center gap-3">
             <div className="flex h-8 w-8 items-center justify-center">
-              <Image src={time_icon} alt="날짜" width={16} height={16} />
+              <Image src={time_icon} alt="날짜" width={18} height={18} />
             </div>
             <div>
-              <p className="text-body-2 text-label-strong-2">
+              <p className="text-body-2 text-label-strong-2 font-semibold">
                 {eventDate.dayOnly}
               </p>
               <p className="text-caption-1 text-label-normal">
@@ -124,19 +122,19 @@ export default function ScheduleDetailPage() {
 
           <div className="flex items-center gap-3">
             <div className="flex h-8 w-8 items-center justify-center">
-              <Image src={location_icon} alt="위치" width={20} height={20} />
+              <Image src={location_icon} alt="위치" width={22} height={22} />
             </div>
-            <p className="text-body-2 text-label-strong-2">
+            <p className="text-body-2 text-label-strong-2 font-semibold">
               {schedule.address}
             </p>
           </div>
 
           <div className="flex items-center gap-3">
             <div className="flex h-8 w-8 items-center justify-center">
-              <Image src={profile_icon} alt="생성일" width={20} height={20} />
+              <Image src={profile_icon} alt="생성일" width={22} height={22} />
             </div>
             <div>
-              <p className="text-body-2 text-label-strong-2">
+              <p className="text-body-2 text-label-strong-2 font-semibold">
                 생성자: {schedule.ownerName}
               </p>
               <p className="text-caption-1 text-label-normal">
