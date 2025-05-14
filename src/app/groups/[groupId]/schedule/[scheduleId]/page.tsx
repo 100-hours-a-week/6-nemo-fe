@@ -5,6 +5,7 @@ import Image from "next/image";
 import {
   crown_yello,
   location_icon,
+  more_icon,
   profile_icon,
   time_icon,
   user,
@@ -83,7 +84,7 @@ export default function ScheduleDetailPage() {
         <BackButton />
         <h1 className="text-headline-1 font-semibold">{schedule.group.name}</h1>
         <button className="flex h-8 w-8 items-center justify-center rounded-full">
-          <Image src={user} alt="더보기" width={20} height={20} />
+          <Image src={more_icon} alt="더보기" width={20} height={20} />
         </button>
       </header>
 
