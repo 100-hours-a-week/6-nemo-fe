@@ -1,12 +1,11 @@
 import { BASE_URL } from "@/shared/constants";
 import { CreateScheduleRequest } from "../model/types";
+import { getAuthHeader } from "@/shared/lib/auth-header";
 
 export const createSchedule = async (data: CreateScheduleRequest) => {
     const response = await fetch(`${BASE_URL}/api/v1/schedules`, {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
+        headers: getAuthHeader(),
         body: JSON.stringify(data),
     });
 
