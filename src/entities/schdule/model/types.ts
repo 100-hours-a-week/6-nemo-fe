@@ -7,12 +7,12 @@ export type Schedule = {
     address: string;
     description: string;
     ownerName: string;
-    ScheduleStatus?: 'RECRUITING' | 'CLOSED';
+    scheduleStatus?: 'RECRUITING' | 'CLOSED';
     currentUserCount?: number;
 };
 
 export type ScheduleDetials = Schedule & {
-    createAt: string;
+    createdAt: string;
     group: {
         groupId: number;
         name: string;
@@ -26,3 +26,12 @@ export type ScheduleParticipant = {
     user: Member;
     status: "ACCEPTED" | "REJECTED" | "PENDING";
 }
+
+export type CreateScheduleRequest = {
+    groupId: number;
+    title: string;
+    description: string;
+    address: string;
+    addressDetail: string;
+    startAt: string;
+};

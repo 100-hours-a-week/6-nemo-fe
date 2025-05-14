@@ -41,7 +41,7 @@ export const ScheduleList = ({ groupId }: { groupId: number }) => {
         </p>
         <button
           className="bg-primary text-common-100 rounded-full px-6 py-2"
-          onClick={() => router.push(`/groups/${groupId}/schedules/create`)}
+          onClick={() => router.push(`/groups/${groupId}/schedule/create`)}
         >
           일정 만들기
         </button>
@@ -57,7 +57,7 @@ export const ScheduleList = ({ groupId }: { groupId: number }) => {
         </h3>
         <button
           className="bg-primary text-common-100 rounded-full px-4 py-1 text-sm"
-          onClick={() => router.push(`/groups/${groupId}/schedules/create`)}
+          onClick={() => router.push(`/groups/${groupId}/schedule/create`)}
         >
           + 일정 만들기
         </button>
