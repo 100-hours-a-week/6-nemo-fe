@@ -1,5 +1,4 @@
 import { cn } from "lib/utils";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 const BackButton = ({
@@ -16,7 +15,7 @@ const BackButton = ({
   return (
     <div
       className={cn(
-        "z-10 flex h-8 w-8 items-center justify-center rounded-full",
+        "z-10 flex h-9 w-9 items-center justify-center rounded-full",
         fill ? "bg-common-100 shadow-md" : "",
         className,
       )}

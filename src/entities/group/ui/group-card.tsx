@@ -2,7 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { cn } from "lib/utils";
 import {
-  bg_group1,
   bg_group2,
   location_icon,
   users_icon,
