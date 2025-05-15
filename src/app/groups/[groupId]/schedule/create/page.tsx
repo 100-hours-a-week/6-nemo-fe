@@ -1,4 +1,3 @@
-// src/app/groups/[groupId]/schedules/create/page.tsx
 "use client";
 
 import { useState, useRef } from "react";
@@ -27,14 +26,6 @@ export default function CreateSchedulePage() {
   const [startAt, setStartAt] = useState("");
 
   const createMutation = useCreateSchedule();
-
-  console.log([
-    title,
-    description,
-    addressData.address,
-    addressData.detailAddress,
-    startAt,
-  ]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
