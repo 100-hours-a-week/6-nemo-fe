@@ -9,6 +9,7 @@ import {
   profile_icon,
   time_icon,
   user,
+  users_icon,
 } from "@/shared/assets/images";
 import { ScheduleParticipant, useScheduleById } from "@/entities/schdule";
 import BackButton from "@/shared/ui/back-button";
@@ -100,8 +101,8 @@ export default function ScheduleDetailPage() {
 
       <div className="p-ctn-lg">
         {/* 일정 제목 */}
-        <div className="mb-4 flex items-center gap-2">
-          <span className="text-label-2 text-primary bg-primary-light rounded-full px-2 py-1">
+        <div className="mb-8 flex items-center gap-2">
+          <span className="text-label-2 text-primary bg-primary-light rounded-ctn-xs px-2 py-1">
             {schedule.scheduleStatus}
           </span>
           <h2 className="text-title-3 text-label-strong-1 font-bold">
@@ -109,15 +110,17 @@ export default function ScheduleDetailPage() {
           </h2>
         </div>
 
-        {/* 모임 정보 */}
-        <span className="bg-secondary-light mt-2 mb-4 inline-block rounded-lg p-1 px-2">
-          <p className="text-body-2 text-secondary">
-            {schedule.participants.length}명 참여 중
-          </p>
-        </span>
-
         {/* 일정 정보 */}
-        <div className="mb-8 space-y-4">
+        <div className="mb-12 space-y-4">
+          <div className="flex items-center gap-3">
+            <div className="flex h-8 w-8 items-center justify-center">
+              <Image src={users_icon} alt="위치" width={22} height={22} />
+            </div>
+            <p className="text-body-2 text-secondary">
+              {schedule.participants.length}명 참여 중
+            </p>
+          </div>
+
           <div className="flex items-center gap-3">
             <div className="flex h-8 w-8 items-center justify-center">
               <Image src={time_icon} alt="날짜" width={18} height={18} />
