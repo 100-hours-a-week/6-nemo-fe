@@ -12,6 +12,7 @@ import {
 } from "@/shared/assets/images";
 import { ScheduleParticipant, useScheduleById } from "@/entities/schdule";
 import BackButton from "@/shared/ui/back-button";
+import { useUpdateScheduleParticipation } from "@/features/schedule/model/use-update-schedule-participation";
 
 export default function ScheduleDetailPage() {
   const params = useParams();
@@ -19,6 +20,17 @@ export default function ScheduleDetailPage() {
   const scheduleId = Number(params.scheduleId);
 
   const { data: schedule, isLoading, error } = useScheduleById(scheduleId);
+
+  const participationMutation = useUpdateScheduleParticipation(scheduleId);
+
+  // 참여 상태 변경 핸들러 추가
+  const handleParticipation = (status: "ACCEPTED" | "REJECTED") => {
+    participationMutation.mutate(status, {
+      onSuccess: () => {
+        console.log("일정 참여 응답 완료"); // 추후 토스트 메세지 연결
+      },
+    });
+  };
 
   if (isLoading) {
     return (
@@ -314,14 +326,29 @@ export default function ScheduleDetailPage() {
       {/* 하단 참가 버튼 */}
       <div className="bg-common-100 fixed right-0 bottom-0 left-0 mx-auto w-full max-w-[430px] border-t border-gray-200 p-4">
         <div className="flex w-full gap-3">
-          <button className="bg-primary text-common-100 rounded-ctn-sm flex-1 py-3 font-medium">
-            참여하기
+          <button
+            className="bg-primary text-common-100 rounded-ctn-sm flex-1 py-3 font-medium"
+            onClick={() => handleParticipation("ACCEPTED")}
+            disabled={participationMutation.isPending}
+          >
+            {participationMutation.isPending ? "처리 중..." : "참여하기"}
           </button>
-          <button className="rounded-ctn-sm flex-1 bg-gray-200 py-3 font-medium text-gray-600">
-            불참하기
+          <button
+            className="rounded-ctn-sm flex-1 bg-gray-200 py-3 font-medium text-gray-600"
+            onClick={() => handleParticipation("REJECTED")}
+            disabled={participationMutation.isPending}
+          >
+            {participationMutation.isPending ? "처리 중..." : "불참하기"}
           </button>
         </div>
       </div>
+
+      {/* 에러 메시지 표시 */}
+      {participationMutation.isError && (
+        <div className="text-error bg-error-container fixed right-0 bottom-20 left-0 mx-auto max-w-[calc(430px-2rem)] rounded-md p-3 text-center">
+          일정 참여 상태 변경에 실패했습니다. 다시 시도해주세요.
+        </div>
+      )}
     </div>
   );
 }
