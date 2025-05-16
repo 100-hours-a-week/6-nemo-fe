@@ -22,7 +22,7 @@ export default function LoginPage() {
   }, [token, router, login]);
 
   return (
-    <Suspense fallback = {
+    <Suspense fallback={<div>loading...</div>}>
       <div className="p-ctn-lg flex min-h-screen flex-col items-center justify-center">
       <h1 className="text-title-1 text-label-strong-2 text-right font-extralight">
         네가 찾는 모임,
@@ -41,7 +41,7 @@ export default function LoginPage() {
       />
       <LoginButton platform="kakao" />
     </div>
-    }>
+    
     </Suspense>
   );
 }
