@@ -6,7 +6,7 @@ import { useAuthStore } from "@/shared/store/auth-store";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -22,7 +22,8 @@ export default function LoginPage() {
   }, [token, router, login]);
 
   return (
-    <div className="p-ctn-lg flex min-h-screen flex-col items-center justify-center">
+    <Suspense fallback = {
+      <div className="p-ctn-lg flex min-h-screen flex-col items-center justify-center">
       <h1 className="text-title-1 text-label-strong-2 text-right font-extralight">
         네가 찾는 모임,
         <br />
@@ -40,5 +41,7 @@ export default function LoginPage() {
       />
       <LoginButton platform="kakao" />
     </div>
+    }>
+    </Suspense>
   );
 }
