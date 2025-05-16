@@ -68,7 +68,7 @@ export default function CreateSchedulePage() {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="멤버들과 어떤 활동을 할까요?"
-              className="text-heading-2 w-full border-b border-gray-200 bg-transparent px-1 py-2 placeholder-gray-500 outline-none"
+              className="text-heading-2 focus:border-primary w-full border-b border-gray-200 bg-transparent px-1 py-2 placeholder-gray-500 outline-none"
             />
           </div>
 
@@ -103,7 +103,7 @@ export default function CreateSchedulePage() {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="활동에 대한 설명을 추가해주세요."
-              className="h-48 w-full resize-none rounded-md bg-gray-50 px-4 py-3 placeholder-gray-500 outline-none"
+              className="focus:border-primary box-border h-48 w-full resize-none rounded-md border border-transparent bg-gray-50 px-4 py-3 placeholder-gray-500 outline-none"
               required
             ></textarea>
           </div>
