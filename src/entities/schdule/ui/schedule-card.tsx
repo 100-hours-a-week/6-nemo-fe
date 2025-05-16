@@ -57,7 +57,7 @@ export const ScheduleCard = ({
 
   return (
     <Link href={href}>
-      <div className="bg-common-100 mb-3 rounded-lg border border-gray-200 p-4 shadow-sm transition hover:shadow-md">
+      <div className="bg-common-100 hover:bg-strong mb-3 rounded-lg border border-gray-200 p-4 shadow-sm transition hover:shadow-md">
         <div className="mb-3 flex items-center justify-between">
           <h3 className="text-headline-1 line-clamp-1 font-semibold">
             {schedule.title}
@@ -134,10 +134,8 @@ export const ScheduleCard = ({
           {schedule.description}
         </div>
 
-        <div className="mt-2 text-right">
-          <span className="text-caption-1 text-primary">
-            개설자: {schedule.ownerName}
-          </span>
+        <div className="text-caption-1 text-label-normal mt-2 text-right">
+          개설자: {schedule.ownerName}
         </div>
       </div>
     </Link>
