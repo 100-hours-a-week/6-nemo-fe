@@ -8,7 +8,7 @@ export const getSchedules = async ({
     pageParam?: number;
 }) => {
     const res = await fetch(
-        `${BASE_URL}/api/v1/groups/${groupId}/schedules?sort=createdAt&page=${pageParam}&size=10`
+        `${BASE_URL}/api/v1/groups/${groupId}/schedules?sort=startAt&page=${pageParam}&size=10`
     );
     const json = await res.json();
 
