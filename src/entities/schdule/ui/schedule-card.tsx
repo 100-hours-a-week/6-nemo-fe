@@ -33,7 +33,7 @@ export const ScheduleCard = ({
 
   // 일정 상태에 따른 태그 스타일
   const getStatusStyle = () => {
-    switch (schedule.ScheduleStatus) {
+    switch (schedule.scheduleStatus) {
       case "RECRUITING":
         return "bg-primary-light text-primary";
       case "CLOSED":
@@ -45,7 +45,7 @@ export const ScheduleCard = ({
 
   // 일정 상태 한글 표시
   const getStatusText = () => {
-    switch (schedule.ScheduleStatus) {
+    switch (schedule.scheduleStatus) {
       case "RECRUITING":
         return "모집중";
       case "CLOSED":
