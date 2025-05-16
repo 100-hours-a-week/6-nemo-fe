@@ -40,3 +40,28 @@ export type Member = {
     profileImageUrl?: string;
     role: "LEADER" | "MEMBER";
 };
+
+// 모임 정보 생성에 필요한 사용자 입력 데이터
+export interface CreateGroupInfoRequest {
+    name: string;
+    goal: string;
+    category: string;
+    location: string;
+    period: string;
+    isPlanCreated: boolean;
+}
+
+// 사용자 입력 데이터를 통해 생성된 모임 정보
+export interface GeneratedGroupData {
+    name: string;
+    goal: string;
+    category: string;
+    location: string;
+    period: string;
+    maxUserCount: number;
+    isPlanCreated: boolean;
+    summary: string;
+    description: string;
+    tags: string[];
+    plan?: string;
+}
