@@ -23,10 +23,15 @@ function LoginContent() {
 
   useEffect(() => {
     if (token) {
-      login(token);
+      login(token); // 상태 업데이트
+    }
+  }, [token, login]);
+  
+  useEffect(() => {
+    if (useAuthStore.getState().isLoggedIn) {
       router.replace("/home");
     }
-  }, [token, router, login]);
+  }, [router]);
 
   return (
     <div className="p-ctn-lg flex min-h-screen flex-col items-center justify-center">
