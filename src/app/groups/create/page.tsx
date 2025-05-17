@@ -29,7 +29,7 @@ export default function Page() {
   const [currentStep, setCurrentStep] = useState(1);
   const [progress, setProgress] = useState(0);
 
-  // 모임 생성을 위한 유저 입력 정보 (총 6단계: 모임이름, 목표, 카테고리, 주소, 기간, 계획생성여부)
+  // 모임 생성을 위한 유저 입력 정보 (총 7단계: 모임이름, 목표, 카테고리, 주소, 기간, 최대인원, 계획생성여부)
   const [name, setName] = useState(""); // 1단계: 이름
   const [goal, setGoal] = useState(""); // 2단계: 목표
   const [category, setCategory] = useState(""); // 3단계: 카테고리
@@ -41,7 +41,8 @@ export default function Page() {
     extraAddress: "",
   });
   const [period, setPeriod] = useState(""); // 5단계: 기간
-  const [isIncludePlan, setIsIncludePlan] = useState(false); // 6단계: 계획
+  const [maxUserCount, setMaxUserCount] = useState<number>(10); // 6단계: 최대 인원 수
+  const [isIncludePlan, setIsIncludePlan] = useState(false); // 7단계: 계획
 
   // 생성된 모임 데이터와 로딩 상태
   const [generatedGroup, setGeneratedGroup] =
@@ -67,7 +68,9 @@ export default function Page() {
       case 5:
         return period.length > 0;
       case 6:
-        return isIncludePlan !== null;
+        return maxUserCount > 0 && maxUserCount <= 100;
+      case 7:
+        return true;
       default:
         return false;
     }
@@ -75,14 +78,14 @@ export default function Page() {
 
   // 진행률 계산
   useEffect(() => {
-    setProgress((currentStep / 6) * 100);
+    setProgress((currentStep / 7) * 100);
   }, [currentStep]);
 
   // 다음 단계로 이동
   const handleNextStep = () => {
-    if (currentStep < 6) {
+    if (currentStep < 7) {
       setCurrentStep(currentStep + 1);
-    } else if (currentStep === 6) {
+    } else if (currentStep === 7) {
       handleSubmit();
     }
   };
@@ -106,6 +109,7 @@ export default function Page() {
         category: category,
         location: `${addressData.address} ${addressData.detailAddress}`.trim(),
         period,
+        maxUserCount: maxUserCount,
         isPlanCreated: isIncludePlan,
       };
 
@@ -273,6 +277,70 @@ export default function Page() {
         return (
           <div className="mt-6 space-y-6">
             <h2 className="text-heading-1 font-semibold">
+              모임의 최대 인원 수는 몇 명인가요?
+            </h2>
+            <p className="text-body-2 text-label-normal">
+              모임에 참여할 수 있는 최대 인원 수를 선택해주세요. (최대 100명)
+            </p>
+
+            <div className="mt-12 space-y-8">
+              {/* 슬라이더 컴포넌트 */}
+              <div className="px-2">
+                <input
+                  type="range"
+                  min="1"
+                  max="100"
+                  value={maxUserCount}
+                  onChange={(e) => setMaxUserCount(parseInt(e.target.value))}
+                  className="bg-primary h-2 w-full appearance-none rounded-lg"
+                  style={{
+                    background: `linear-gradient(to right, #55CBB9 0%, #55CBB9 ${maxUserCount}%, #E7E6EB ${maxUserCount}%, #E7E6EB 100%)`,
+                  }}
+                />
+
+                {/* 슬라이더 값 표시 */}
+                <div className="mt-6 flex justify-between px-2">
+                  <span className="text-caption-1 text-gray-500">1명</span>
+                  <span className="text-caption-1 text-gray-500">50명</span>
+                  <span className="text-caption-1 text-gray-500">100명</span>
+                </div>
+              </div>
+
+              {/* 직접 입력 */}
+              <div className="mt-4">
+                <div className="flex items-center">
+                  <input
+                    type="number"
+                    min="1"
+                    max="100"
+                    value={maxUserCount}
+                    onChange={(e) => {
+                      const value = parseInt(e.target.value);
+                      if (!isNaN(value) && value >= 1) {
+                        setMaxUserCount(value);
+                      } else if (e.target.value === "") {
+                        setMaxUserCount(10); // 빈 값일 경우 기본값
+                      }
+                    }}
+                    onBlur={(e) => {
+                      const value = parseInt(e.target.value);
+                      if (value > 100) {
+                        setMaxUserCount(100); // 100을 초과하면 최대값인 100으로 제한
+                      }
+                    }}
+                    className="text-body-1 focus:border-primary w-full rounded-md border border-gray-300 p-3 text-center outline-none"
+                  />
+                  <span className="text-body-1 ml-2">명</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+
+      case 7:
+        return (
+          <div className="mt-6 space-y-6">
+            <h2 className="text-heading-1 font-semibold">
               단계별 계획을 자동으로 생성할까요?
             </h2>
             <p className="text-body-2 text-label-normal">
@@ -311,7 +379,7 @@ export default function Page() {
                     isIncludePlan === false ? "text-primary font-medium" : ""
                   }
                 >
-                  아니요, 직접 만들겠습니다
+                  아니요, 나중에 직접 만들겠습니다
                 </span>
               </button>
             </div>
@@ -341,6 +409,7 @@ export default function Page() {
             <input
               type="text"
               value={editedGroupData.name}
+              maxLength={64}
               onChange={(e) =>
                 setEditedGroupData({ ...editedGroupData, name: e.target.value })
               }
@@ -350,21 +419,43 @@ export default function Page() {
 
           <div>
             <label className="text-body-2 text-label-normal mb-1 block">
-              모임 목표
+              최대 인원 수
             </label>
             <input
-              type="text"
-              value={editedGroupData.goal}
-              onChange={(e) =>
-                setEditedGroupData({ ...editedGroupData, goal: e.target.value })
-              }
+              type="number"
+              value={editedGroupData.maxUserCount}
+              onChange={(e) => {
+                const value = parseInt(e.target.value);
+                if (!isNaN(value) && value >= 1) {
+                  setEditedGroupData({
+                    ...editedGroupData,
+                    maxUserCount: value,
+                  });
+                } else if (e.target.value === "") {
+                  setEditedGroupData({
+                    ...editedGroupData,
+                    maxUserCount: 10, // 빈 값일 경우 기본값
+                  });
+                }
+              }}
+              onBlur={(e) => {
+                const value = parseInt(e.target.value);
+                if (value > 100) {
+                  setEditedGroupData({
+                    ...editedGroupData,
+                    maxUserCount: 100, // 100을 초과하면 최대값인 100으로 제한
+                  });
+                }
+              }}
+              min="1"
+              max="100"
               className="text-body-1 focus:border-primary w-full rounded-md border border-gray-300 p-2 outline-none"
             />
           </div>
 
           <div>
             <label className="text-body-2 text-label-normal mb-1 block">
-              모임 소개
+              한 줄 소개
             </label>
             <textarea
               value={editedGroupData.summary.replace(/\\n/g, "\n")}
@@ -374,13 +465,13 @@ export default function Page() {
                   summary: e.target.value.replace(/\n/g, "\\n"),
                 })
               }
-              className="text-body-1 focus:border-primary h-32 w-full rounded-md border border-gray-300 p-2 outline-none"
+              className="text-body-1 focus:border-primary h-16 w-full rounded-md border border-gray-300 p-2 outline-none"
             />
           </div>
 
           <div>
             <label className="text-body-2 text-label-normal mb-1 block">
-              모임 상세 설명
+              상세 설명
             </label>
             <textarea
               value={editedGroupData.description.replace(/\\n/g, "\n")}
@@ -402,9 +493,11 @@ export default function Page() {
               {editedGroupData.tags.map((tag, index) => (
                 <div
                   key={index}
-                  className="flex rounded-full bg-gray-100 px-3 py-1"
+                  className="bg-strong flex items-center rounded-full px-3 py-1"
                 >
-                  <span className="text-label-1">#{tag}</span>
+                  <span className="text-label-1 text-label-assistive">
+                    # {tag}
+                  </span>
                   <button
                     className="ml-2 text-gray-500"
                     onClick={() => {
@@ -420,7 +513,7 @@ export default function Page() {
               <input
                 type="text"
                 placeholder="새 태그 추가"
-                className="text-body-2 w-32 rounded-full border border-gray-300 px-3 py-1 outline-none"
+                className="text-body-2 w-26 rounded-full border border-gray-300 px-3 py-1 outline-none"
                 onKeyDown={(e) => {
                   if (e.key === "Enter" && e.currentTarget.value.trim()) {
                     setEditedGroupData({
@@ -459,7 +552,7 @@ export default function Page() {
         <div className="pt-6">
           <Button
             onClick={handleUpdateGroup}
-            className="bg-primary w-full py-3 text-center font-medium text-white"
+            className="bg-primary w-full py-5 text-center font-medium text-white"
           >
             모임 생성 완료
           </Button>
@@ -499,7 +592,7 @@ export default function Page() {
   // 생성된 모임 정보가 있으면 수정 화면 표시
   if (generatedGroup) {
     return (
-      <div className="bg-common-100 min-h-screen pb-24">
+      <div className="bg-common-100 min-h-screen">
         {/* 헤더 */}
         <header className="bg-common-100 sticky top-0 z-10 flex h-14 items-center justify-between border-b border-gray-200 px-4">
           <BackButton />
@@ -526,7 +619,7 @@ export default function Page() {
       <div className="px-4 pt-4">
         <ProgressBar value={progress} />
         {/* <p className="text-caption-1 text-label-normal mt-1 text-right">
-          {currentStep}/6
+          {currentStep}/7
         </p> */}
       </div>
 
@@ -539,7 +632,7 @@ export default function Page() {
           {currentStep > 1 && (
             <Button
               onClick={handlePrevStep}
-              className="flex-1 border border-gray-200 bg-white py-3 font-medium text-gray-600"
+              className="flex-1 border border-gray-200 bg-white py-5 font-medium text-gray-600"
               variant="outline"
             >
               이전
@@ -548,13 +641,13 @@ export default function Page() {
           <Button
             onClick={handleNextStep}
             disabled={!isStepValid()}
-            className={`flex-1 py-3 font-medium ${
+            className={`flex-1 py-5 font-medium ${
               isStepValid()
                 ? "bg-primary text-white"
                 : "bg-gray-300 text-gray-600"
             }`}
           >
-            {currentStep < 6 ? "다음" : "완료"}
+            {currentStep < 7 ? "다음" : "완료"}
           </Button>
         </div>
       </div>
