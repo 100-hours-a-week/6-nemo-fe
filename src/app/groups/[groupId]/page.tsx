@@ -76,7 +76,7 @@ export default function GroupDetailPage() {
               </h3>
               <div className="bg-common-100 rounded-md p-4 shadow-xs">
                 <p className="text-body-1 text-label-assistive whitespace-pre-line">
-                  {groupDetails.summary}
+                  {groupDetails.description}
                 </p>
               </div>
             </section>

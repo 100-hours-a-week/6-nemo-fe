@@ -1,11 +1,13 @@
 export type Group = {
     id?: number;
+    ownerName?: string;
     name: string;
     summary: string;
+    description?: string;
+    category: string;
     location: string;
     currentUserCount: number;
     maxUserCount: number;
-    category: string;
     imageUrl?: string;
     tags?: string[];
 }
@@ -42,7 +44,7 @@ export type Member = {
 };
 
 // 모임 정보 생성에 필요한 사용자 입력 데이터
-export interface CreateGroupInfoRequest {
+export type CreateGroupInfoRequest = {
     name: string;
     goal: string;
     category: string;
@@ -52,7 +54,7 @@ export interface CreateGroupInfoRequest {
 }
 
 // 사용자 입력 데이터를 통해 생성된 모임 정보
-export interface GeneratedGroupData {
+export type GeneratedGroupData = {
     name: string;
     goal: string;
     category: string;
@@ -63,5 +65,18 @@ export interface GeneratedGroupData {
     summary: string;
     description: string;
     tags: string[];
+    plan?: string;
+    imageUrl?: string;
+}
+
+export type CreateGroupRequest = {
+    name: string;
+    summary: string;
+    description: string;
+    category: string;
+    location: string;
+    maxUserCount: number;
+    imageUrl?: string;
+    tags?: string[];
     plan?: string;
 }
