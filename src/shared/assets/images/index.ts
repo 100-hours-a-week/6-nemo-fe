@@ -29,8 +29,8 @@ export { default as close_icon } from "./close_icon.svg";
 export { default as location2_icon } from "./location2_icon.svg";
 export { default as calendar_icon } from "./calendar_icon.svg";
 export { default as party } from "./party.svg";
+export { default as sorry } from "./sorry.svg";
 // 이미지
-export { default as no_access } from "./no_access.png"
 export { default as user } from "./user.png"
 export { default as users } from './users.png'
 export { default as crown } from './crown.png'

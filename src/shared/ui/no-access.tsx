@@ -1,17 +1,20 @@
 import Image from "next/image";
-import { no_access } from "../assets/images";
+import { sorry } from "../assets/images";
 
 export const NoAccess = () => {
   return (
-    <div className="text-display-2 flex h-[100vh] w-full items-center justify-center gap-4">
-      <Image
-        src={no_access}
-        alt="공사 중"
-        width={64}
-        height={64}
-        className="text-cetner"
-      />
-      공 사 중
+    <div className="flex h-[100vh] w-full flex-col justify-center gap-4">
+      <div className="bg-primary-light mx-auto mb-6 flex items-center justify-center rounded-full">
+        <Image src={sorry} alt="공사 중" width={160} height={160} />
+      </div>
+      <h1 className="text-title-3 mb-2 text-center font-bold text-gray-800">
+        준비 중인 페이지
+      </h1>
+      <p className="text-body-1 mb-8 text-center text-gray-600">
+        불편을 드려 죄송합니다.
+        <br /> 해당 페이지는 현재 준비 중입니다. <br />더 나은 서비스로 곧
+        찾아뵙겠습니다. 감사합니다.
+      </p>
     </div>
   );
 };
