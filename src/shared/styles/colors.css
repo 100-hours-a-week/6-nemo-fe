@@ -112,7 +112,7 @@
   --color-neutral: var(--color-common-100);
   /* --color-normal: var(--color-gray-50); */
   --color-normal: #f6f7f9;
-  --color-strong: var(--color-gray-100);
+  --color-strong: var(--color-coolNeutral-99);
   /* --color-background-normal-alternative: var(--color-coolNeutral-99);
   --color-background-elevated-normal: var(--color-common-100);
   --color-background-elevated-alternative: var(--color-coolNeutral-99); */

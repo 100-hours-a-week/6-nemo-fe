@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useInfiniteSchedules } from "../model/use-infinite-schedules";
 import { ScheduleCard } from "@/entities/schdule";
+import { useMemo } from "react";
 
 export const ScheduleList = ({ groupId }: { groupId: number }) => {
   const router = useRouter();
@@ -15,7 +16,12 @@ export const ScheduleList = ({ groupId }: { groupId: number }) => {
     isFetchingNextPage,
   } = useInfiniteSchedules(groupId);
 
-  const schedules = data?.pages.flatMap((page) => page.schedules) ?? [];
+  const { schedules, totalElements } = useMemo(() => {
+    const scheduleArray = data?.pages.flatMap((page) => page.schedules) ?? [];
+    const total = data?.pages[0]?.totalElements ?? 0;
+
+    return { schedules: scheduleArray, totalElements: total };
+  }, [data]);
 
   if (isLoading && schedules.length === 0) {
     return (
@@ -40,7 +46,7 @@ export const ScheduleList = ({ groupId }: { groupId: number }) => {
           등록된 일정이 없습니다.
         </p>
         <button
-          className="bg-primary text-common-100 rounded-full px-6 py-2"
+          className="bg-primary hover:bg-primary-strong text-common-100 rounded-full px-6 py-2"
           onClick={() => router.push(`/groups/${groupId}/schedule/create`)}
         >
           일정 만들기
@@ -53,10 +59,10 @@ export const ScheduleList = ({ groupId }: { groupId: number }) => {
     <div className="space-y-2">
       <div className="mb-4 flex items-center justify-between">
         <h3 className="text-heading-2 text-label-strong-1 font-semibold">
-          일정 목록 ({schedules.length})
+          일정 목록 ({totalElements})
         </h3>
         <button
-          className="bg-primary text-common-100 rounded-full px-4 py-1 text-sm"
+          className="bg-primary text-common-100 hover:bg-primary-strong rounded-full px-4 py-1 text-sm"
           onClick={() => router.push(`/groups/${groupId}/schedule/create`)}
         >
           + 일정 만들기

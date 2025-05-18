@@ -11,7 +11,7 @@ export const createSchedule = async (data: CreateScheduleRequest) => {
 
     const result = await response.json();
 
-    if (result.code !== 200) {
+    if (result.code !== 201) {
         throw new Error(result.message || '일정 생성에 실패했습니다.');
     }
 

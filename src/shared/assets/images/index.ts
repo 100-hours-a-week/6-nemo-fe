@@ -28,8 +28,9 @@ export { default as more_icon } from "./more_icon.svg";
 export { default as close_icon } from "./close_icon.svg";
 export { default as location2_icon } from "./location2_icon.svg";
 export { default as calendar_icon } from "./calendar_icon.svg";
+export { default as party } from "./party.svg";
+export { default as sorry } from "./sorry.svg";
 // 이미지
-export { default as no_access } from "./no_access.png"
 export { default as user } from "./user.png"
 export { default as users } from './users.png'
 export { default as crown } from './crown.png'
@@ -42,7 +43,7 @@ export { default as money } from './category/money.svg'
 export { default as career } from './category/career.svg'
 export { default as etc } from './category/etc.svg'
 export { default as animals } from './category/animals.svg'
-export { default as friends } from './category/friends.svg'
+export { default as friendship } from './category/friendship.svg'
 export { default as game } from './category/game.svg'
 export { default as language } from './category/language.svg'
 export { default as book } from './category/book.svg'

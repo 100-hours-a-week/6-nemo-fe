@@ -9,9 +9,11 @@ import {
   profile_icon,
   time_icon,
   user,
+  users_icon,
 } from "@/shared/assets/images";
 import { ScheduleParticipant, useScheduleById } from "@/entities/schdule";
 import BackButton from "@/shared/ui/back-button";
+import { useUpdateScheduleParticipation } from "@/features/schedule/model/use-update-schedule-participation";
 
 export default function ScheduleDetailPage() {
   const params = useParams();
@@ -19,6 +21,17 @@ export default function ScheduleDetailPage() {
   const scheduleId = Number(params.scheduleId);
 
   const { data: schedule, isLoading, error } = useScheduleById(scheduleId);
+
+  const participationMutation = useUpdateScheduleParticipation(scheduleId);
+
+  // 참여 상태 변경 핸들러 추가
+  const handleParticipation = (status: "ACCEPTED" | "REJECTED") => {
+    participationMutation.mutate(status, {
+      onSuccess: () => {
+        console.log("일정 참여 응답 완료"); // 추후 토스트 메세지 연결
+      },
+    });
+  };
 
   if (isLoading) {
     return (
@@ -88,8 +101,8 @@ export default function ScheduleDetailPage() {
 
       <div className="p-ctn-lg">
         {/* 일정 제목 */}
-        <div className="mb-4 flex items-center gap-2">
-          <span className="text-label-2 text-primary bg-primary-light rounded-full px-2 py-1">
+        <div className="mb-8 flex items-center gap-2">
+          <span className="text-label-2 text-primary bg-primary-light rounded-ctn-xs px-2 py-1">
             {schedule.scheduleStatus}
           </span>
           <h2 className="text-title-3 text-label-strong-1 font-bold">
@@ -97,15 +110,17 @@ export default function ScheduleDetailPage() {
           </h2>
         </div>
 
-        {/* 모임 정보 */}
-        <span className="bg-secondary-light mt-2 mb-4 inline-block rounded-lg p-1 px-2">
-          <p className="text-body-2 text-secondary">
-            {schedule.participants.length}명 참여 중
-          </p>
-        </span>
-
         {/* 일정 정보 */}
-        <div className="mb-8 space-y-4">
+        <div className="mb-12 space-y-4">
+          <div className="flex items-center gap-3">
+            <div className="flex h-8 w-8 items-center justify-center">
+              <Image src={users_icon} alt="위치" width={22} height={22} />
+            </div>
+            <p className="text-body-2 text-secondary">
+              {schedule.participants.length}명 참여 중
+            </p>
+          </div>
+
           <div className="flex items-center gap-3">
             <div className="flex h-8 w-8 items-center justify-center">
               <Image src={time_icon} alt="날짜" width={18} height={18} />
@@ -314,14 +329,29 @@ export default function ScheduleDetailPage() {
       {/* 하단 참가 버튼 */}
       <div className="bg-common-100 fixed right-0 bottom-0 left-0 mx-auto w-full max-w-[430px] border-t border-gray-200 p-4">
         <div className="flex w-full gap-3">
-          <button className="bg-primary text-common-100 rounded-ctn-sm flex-1 py-3 font-medium">
-            참여하기
+          <button
+            className="bg-primary text-common-100 rounded-ctn-sm flex-1 py-3 font-medium"
+            onClick={() => handleParticipation("ACCEPTED")}
+            disabled={participationMutation.isPending}
+          >
+            {participationMutation.isPending ? "처리 중..." : "참여하기"}
           </button>
-          <button className="rounded-ctn-sm flex-1 bg-gray-200 py-3 font-medium text-gray-600">
-            불참하기
+          <button
+            className="rounded-ctn-sm flex-1 bg-gray-200 py-3 font-medium text-gray-600"
+            onClick={() => handleParticipation("REJECTED")}
+            disabled={participationMutation.isPending}
+          >
+            {participationMutation.isPending ? "처리 중..." : "불참하기"}
           </button>
         </div>
       </div>
+
+      {/* 에러 메시지 표시 */}
+      {participationMutation.isError && (
+        <div className="text-error bg-error-container fixed right-0 bottom-20 left-0 mx-auto max-w-[calc(430px-2rem)] rounded-md p-3 text-center">
+          일정 참여 상태 변경에 실패했습니다. 다시 시도해주세요.
+        </div>
+      )}
     </div>
   );
 }

@@ -76,7 +76,7 @@ export default function GroupDetailPage() {
               </h3>
               <div className="bg-common-100 rounded-md p-4 shadow-xs">
                 <p className="text-body-1 text-label-assistive whitespace-pre-line">
-                  {groupDetails.summary}
+                  {groupDetails.description}
                 </p>
               </div>
             </section>
@@ -100,7 +100,7 @@ export default function GroupDetailPage() {
         )}
       </div>
 
-      <button className="bg-primary text-common-100 fixed right-0 bottom-4 left-0 mx-auto w-[calc(100%-2rem)] max-w-[calc(430px-2rem)] rounded-full py-3 font-medium shadow-lg">
+      <button className="bg-primary hover:bg-primary-strong text-common-100 fixed right-0 bottom-4 left-0 mx-auto w-[calc(100%-2rem)] max-w-[calc(430px-2rem)] rounded-full py-3 font-medium shadow-lg">
         모임 신청하기
       </button>
     </div>
