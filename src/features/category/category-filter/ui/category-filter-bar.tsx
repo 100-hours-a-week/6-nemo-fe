@@ -68,7 +68,7 @@ export const CategoryFilterBar = () => {
       <div className="mt-2 flex gap-4">
         {CATEGORIES.map((category) => (
           <button
-            key={category.id}
+            key={`category-${category.id}`}
             data-category={category.label}
             onClick={() => handleCategoryChange(category.label)}
             className={cn(
