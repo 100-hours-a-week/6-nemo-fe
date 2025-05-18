@@ -10,7 +10,7 @@ export default function AuthInterceptor() {
     const pathname = usePathname();
 
     useEffect(() => {
-        const protectedPaths = ['/my-nemo', '/profile', '/chatbot'];
+        const protectedPaths = ['/home', '/groups', '/my-nemo', '/profile', '/chatbot'];
         const isProtectedPath = protectedPaths.some(path => pathname.startsWith(path));
 
         if (isProtectedPath && !isLoggedIn) {
