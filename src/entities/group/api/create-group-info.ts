@@ -1,13 +1,8 @@
-import { BASE_URL } from "@/shared/constants";
-import { getAuthHeader } from "@/shared/lib/auth-header";
 import { CreateGroupInfoRequest, GeneratedGroupData } from "../model/types";
+import { post } from "@/features/auth/model/auth-client";
 
 export const createGroupInfo = async (data: CreateGroupInfoRequest): Promise<GeneratedGroupData> => {
-    const response = await fetch(`${BASE_URL}/api/v1/groups/ai-generate`, {
-        method: "POST",
-        headers: getAuthHeader(),
-        body: JSON.stringify(data),
-    });
+    const response = await post(`/api/v1/groups/ai-generate`, data)
 
     const result = await response.json();
 

@@ -1,5 +1,4 @@
-import { BASE_URL } from "@/shared/constants";
-import { getAuthHeader } from "@/shared/lib/auth-header";
+import { patch } from "@/features/auth/model/auth-client";
 
 export type ParticipationStatus = "ACCEPTED" | "REJECTED";
 
@@ -7,12 +6,7 @@ export const updateScheduleParticipation = async (
     scheduleId: number,
     status: ParticipationStatus
 ) => {
-    const response = await fetch(`${BASE_URL}/api/v1/schedules/${scheduleId}/participants`, {
-        method: 'PATCH',
-        headers: getAuthHeader(),
-        body: JSON.stringify({ status }),
-    });
-
+    const response = await patch(`/api/v1/schedules/${scheduleId}/participants`, { status });
     const result = await response.json();
 
     if (result.code !== 204) {

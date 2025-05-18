@@ -122,6 +122,7 @@
     rgba(85, 203, 185, 1) 70%,
     rgba(64, 152, 139, 1) 100%
   );
+  --color-profile-background: #91bad6;
 
   /* Interaction */
   --color-interaction-inactive: var(--color-coolNeutral-70);

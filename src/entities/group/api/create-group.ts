@@ -1,14 +1,8 @@
-import { BASE_URL } from "@/shared/constants";
-import { getAuthHeader } from "@/shared/lib/auth-header";
+import { post } from "@/features/auth/model/auth-client";
 import { CreateGroupRequest, GroupDetails } from "../model/types";
 
 export const createGroup = async (data: CreateGroupRequest): Promise<GroupDetails> => {
-    const response = await fetch(`${BASE_URL}/api/v1/groups`, {
-        method: "POST",
-        headers: getAuthHeader(),
-        body: JSON.stringify(data),
-    });
-
+    const response = await post("/api/v1/groups", data);
     const result = await response.json();
 
     if (result.code !== 201) {
