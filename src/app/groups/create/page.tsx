@@ -12,6 +12,7 @@ import { cn } from "lib/utils";
 import { CATEGORIES } from "@/features/category/category-filter/model/constants";
 import { GeneratedGroupData } from "@/entities/group";
 import { createGroupInfo } from "@/entities/group/api/create-group-info";
+import { useCreateGroup } from "@/entities/group/model/use-create-group";
 
 // 모임 기간 옵션
 const PERIOD_OPTIONS = [
@@ -24,6 +25,7 @@ const PERIOD_OPTIONS = [
 
 export default function Page() {
   const router = useRouter();
+  const createGroup = useCreateGroup();
 
   // 단계 상태
   const [currentStep, setCurrentStep] = useState(1);
@@ -86,7 +88,7 @@ export default function Page() {
     if (currentStep < 7) {
       setCurrentStep(currentStep + 1);
     } else if (currentStep === 7) {
-      handleSubmit();
+      handleCreateGroupInfo();
     }
   };
 
@@ -97,8 +99,8 @@ export default function Page() {
     }
   };
 
-  // 모임 생성 요청
-  const handleSubmit = async () => {
+  // 모임 정보 생성 요청
+  const handleCreateGroupInfo = async () => {
     try {
       setIsLoading(true);
       setError("");
@@ -128,12 +130,34 @@ export default function Page() {
     }
   };
 
-  // 수정된 모임 정보 저장
-  const handleUpdateGroup = () => {
+  // 최종 모임 생성
+  const handleCreateGroup = async () => {
     if (editedGroupData) {
-      // 여기서 수정된 정보를 저장하는 API 호출을 구현할 수 있습니다.
-      // 현재는 구현 생략
-      router.push(`/groups`);
+      try {
+        // API 요청을 위한 데이터 준비
+        const requestData = {
+          name: editedGroupData.name,
+          summary: editedGroupData.summary,
+          description: editedGroupData.description,
+          category: editedGroupData.category,
+          location: editedGroupData.location,
+          maxUserCount: editedGroupData.maxUserCount,
+          imageUrl: editedGroupData?.imageUrl,
+          tags: editedGroupData?.tags,
+          plan: editedGroupData?.plan,
+        };
+        console.log(requestData);
+
+        const result = await createGroup.mutateAsync(requestData);
+
+        router.push(`/groups/create/success?groupId=${result.id}`);
+      } catch (err) {
+        setError(
+          err instanceof Error
+            ? err.message
+            : "모임 생성 중 오류가 발생했습니다.",
+        );
+      }
     }
   };
 
@@ -392,8 +416,37 @@ export default function Page() {
   };
 
   // 생성된 모임 정보 편집 화면
+  // 모임 생성 페이지의 renderGeneratedGroup 함수 수정
   const renderGeneratedGroup = () => {
     if (!editedGroupData) return null;
+
+    // 이미지 업로드 처리 함수
+    const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+
+      // 파일 크기 제한 (5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        alert("이미지 크기는 5MB 이하여야 합니다.");
+        return;
+      }
+
+      // 이미지 타입 확인
+      if (!file.type.startsWith("image/")) {
+        alert("이미지 파일만 업로드 가능합니다.");
+        return;
+      }
+
+      // 이미지를 Base64로 변환
+      const reader = new FileReader();
+      reader.onload = () => {
+        setEditedGroupData({
+          ...editedGroupData,
+          imageUrl: reader.result as string,
+        });
+      };
+      reader.readAsDataURL(file);
+    };
 
     return (
       <div className="p-ctn-lg space-y-6">
@@ -401,56 +454,121 @@ export default function Page() {
           생성된 모임 정보
         </h2>
 
+        <div>
+          <label className="text-body-2 text-label-normal mb-1 block">
+            모임명
+          </label>
+          <input
+            type="text"
+            value={editedGroupData.name}
+            disabled={true}
+            className="text-body-1 w-full rounded-md border border-gray-300 bg-gray-50 p-2 outline-none"
+          />
+        </div>
+
+        <div>
+          <label className="text-body-2 text-label-normal mb-1 block">
+            카테고리
+          </label>
+          <input
+            type="text"
+            value={editedGroupData.category}
+            disabled={true}
+            className="text-body-1 w-full rounded-md border border-gray-300 bg-gray-50 p-2 outline-none"
+          />
+        </div>
+
+        <div>
+          <label className="text-body-2 text-label-normal mb-1 block">
+            모임 위치
+          </label>
+          <input
+            type="text"
+            value={editedGroupData.location}
+            disabled={true}
+            className="text-body-1 w-full rounded-md border border-gray-300 bg-gray-50 p-2 outline-none"
+          />
+        </div>
+
+        <div>
+          <label className="text-body-2 text-label-normal mb-1 block">
+            최대 인원 수
+          </label>
+          <input
+            type="number"
+            value={editedGroupData.maxUserCount}
+            disabled={true}
+            className="text-body-1 w-full rounded-md border border-gray-300 bg-gray-50 p-2 outline-none"
+          />
+        </div>
+
         <div className="space-y-6">
           <div>
             <label className="text-body-2 text-label-normal mb-1 block">
-              모임명
+              모임 대표 이미지
             </label>
-            <input
-              type="text"
-              value={editedGroupData.name}
-              maxLength={64}
-              onChange={(e) =>
-                setEditedGroupData({ ...editedGroupData, name: e.target.value })
-              }
-              className="text-body-1 focus:border-primary w-full rounded-md border border-gray-300 p-2 outline-none"
-            />
-          </div>
-
-          <div>
-            <label className="text-body-2 text-label-normal mb-1 block">
-              최대 인원 수
-            </label>
-            <input
-              type="number"
-              value={editedGroupData.maxUserCount}
-              onChange={(e) => {
-                const value = parseInt(e.target.value);
-                if (!isNaN(value) && value >= 1) {
-                  setEditedGroupData({
-                    ...editedGroupData,
-                    maxUserCount: value,
-                  });
-                } else if (e.target.value === "") {
-                  setEditedGroupData({
-                    ...editedGroupData,
-                    maxUserCount: 10, // 빈 값일 경우 기본값
-                  });
-                }
-              }}
-              onBlur={(e) => {
-                const value = parseInt(e.target.value);
-                if (value > 100) {
-                  setEditedGroupData({
-                    ...editedGroupData,
-                    maxUserCount: 100, // 100을 초과하면 최대값인 100으로 제한
-                  });
-                }
-              }}
-              min="1"
-              max="100"
-              className="text-body-1 focus:border-primary w-full rounded-md border border-gray-300 p-2 outline-none"
-            />
+            <div className="flex flex-col items-center gap-4">
+              <div className="relative h-48 w-full overflow-hidden rounded-lg border border-gray-300">
+                {editedGroupData.imageUrl ? (
+                  <>
+                    <img
+                      src={editedGroupData.imageUrl}
+                      alt="모임 대표 이미지"
+                      className="h-full w-full object-cover"
+                    />
+                    <button
+                      onClick={() =>
+                        setEditedGroupData({
+                          ...editedGroupData,
+                          imageUrl: undefined,
+                        })
+                      }
+                      className="bg-opacity-50 absolute top-2 right-2 flex h-8 w-8 items-center justify-center rounded-full bg-gray-800 text-white"
+                    >
+                      ×
+                    </button>
+                  </>
+                ) : (
+                  <div className="flex h-full w-full flex-col items-center justify-center text-gray-500">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="48"
+                      height="48"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <rect
+                        x="3"
+                        y="3"
+                        width="18"
+                        height="18"
+                        rx="2"
+                        ry="2"
+                      ></rect>
+                      <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                      <polyline points="21 15 16 10 5 21"></polyline>
+                    </svg>
+                    <p className="text-body-2 mt-2">이미지를 업로드해주세요</p>
+                  </div>
+                )}
+              </div>
+              <label className="text-body-2 bg-primary-light text-primary cursor-pointer rounded-full px-4 py-2 font-medium">
+                이미지 선택
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleImageUpload}
+                />
+              </label>
+              <p className="text-caption-1 text-gray-500">
+                JPG, PNG 파일, 최대 5MB (권장 크기: 800x450px)
+              </p>
+            </div>
           </div>
 
           <div>
@@ -493,10 +611,10 @@ export default function Page() {
               {editedGroupData.tags.map((tag, index) => (
                 <div
                   key={index}
-                  className="bg-strong flex items-center rounded-full px-3 py-1"
+                  className="bg-strong flex items-center rounded-full border border-gray-500 px-3 py-1"
                 >
-                  <span className="text-label-1 text-label-assistive">
-                    # {tag}
+                  <span className="text-label-1 text-label-assistive font-semibold">
+                    #{tag}
                   </span>
                   <button
                     className="ml-2 text-gray-500"
@@ -512,8 +630,8 @@ export default function Page() {
               ))}
               <input
                 type="text"
-                placeholder="새 태그 추가"
-                className="text-body-2 w-26 rounded-full border border-gray-300 px-3 py-1 outline-none"
+                placeholder="새 태그 입력"
+                className="text-body-2 w-25 rounded-full border border-gray-300 px-3 py-1 outline-none"
                 onKeyDown={(e) => {
                   if (e.key === "Enter" && e.currentTarget.value.trim()) {
                     setEditedGroupData({
@@ -551,10 +669,11 @@ export default function Page() {
 
         <div className="pt-6">
           <Button
-            onClick={handleUpdateGroup}
+            onClick={handleCreateGroup}
+            disabled={createGroup.isPending}
             className="bg-primary w-full py-5 text-center font-medium text-white"
           >
-            모임 생성 완료
+            {createGroup.isPending ? "모임 생성 중..." : "모임 생성 완료"}
           </Button>
         </div>
       </div>
@@ -566,7 +685,12 @@ export default function Page() {
     return (
       <div className="flex h-screen flex-col items-center justify-center">
         <div className="border-primary h-12 w-12 animate-spin rounded-full border-4 border-t-transparent"></div>
-        <p className="text-body-1 mt-4">모임 정보를 생성 중...</p>
+        <h1 className="text-body-1 mb-2 font-bold text-gray-800">
+          모임 정보를 생성 중...
+        </h1>
+        <p className="text-body-1 mb-8 text-center text-gray-600">
+          네모가 모임에 필요한 정보를 자동으로 생성 중이에요!
+        </p>
       </div>
     );
   }
