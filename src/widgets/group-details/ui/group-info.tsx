@@ -1,6 +1,11 @@
 import Image from "next/image";
 import { GroupDetailHeaderProps } from "../model/types";
-import { bg_group2 } from "@/shared/assets/images";
+import {
+  bg_group2,
+  crown_yello,
+  location_icon,
+  users_icon,
+} from "@/shared/assets/images";
 
 export const GroupInfo = ({ group }: GroupDetailHeaderProps) => {
   return (
@@ -29,7 +34,7 @@ export const GroupInfo = ({ group }: GroupDetailHeaderProps) => {
               {group.tags?.map((tag) => (
                 <span
                   key={tag}
-                  className="text-caption-2 bg-strong text-label-normal rounded-full px-2 py-0.5"
+                  className="text-caption-2 bg-coolNeutral-98 text-label-assistive rounded-full px-2 py-0.5"
                 >
                   #{tag}
                 </span>
@@ -42,31 +47,47 @@ export const GroupInfo = ({ group }: GroupDetailHeaderProps) => {
         </div>
 
         {/* 모임 정보 요약 */}
-        <div className="grid grid-cols-3 gap-3 pt-2">
-          <div className="bg-primary-light flex flex-col items-center gap-2 rounded-lg p-3">
-            <span className="text-label-2 text-label-normal block">인원</span>
-            {/* <Image src={users} alt={group.name} width={32} height={32} /> */}
-            <span className="text-headline-2 text-label-assistive block font-medium">
+
+        <div className="mt-6 space-y-3">
+          <div className="flex items-center gap-2">
+            <Image
+              src={crown_yello}
+              alt="모임장"
+              width={20}
+              height={20}
+              className="text-gray-500"
+            />
+            <span className="text-label-1 text-label-normal">모임장</span>
+            <span className="text-body-2 text-label-assistive ml-1 font-medium">
+              {group.ownerName || "등록된 모임장 없음"}
+            </span>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <Image
+              src={users_icon}
+              alt="인원"
+              width={20}
+              height={20}
+              className="text-gray-500"
+            />
+            <span className="text-label-1 text-label-normal">인원</span>
+            <span className="text-body-2 text-label-assistive ml-1 font-medium">
               {group.currentUserCount}/{group.maxUserCount}명
             </span>
           </div>
-          <div className="bg-primary-light flex flex-col items-center gap-2 rounded-lg p-3 text-center">
-            <span className="text-label-2 text-label-normal block">지역</span>
-            {/* <Image
+
+          <div className="flex items-center gap-2">
+            <Image
               src={location_icon}
-              alt={group.name}
-              width={32}
-              height={32}
-            /> */}
-            <span className="text-body-2 text-label-assistive block font-medium">
+              alt="위치"
+              width={20}
+              height={20}
+              className="text-gray-500"
+            />
+            <span className="text-label-1 text-label-normal">위치</span>
+            <span className="text-body-2 text-label-assistive ml-1 font-medium">
               {group.location}
-            </span>
-          </div>
-          <div className="bg-primary-light flex flex-col items-center gap-2 rounded-lg p-3 text-center">
-            <span className="text-label-2 text-label-normal block">모임장</span>
-            {/* <Image src={crown_yello} alt={group.name} width={32} height={32} /> */}
-            <span className="text-headline-1 text-label-assistive block font-medium">
-              Ray
             </span>
           </div>
         </div>

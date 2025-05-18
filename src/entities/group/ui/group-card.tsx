@@ -36,7 +36,7 @@ export const GroupCard = ({
               className="object-cover"
             />
           )}
-          <div className="bg-primary-strong text-common-100 text-caption-1 absolute top-2 right-2 rounded-full px-2 py-1 opacity-75">
+          <div className="bg-primary-strong text-common-100 text-caption-1 absolute top-2 right-2 rounded-full px-2 py-1 opacity-85">
             {group.category}
           </div>
         </div>
