@@ -57,8 +57,8 @@ export const GroupList = ({
 
   return (
     <div className="space-y-4">
-      {allGroups.map((group) => (
-        <GroupCard key={`group-${group.id}`} group={group} />
+      {allGroups.map((group, index) => (
+        <GroupCard key={`group-${group.id}-${index}`} group={group} />
       ))}
 
       <div ref={loadMoreRef} className="h-10 w-full">
