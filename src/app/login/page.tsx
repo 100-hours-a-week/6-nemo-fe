@@ -11,15 +11,19 @@ import { Suspense, useEffect } from "react";
 export default function LoginPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const token = searchParams.get("token");
-  const { login } = useAuthStore();
+  const accessToken = searchParams.get("token");
+  const { login, isLoggedIn } = useAuthStore();
 
   useEffect(() => {
-    if (token) {
-      login(token);
-      router.replace("/home");
+    if (accessToken) {
+      login(accessToken);
+      router.replace("/");
     }
-  }, [token, router, login]);
+
+    if (isLoggedIn) {
+      router.replace("/");
+    }
+  }, [accessToken, router, login]);
 
   return (
     <Suspense
