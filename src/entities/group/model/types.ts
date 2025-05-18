@@ -40,7 +40,7 @@ export type Member = {
     userId: string;
     nickname: string;
     profileImageUrl?: string;
-    role: "LEADER" | "MEMBER";
+    role?: "LEADER" | "MEMBER";
 };
 
 // 모임 정보 생성에 필요한 사용자 입력 데이터
