@@ -1,8 +1,8 @@
-name: FE CI/CD
+name: Frontend CI/CD for dev-v1
 
 on:
   push:
-    branches: [infra/ci-cd]
+    branches: [dev, infra/ci-cd]
 
 jobs:
   deploy:
