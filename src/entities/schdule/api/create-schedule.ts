@@ -1,14 +1,8 @@
-import { BASE_URL } from "@/shared/constants";
+import { post } from "@/features/auth/model/auth-client";
 import { CreateScheduleRequest } from "../model/types";
-import { getAuthHeader } from "@/shared/lib/auth-header";
 
 export const createSchedule = async (data: CreateScheduleRequest) => {
-    const response = await fetch(`${BASE_URL}/api/v1/schedules`, {
-        method: 'POST',
-        headers: getAuthHeader(),
-        body: JSON.stringify(data),
-    });
-
+    const response = await post("/api/v1/schedules", data);
     const result = await response.json();
 
     if (result.code !== 201) {

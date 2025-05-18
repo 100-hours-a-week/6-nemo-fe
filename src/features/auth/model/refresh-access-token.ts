@@ -5,6 +5,9 @@ export const refreshAccessToken = async (): Promise<{ accessToken: string; acces
         const response = await fetch(`${BASE_URL}/api/v1/auth/token/refresh`, {
             method: "POST",
             credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+            },
         });
 
         const data = await response.json();

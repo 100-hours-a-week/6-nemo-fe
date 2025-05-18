@@ -4,8 +4,9 @@ import { refreshAccessToken } from "@/features/auth/model/refresh-access-token";
 
 // 재시도 상태를 추적하기 위한 변수
 let isRefreshing = false;
+// 제네릭 타입 T를 사용하여 타입 안전성 개선
 let failedQueue: Array<{
-    resolve: (value: unknown) => void;
+    resolve: (value: Response | PromiseLike<Response>) => void; // 특정 타입으로 변경
     reject: (reason?: any) => void;
     config: RequestInit & { url: string };
 }> = [];
@@ -32,8 +33,8 @@ const processQueue = (error: any, token: string | null = null) => {
     failedQueue = [];
 };
 
-// 기본 API 클라이언트
-export const apiClient = async (url: string, config: RequestInit = {}) => {
+// 기본 API 클라이언트 - 반환 타입을 명시적으로 Response로 지정
+export const apiClient = async (url: string, config: RequestInit = {}): Promise<Response> => {
     // 완전한 URL 생성
     const fullUrl = url.startsWith("http") ? url : `${BASE_URL}${url}`;
 
@@ -57,6 +58,7 @@ export const apiClient = async (url: string, config: RequestInit = {}) => {
     const requestConfig: RequestInit = {
         ...config,
         headers,
+        credentials: 'include', // 쿠키를 포함시키기 위해 추가
     };
 
     try {
@@ -72,7 +74,7 @@ export const apiClient = async (url: string, config: RequestInit = {}) => {
 
             // 이미 토큰 재발급 중이라면 큐에 추가
             if (isRefreshing) {
-                return new Promise((resolve, reject) => {
+                return new Promise<Response>((resolve, reject) => {
                     failedQueue.push({ resolve, reject, config: originalRequest });
                 });
             }
@@ -115,12 +117,12 @@ export const apiClient = async (url: string, config: RequestInit = {}) => {
 };
 
 // GET 요청 헬퍼 함수
-export const get = async (url: string, config: RequestInit = {}) => {
+export const get = async (url: string, config: RequestInit = {}): Promise<Response> => {
     return apiClient(url, { ...config, method: "GET" });
 };
 
 // POST 요청 헬퍼 함수
-export const post = async (url: string, data: any, config: RequestInit = {}) => {
+export const post = async (url: string, data: any, config: RequestInit = {}): Promise<Response> => {
     return apiClient(url, {
         ...config,
         method: "POST",
@@ -129,7 +131,7 @@ export const post = async (url: string, data: any, config: RequestInit = {}) => 
 };
 
 // PUT 요청 헬퍼 함수
-export const put = async (url: string, data: any, config: RequestInit = {}) => {
+export const put = async (url: string, data: any, config: RequestInit = {}): Promise<Response> => {
     return apiClient(url, {
         ...config,
         method: "PUT",
@@ -138,7 +140,7 @@ export const put = async (url: string, data: any, config: RequestInit = {}) => {
 };
 
 // PATCH 요청 헬퍼 함수
-export const patch = async (url: string, data: any, config: RequestInit = {}) => {
+export const patch = async (url: string, data: any, config: RequestInit = {}): Promise<Response> => {
     return apiClient(url, {
         ...config,
         method: "PATCH",
@@ -147,6 +149,6 @@ export const patch = async (url: string, data: any, config: RequestInit = {}) =>
 };
 
 // DELETE 요청 헬퍼 함수
-export const del = async (url: string, config: RequestInit = {}) => {
+export const del = async (url: string, config: RequestInit = {}): Promise<Response> => {
     return apiClient(url, { ...config, method: "DELETE" });
 };
