@@ -31,7 +31,8 @@ export { default as calendar_icon } from "./calendar_icon.svg";
 export { default as party } from "./party.svg";
 export { default as sorry } from "./sorry.svg";
 // 이미지
-export { default as user } from "./user.png"
+// export { default as user } from "./user.png"
+export { default as user } from "./user.svg"
 export { default as users } from './users.png'
 export { default as crown } from './crown.png'
 export { default as crown_yello } from './crown_yellow.png'

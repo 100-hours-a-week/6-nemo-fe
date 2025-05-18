@@ -102,9 +102,15 @@ export default function ScheduleDetailPage() {
       <div className="p-ctn-lg">
         {/* 일정 제목 */}
         <div className="mb-8 flex items-center gap-2">
-          <span className="text-label-2 text-primary bg-primary-light rounded-ctn-xs px-2 py-1">
-            {schedule.scheduleStatus}
-          </span>
+          {schedule.scheduleStatus === "RECRUITING" ? (
+            <span className="text-label-2 text-primary-strong bg-primary-light rounded-ctn-md px-2 py-1 font-semibold">
+              모집중
+            </span>
+          ) : (
+            <span className="text-label-2 text-label-assistive bg-strong rounded-ctn-md px-2 py-1">
+              종료
+            </span>
+          )}
           <h2 className="text-title-3 text-label-strong-1 font-bold">
             {schedule.title}
           </h2>
@@ -116,7 +122,7 @@ export default function ScheduleDetailPage() {
             <div className="flex h-8 w-8 items-center justify-center">
               <Image src={users_icon} alt="위치" width={22} height={22} />
             </div>
-            <p className="text-body-2 text-secondary">
+            <p className="text-body-2 text-primary font-semibold">
               {schedule.participants.length}명 참여 중
             </p>
           </div>
@@ -177,10 +183,10 @@ export default function ScheduleDetailPage() {
             참여자 현황
           </h3>
 
-          <div className="bg-common-100 rounded-md p-4 shadow-xs">
+          <div className="bg-common-100 rounded-md p-4 shadow-sm">
             {acceptedParticipants.length > 0 && (
               <div className="mb-4">
-                <h4 className="text-body-1 text-label-assistive bg-primary-light mb-2 inline-block rounded-sm px-2 py-1 font-medium">
+                <h4 className="text-body-1 text-label-assistive bg-primary-light mb-2 inline-block rounded-md px-2 py-1 font-semibold">
                   참여 ({acceptedParticipants.length}명)
                 </h4>
                 <div className="space-y-2">
@@ -190,14 +196,14 @@ export default function ScheduleDetailPage() {
                       className="flex items-center justify-between py-2"
                     >
                       <div className="flex items-center gap-3">
-                        <div className="relative h-10 w-10 overflow-hidden rounded-full bg-gray-200">
+                        <div className="relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-gray-200">
                           {participant.user.profileImageUrl ? (
                             <Image
                               src={participant.user.profileImageUrl}
                               alt={participant.user.nickname}
-                              width={40}
-                              height={40}
-                              className="object-cover opacity-80"
+                              width={20}
+                              height={20}
+                              className="object-cover"
                             />
                           ) : (
                             <Image
@@ -205,28 +211,13 @@ export default function ScheduleDetailPage() {
                               alt={participant.user.nickname}
                               width={40}
                               height={40}
-                              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform opacity-80"
+                              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform"
                             />
                           )}
                         </div>
                         <span className="text-body-2 font-medium">
                           {participant.user.nickname}
                         </span>
-                      </div>
-
-                      {participant.user.role === "LEADER" && (
-                        <span className="text-caption-1 text-primary bg-primary-light flex items-center gap-1 rounded-full px-2 py-1">
-                          <Image
-                            src={crown_yello}
-                            alt={participant.user.role}
-                            width={16}
-                            height={16}
-                          />
-                          모임장
-                        </span>
-                      )}
-                      <div className="flex h-6 w-6 items-center justify-center">
-                        <Image src={user} alt="참여" width={20} height={20} />
                       </div>
                     </div>
                   ))}
@@ -236,7 +227,7 @@ export default function ScheduleDetailPage() {
 
             {pendingParticipants.length > 0 && (
               <div className="mb-4">
-                <h4 className="text-body-1 text-label-assistive mb-2 inline-block rounded-sm bg-gray-100 px-2 py-1 font-medium">
+                <h4 className="text-body-1 text-label-assistive mb-2 inline-block rounded-md bg-gray-100 px-2 py-1 font-semibold">
                   대기 ({pendingParticipants.length}명)
                 </h4>
                 <div className="space-y-2">
@@ -279,7 +270,7 @@ export default function ScheduleDetailPage() {
 
             {rejectedParticipants.length > 0 && (
               <div>
-                <h4 className="text-body-1 text-label-assistive mb-2 inline-block rounded-sm bg-gray-100 px-2 py-1 font-medium">
+                <h4 className="text-body-1 text-label-assistive mb-2 inline-block rounded-md bg-gray-100 px-2 py-1 font-semibold">
                   불참 ({rejectedParticipants.length}명)
                 </h4>
                 <div className="space-y-2">
@@ -297,7 +288,7 @@ export default function ScheduleDetailPage() {
                                 alt={participant.user.nickname}
                                 width={40}
                                 height={40}
-                                className="object-cover opacity-80"
+                                className="object-cover"
                               />
                             ) : (
                               <Image
@@ -305,7 +296,7 @@ export default function ScheduleDetailPage() {
                                 alt={participant.user.nickname}
                                 width={40}
                                 height={40}
-                                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform opacity-80"
+                                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform"
                               />
                             )}
                           </div>
