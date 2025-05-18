@@ -35,39 +35,21 @@
   }
 }
 
-@keyframes bgTransition {
-  0% {
-    background-image: url("../shared/assets/images/background/bg-1.jpg");
-    opacity: 1;
-  }
-  45% {
-    background-image: url("../shared/assets/images/background/bg-1.jpg");
-    opacity: 1;
-  }
-  50% {
-    background-image: url("../shared/assets/images/background/bg-1.jpg");
-    opacity: 0;
-  }
-  55% {
-    background-image: url("../shared/assets/images/background/bg-2.jpg");
-    opacity: 0;
-  }
-  60% {
-    background-image: url("../shared/assets/images/background/bg-2.jpg");
-    opacity: 1;
-  }
-  95% {
-    background-image: url("../shared/assets/images/background/bg-2.jpg");
-    opacity: 1;
-  }
-  100% {
-    background-image: url("../shared/assets/images/background/bg-2.jpg");
-    opacity: 0;
-  }
+body {
+  color: var(--foreground);
+  font-family: "Pretendard Variable", Arial, Helvetica, sans-serif;
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+  /* background: radial-gradient(
+    circle,
+    rgba(238, 250, 248, 1) 51%,
+    rgba(77, 183, 167, 1) 100%
+  ); */
 }
 
-/* 배경 이미지를 위한 가상 요소 추가 */
-body::before {
+body::before,
+body::after {
   content: "";
   position: fixed;
   top: 0;
@@ -75,31 +57,57 @@ body::before {
   width: 100%;
   height: 100%;
   z-index: -1;
-  background: #eefaf8;
-  background: radial-gradient(
-    circle,
-    rgba(238, 250, 248, 1) 51%,
-    rgba(77, 183, 167, 1) 100%
-  );
-  background-image: url("../shared/assets/images/background/bg-1.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  animation: bgTransition 6s ease-in-out infinite;
 }
 
-@media (min-width: 768px) {
-  body::before {
-    background-size: cover;
+body::before {
+  background-image: url("../shared/assets/images/background/bg-1.jpg");
+  animation: fadeInOut1 8s ease-in-out infinite;
+  z-index: -1;
+}
+
+body::after {
+  background-image: url("../shared/assets/images/background/bg-2.jpg");
+  animation: fadeInOut2 8s ease-in-out infinite;
+  z-index: -1;
+}
+
+@keyframes fadeInOut1 {
+  0% {
+    opacity: 0.8;
+  }
+  40% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 0;
+  }
+  90% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.8;
   }
 }
 
-body {
-  color: var(--foreground);
-  font-family: "Pretendard Variable", Arial, Helvetica, sans-serif;
-  width: 100%;
-  min-height: 100vh;
-  overflow-x: hidden;
+@keyframes fadeInOut2 {
+  0% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  90% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 body .mobile-container {
