@@ -1,52 +1,31 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { crown_yello, user } from "@/shared/assets/images";
+import { useGroupMembers } from "../model/use-group-members";
 import { Member } from "../model/types";
-import { BASE_URL } from "@/shared/constants";
 
 export const GroupMemberList = ({ groupId }: { groupId: string }) => {
-  const [members, setMembers] = useState<Member[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
   const [isExpanded, setIsExpanded] = useState(false);
 
-  useEffect(() => {
-    const fetchMembers = async () => {
-      try {
-        const response = await fetch(
-          `${BASE_URL}/api/v1/groups/${groupId}/participants`,
-        );
-        const data = await response.json();
+  const { data, isLoading, error } = useGroupMembers(groupId);
 
-        if (data.code === 200) {
-          const memberList = data.data.participants.map(
-            (participant: Member) => ({
-              userId: participant.userId,
-              nickname: participant.nickname,
-              profileImageUrl: participant.profileImageUrl,
-              role: participant.role,
-            }),
-          );
-          setMembers(memberList);
-        } else {
-          throw new Error("모임원 목록을 불러오는데 실패했습니다.");
-        }
-        setIsLoading(false);
-      } catch (error) {
-        console.error("멤버 목록을 불러오는 중 오류 발생:", error);
-        setIsLoading(false);
-      }
-    };
-
-    fetchMembers();
-  }, [groupId]);
+  const members = data?.participants || [];
 
   if (isLoading) {
     return (
       <div className="flex h-24 items-center justify-center">
         <div className="border-primary h-6 w-6 animate-spin rounded-full border-2 border-t-transparent"></div>
       </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <p className="text-body-2 text-error py-4">
+        모임원 목록을 불러오는데 실패했습니다.
+      </p>
     );
   }
 
@@ -61,7 +40,7 @@ export const GroupMemberList = ({ groupId }: { groupId: string }) => {
 
   return (
     <div className="bg-common-100 rounded-md p-4 shadow-sm">
-      {displayMembers.map((member) => (
+      {displayMembers.map((member: Member) => (
         <div
           key={member.userId}
           className="flex items-center justify-between py-2"
