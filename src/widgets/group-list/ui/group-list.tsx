@@ -6,6 +6,7 @@ import { useInfiniteSearchGroups } from "../model/use-infinite-search-groups";
 import { useInfiniteCategoryGroups } from "../model/use-infinite-category-groups";
 import { useInfiniteAllGroups } from "../model/use-infinite-all-groups";
 import { GroupCard } from "@/entities/group";
+import { FloatingActionButton } from "@/shared/ui";
 
 export const GroupList = ({
   category,
@@ -74,6 +75,12 @@ export const GroupList = ({
           모든 데이터를 불러왔습니다.
         </div>
       )}
+      <FloatingActionButton
+        href="/groups/create"
+        className="text-4xl font-extralight"
+      >
+        +
+      </FloatingActionButton>
     </div>
   );
 };
