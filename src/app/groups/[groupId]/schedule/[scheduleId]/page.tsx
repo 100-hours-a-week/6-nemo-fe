@@ -14,6 +14,7 @@ import {
 import { ScheduleParticipant, useScheduleById } from "@/entities/schdule";
 import BackButton from "@/shared/ui/back-button";
 import { useUpdateScheduleParticipation } from "@/features/schedule/model/use-update-schedule-participation";
+import { toast } from "sonner";
 
 export default function ScheduleDetailPage() {
   const params = useParams();
@@ -28,7 +29,12 @@ export default function ScheduleDetailPage() {
   const handleParticipation = (status: "ACCEPTED" | "REJECTED") => {
     participationMutation.mutate(status, {
       onSuccess: () => {
-        console.log("일정 참여 응답 완료"); // 추후 토스트 메세지 연결
+        toast("일정 참여 응답을 완료하였습니다", {
+          action: {
+            label: "확인",
+            onClick: () => console.log("Undo"),
+          },
+        });
       },
     });
   };
