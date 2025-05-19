@@ -43,13 +43,27 @@ export const GroupCard = ({
 
         <div className="space-y-3 p-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-headline-2 line-clamp-1 flex-1 font-semibold">
+            <h3
+              className="text-headline-2 line-clamp-1 flex-1 font-semibold"
+              title={group.name}
+            >
               {group.name}
             </h3>
-            <span className="text-label-2 text-label-normal flex items-center gap-1">
-              <Image src={location_icon} alt="위치" width={14} height={14} />
-              {group.location}
-            </span>
+            <div className="flex max-w-[40%] items-center gap-1">
+              <Image
+                src={location_icon}
+                alt="위치"
+                width={14}
+                height={14}
+                className="flex-shrink-0"
+              />
+              <span
+                className="text-label-2 text-label-normal line-clamp-1 overflow-hidden"
+                title={group.location}
+              >
+                {group.location}
+              </span>
+            </div>
           </div>
           <p className="text-label-1 text-label-assistive mt-1 line-clamp-2">
             {group.summary}
