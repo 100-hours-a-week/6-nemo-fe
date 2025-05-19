@@ -135,7 +135,7 @@ export const ScheduleCard = ({
         </div>
 
         <div className="text-caption-1 text-label-normal mt-2 text-right">
-          개설자: {schedule.ownerName}
+          생성자: {schedule.ownerName}
         </div>
       </div>
     </Link>
