@@ -1,0 +1,27 @@
+@layer utilities {
+  /* 컨테이너 패딩 */
+  .p-ctn-sm {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+  }
+  .p-ctn-md {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+  .p-ctn-lg {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+  }
+}
+
+@theme {
+  --radius-ctn-xs: 0.5rem;
+  --radius-ctn-sm: 0.75rem;
+  --radius-ctn-md: 1rem;
+}

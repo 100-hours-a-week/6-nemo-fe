@@ -1,0 +1,124 @@
+@import "tailwindcss";
+@import "../shared/styles/colors.css";
+@import "../shared/styles/typography.css";
+@import "../shared/styles/container.css";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+
+  --font-size-abc-1: 100px;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* @media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+} */
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+body {
+  color: var(--foreground);
+  font-family: "Pretendard Variable", Arial, Helvetica, sans-serif;
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+  /* background: radial-gradient(
+    circle,
+    rgba(238, 250, 248, 1) 51%,
+    rgba(77, 183, 167, 1) 100%
+  ); */
+}
+
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+body::before {
+  background-image: url("../shared/assets/images/background/bg-1.jpg");
+  animation: fadeInOut1 8s ease-in-out infinite;
+  z-index: -1;
+}
+
+body::after {
+  background-image: url("../shared/assets/images/background/bg-2.jpg");
+  animation: fadeInOut2 8s ease-in-out infinite;
+  z-index: -1;
+}
+
+@keyframes fadeInOut1 {
+  0% {
+    opacity: 0.8;
+  }
+  40% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 0;
+  }
+  90% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.8;
+  }
+}
+
+@keyframes fadeInOut2 {
+  0% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  90% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+body .mobile-container {
+  /* 430x100vh */
+  width: 100%;
+  max-width: 430px;
+  min-height: 100vh;
+  margin: 0 auto;
+  background: var(--background);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  transition: max-width 0.3s ease-in-out;
+  overflow-x: hidden;
+  position: relative;
+}
