@@ -689,7 +689,7 @@ export default function Page() {
           모임 정보를 생성 중...
         </h1>
         <p className="text-body-1 mb-8 text-center text-gray-600">
-          네모가 모임에 필요한 정보를 자동으로 생성 중이에요!
+          모임에 필요한 정보를 자동으로 생성 중이에요!
         </p>
       </div>
     );

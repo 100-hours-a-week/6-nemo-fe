@@ -1,6 +1,6 @@
 "use client";
 
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { SwitchGroupInfoTabs } from "@/features/group";
@@ -8,9 +8,11 @@ import { ScheduleList } from "@/widgets/schdule-list";
 import { GroupMemberList, GroupPlan, useGroupById } from "@/entities/group";
 import { GroupInfo } from "@/widgets/group-details";
 import BackButton from "@/shared/ui/back-button";
+import { useApplyToGroup } from "@/entities/group/model/use-apply-to-group";
 
 export default function GroupDetailPage() {
   const params = useParams();
+  const router = useRouter();
   const groupId = params.groupId as string;
   const [activeTab, setActiveTab] = useState<"info" | "schedule">("info");
 
@@ -19,6 +21,27 @@ export default function GroupDetailPage() {
     isLoading,
     error,
   } = useGroupById(Number(groupId));
+
+  // 가입 신청 뮤테이션 훅 사용
+  const applyMutation = useApplyToGroup(groupId);
+
+  // 가입 신청 핸들러
+  const handleApplyToGroup = async () => {
+    try {
+      await applyMutation.mutateAsync();
+      // 성공 메시지 표시 (toast 라이브러리 사용 예시)
+      // toast.success("모임 가입 신청이 완료되었습니다.");
+      alert("모임 가입 신청이 완료되었습니다.");
+    } catch (error) {
+      // 에러 메시지 표시
+      // toast.error(error instanceof Error ? error.message : "모임 가입 신청에 실패했습니다.");
+      alert(
+        error instanceof Error
+          ? error.message
+          : "모임 가입 신청에 실패했습니다.",
+      );
+    }
+  };
 
   if (isLoading) {
     return (
@@ -100,9 +123,20 @@ export default function GroupDetailPage() {
         )}
       </div>
 
-      <button className="bg-primary hover:bg-primary-strong text-common-100 fixed right-0 bottom-4 left-0 mx-auto w-[calc(100%-2rem)] max-w-[calc(430px-2rem)] rounded-full py-3 font-medium shadow-lg">
-        모임 신청하기
+      <button
+        className="bg-primary hover:bg-primary-strong text-common-100 fixed right-0 bottom-4 left-0 mx-auto w-[calc(100%-2rem)] max-w-[calc(430px-2rem)] rounded-full py-3 font-medium shadow-lg"
+        onClick={handleApplyToGroup}
+        disabled={applyMutation.isPending}
+      >
+        {applyMutation.isPending ? "신청 처리 중..." : "모임 신청하기"}
       </button>
+
+      {/* 에러 메시지 표시 */}
+      {applyMutation.isError && (
+        <div className="text-error bg-error-container fixed right-0 bottom-24 left-0 mx-auto max-w-[calc(430px-2rem)] rounded-md p-3 text-center">
+          모임 가입 신청에 실패했습니다. 다시 시도해주세요.
+        </div>
+      )}
     </div>
   );
 }
