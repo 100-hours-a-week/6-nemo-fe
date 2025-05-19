@@ -253,7 +253,7 @@ export default function Page() {
               모임은 어디서 진행되나요?
             </h2>
             <p className="text-body-2 text-label-normal">
-              모임이 주로 이루어는 지역을 선택해주세요.
+              모임이 주로 이루어지는 지역을 선택해주세요.
             </p>
             <div className="mt-8">
               <AddressSearch onComplete={setAddressData} />
