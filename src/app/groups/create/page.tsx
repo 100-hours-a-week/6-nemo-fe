@@ -134,7 +134,6 @@ export default function Page() {
   const handleCreateGroup = async () => {
     if (editedGroupData) {
       try {
-        // API 요청을 위한 데이터 준비
         const requestData = {
           name: editedGroupData.name,
           summary: editedGroupData.summary,
@@ -142,11 +141,10 @@ export default function Page() {
           category: editedGroupData.category,
           location: editedGroupData.location,
           maxUserCount: editedGroupData.maxUserCount,
-          imageUrl: editedGroupData?.imageUrl,
+          imageUrl: editedGroupData?.imageUrl || null,
           tags: editedGroupData?.tags,
-          plan: editedGroupData?.plan,
+          plan: editedGroupData?.plan || null,
         };
-        console.log(requestData);
 
         const result = await createGroup.mutateAsync(requestData);
 
@@ -255,7 +253,7 @@ export default function Page() {
               모임은 어디서 진행되나요?
             </h2>
             <p className="text-body-2 text-label-normal">
-              모임이 주로 이루어는 지역을 선택해주세요.
+              모임이 주로 이루어지는 지역을 선택해주세요.
             </p>
             <div className="mt-8">
               <AddressSearch onComplete={setAddressData} />
@@ -365,11 +363,11 @@ export default function Page() {
         return (
           <div className="mt-6 space-y-6">
             <h2 className="text-heading-1 font-semibold">
-              단계별 계획을 자동으로 생성할까요?
+              AI 맞춤형 모임 계획을 생성해드릴까요?
             </h2>
             <p className="text-body-2 text-label-normal">
-              AI가 입력하신 정보를 바탕으로 모임 일정과 단계별 계획을 자동으로
-              생성해 드립니다.
+              입력하신 정보를 바탕으로 <br />
+              모임의 단계별 계획을 자동으로 생성해 드립니다.
             </p>
             <div className="mt-8 flex flex-col gap-4">
               <button
@@ -505,7 +503,7 @@ export default function Page() {
         <div className="space-y-6">
           <div>
             <label className="text-body-2 text-label-normal mb-1 block">
-              모임 대표 이미지
+              모임 대표 이미지 (선택)
             </label>
             <div className="flex flex-col items-center gap-4">
               <div className="relative h-48 w-full overflow-hidden rounded-lg border border-gray-300">
@@ -520,7 +518,7 @@ export default function Page() {
                       onClick={() =>
                         setEditedGroupData({
                           ...editedGroupData,
-                          imageUrl: undefined,
+                          imageUrl: null,
                         })
                       }
                       className="bg-opacity-50 absolute top-2 right-2 flex h-8 w-8 items-center justify-center rounded-full bg-gray-800 text-white"
@@ -611,7 +609,7 @@ export default function Page() {
               {editedGroupData.tags.map((tag, index) => (
                 <div
                   key={index}
-                  className="bg-strong flex items-center rounded-full border border-gray-500 px-3 py-1"
+                  className="flex items-center rounded-full border border-gray-300 px-3 py-1"
                 >
                   <span className="text-label-1 text-label-assistive font-semibold">
                     #{tag}
@@ -685,7 +683,7 @@ export default function Page() {
     return (
       <div className="flex h-screen flex-col items-center justify-center">
         <div className="border-primary h-12 w-12 animate-spin rounded-full border-4 border-t-transparent"></div>
-        <h1 className="text-body-1 mb-2 font-bold text-gray-800">
+        <h1 className="text-body-1 mt-4 mb-2 font-bold text-gray-800">
           모임 정보를 생성 중...
         </h1>
         <p className="text-body-1 mb-8 text-center text-gray-600">

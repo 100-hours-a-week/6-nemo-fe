@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import DateTimePicker from "@/features/schedule/ui/date-time-picker";
 import BackButton from "@/shared/ui/back-button";
@@ -69,6 +69,8 @@ export default function CreateSchedulePage() {
               onChange={(e) => setTitle(e.target.value)}
               placeholder="멤버들과 어떤 활동을 할까요?"
               className="text-heading-2 focus:border-primary w-full border-b border-gray-200 bg-transparent px-1 py-2 placeholder-gray-500 outline-none"
+              required
+              autoFocus
             />
           </div>
 

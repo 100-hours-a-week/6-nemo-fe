@@ -65,8 +65,8 @@ export type GeneratedGroupData = {
     summary: string;
     description: string;
     tags: string[];
-    plan?: string;
-    imageUrl?: string;
+    plan?: string | null;
+    imageUrl: string | null;
 }
 
 export type CreateGroupRequest = {
@@ -76,7 +76,7 @@ export type CreateGroupRequest = {
     category: string;
     location: string;
     maxUserCount: number;
-    imageUrl?: string;
-    tags?: string[];
-    plan?: string;
+    imageUrl: string | null;
+    tags: string[];
+    plan?: string | null;
 }

@@ -26,11 +26,17 @@ export const GroupInfo = ({ group }: GroupDetailHeaderProps) => {
       <div className="bg-common-100 relative -mt-4 rounded-t-2xl p-4">
         <div className="mb-4 flex items-center justify-between">
           <div>
-            <h1 className="text-title-3 text-label-strong-1 mb-1 font-bold">
+            <h1
+              className="text-title-3 text-label-strong-1 mb-1 font-bold"
+              title={group.name}
+            >
               {group.name}
             </h1>
-            <p className="text-body-2 text-label-normal line-clamp-1">
-              {group.location}
+            <p
+              className="text-body-2 text-label-normal line-clamp-1"
+              title={group.summary}
+            >
+              {group.summary}
             </p>
             <div className="mt-3 flex gap-1">
               {group.tags?.map((tag) => (
