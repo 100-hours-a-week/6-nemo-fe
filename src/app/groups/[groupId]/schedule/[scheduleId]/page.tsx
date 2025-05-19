@@ -304,9 +304,6 @@ export default function ScheduleDetailPage() {
                             {participant.user.nickname}
                           </span>
                         </div>
-                        <div className="flex h-6 w-6 items-center justify-center">
-                          <Image src={user} alt="불참" width={20} height={20} />
-                        </div>
                       </div>
                     ),
                   )}
