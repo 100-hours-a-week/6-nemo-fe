@@ -29,7 +29,9 @@ export const GroupInfo = ({ group }: GroupDetailHeaderProps) => {
             <h1 className="text-title-3 text-label-strong-1 mb-1 font-bold">
               {group.name}
             </h1>
-            <p className="text-body-2 text-label-normal">{group.location}</p>
+            <p className="text-body-2 text-label-normal line-clamp-1">
+              {group.location}
+            </p>
             <div className="mt-3 flex gap-1">
               {group.tags?.map((tag) => (
                 <span
@@ -41,7 +43,7 @@ export const GroupInfo = ({ group }: GroupDetailHeaderProps) => {
               ))}
             </div>
           </div>
-          <div className="bg-primary-light text-primary text-body-2 rounded-full px-3 py-1">
+          <div className="bg-primary-light text-primary text-body-2 rounded-full px-3 py-1 whitespace-nowrap">
             {group.category}
           </div>
         </div>
@@ -49,7 +51,7 @@ export const GroupInfo = ({ group }: GroupDetailHeaderProps) => {
         {/* 모임 정보 요약 */}
 
         <div className="mt-6 space-y-3">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 whitespace-nowrap">
             <Image
               src={crown_yello}
               alt="모임장"
@@ -63,7 +65,7 @@ export const GroupInfo = ({ group }: GroupDetailHeaderProps) => {
             </span>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 whitespace-nowrap">
             <Image
               src={users_icon}
               alt="인원"
@@ -77,7 +79,7 @@ export const GroupInfo = ({ group }: GroupDetailHeaderProps) => {
             </span>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 whitespace-nowrap">
             <Image
               src={location_icon}
               alt="위치"
@@ -86,7 +88,8 @@ export const GroupInfo = ({ group }: GroupDetailHeaderProps) => {
               className="text-gray-500"
             />
             <span className="text-label-1 text-label-normal">위치</span>
-            <span className="text-body-2 text-label-assistive ml-1 font-medium">
+
+            <span className="text-body-2 text-label-assistive ml-1 line-clamp-1 font-medium">
               {group.location}
             </span>
           </div>
