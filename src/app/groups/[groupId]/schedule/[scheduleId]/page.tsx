@@ -340,7 +340,8 @@ export default function ScheduleDetailPage() {
       {/* 에러 메시지 표시 */}
       {participationMutation.isError && (
         <div className="text-error bg-error-container fixed right-0 bottom-20 left-0 mx-auto max-w-[calc(430px-2rem)] rounded-md p-3 text-center">
-          일정 참여 상태 변경에 실패했습니다. 다시 시도해주세요.
+          일정 참여 응답에 실패했습니다. <br />
+          다시 시도해주세요.
         </div>
       )}
     </div>
