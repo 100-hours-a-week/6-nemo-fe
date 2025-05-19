@@ -34,9 +34,9 @@ export const GroupInfo = ({ group }: GroupDetailHeaderProps) => {
             </h1>
             <p
               className="text-body-2 text-label-normal line-clamp-1"
-              title={group.location}
+              title={group.summary}
             >
-              {group.location}
+              {group.summary}
             </p>
             <div className="mt-3 flex gap-1">
               {group.tags?.map((tag) => (
