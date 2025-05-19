@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { SwitchGroupInfoTabs } from "@/features/group";
 import { ScheduleList } from "@/widgets/schdule-list";
@@ -9,12 +9,23 @@ import { GroupMemberList, GroupPlan, useGroupById } from "@/entities/group";
 import { GroupInfo } from "@/widgets/group-details";
 import BackButton from "@/shared/ui/back-button";
 import { useApplyToGroup } from "@/entities/group/model/use-apply-to-group";
+import { toast } from "sonner";
+import JSConfetti from "js-confetti";
 
 export default function GroupDetailPage() {
   const params = useParams();
   const router = useRouter();
   const groupId = params.groupId as string;
   const [activeTab, setActiveTab] = useState<"info" | "schedule">("info");
+  const confettiRef = useRef<JSConfetti | null>(null);
+
+  // JSConfetti 인스턴스 생성
+  useEffect(() => {
+    confettiRef.current = new JSConfetti();
+    return () => {
+      confettiRef.current = null;
+    };
+  }, []);
 
   const {
     data: groupDetails,
@@ -29,16 +40,43 @@ export default function GroupDetailPage() {
   const handleApplyToGroup = async () => {
     try {
       await applyMutation.mutateAsync();
-      // 성공 메시지 표시 (toast 라이브러리 사용 예시)
-      // toast.success("모임 가입 신청이 완료되었습니다.");
-      alert("모임 가입 신청이 완료되었습니다.");
+
+      // 성공 토스트 메시지 표시
+      toast.success("모임 가입 신청이 완료되었습니다!", {
+        position: "top-center",
+      });
+
+      // 컨페티 효과 추가 (5초 동안)
+      if (confettiRef.current) {
+        // 초기 컨페티
+        confettiRef.current.addConfetti({
+          confettiNumber: 200,
+        });
+
+        // 1초마다 추가 컨페티 (총 5초)
+        const interval = setInterval(() => {
+          if (confettiRef.current) {
+            confettiRef.current.addConfetti({
+              confettiNumber: 100,
+            });
+          }
+        }, 1000);
+
+        // 5초 후 인터벌 정리
+        setTimeout(() => {
+          clearInterval(interval);
+        }, 5000);
+      }
     } catch (error) {
-      // 에러 메시지 표시
-      // toast.error(error instanceof Error ? error.message : "모임 가입 신청에 실패했습니다.");
-      alert(
+      // 에러 토스트 메시지 표시
+      toast.error(
         error instanceof Error
           ? error.message
           : "모임 가입 신청에 실패했습니다.",
+        {
+          description: "잠시 후 다시 시도해주세요.",
+          position: "top-center",
+        },
       );
     }
   };
@@ -130,13 +168,6 @@ export default function GroupDetailPage() {
       >
         {applyMutation.isPending ? "신청 처리 중..." : "모임 신청하기"}
       </button>
-
-      {/* 에러 메시지 표시 */}
-      {applyMutation.isError && (
-        <div className="text-error bg-error-container fixed right-0 bottom-24 left-0 mx-auto max-w-[calc(430px-2rem)] rounded-md p-3 text-center">
-          모임 가입 신청에 실패했습니다. 다시 시도해주세요.
-        </div>
-      )}
     </div>
   );
 }

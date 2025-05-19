@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { QueryProvider } from "./_providers";
 import AuthInterceptor from "@/features/auth/model/auth-interceptor";
+import { Toaster } from "@/shared/ui";
 
 const pretendard = localFont({
   src: "../shared/assets/fonts/PretendardVariable.woff2",
@@ -25,7 +26,10 @@ export default function RootLayout({
       <body>
         <QueryProvider>
           <AuthInterceptor />
-          <div className="mobile-container">{children}</div>
+          <div className="mobile-container">
+            {children}
+            <Toaster position="top-center" />
+          </div>
         </QueryProvider>
       </body>
     </html>
