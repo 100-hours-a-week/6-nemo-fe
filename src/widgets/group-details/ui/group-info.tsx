@@ -25,7 +25,7 @@ export const GroupInfo = ({ group }: GroupDetailHeaderProps) => {
       {/* 모임 정보 */}
       <div className="bg-common-100 relative -mt-4 rounded-t-2xl p-4">
         <div className="mb-4 flex items-center justify-between">
-          <div>
+          <div className="flex-1 pr-2">
             <h1
               className="text-title-3 text-label-strong-1 mb-1 font-bold"
               title={group.name}
@@ -38,11 +38,11 @@ export const GroupInfo = ({ group }: GroupDetailHeaderProps) => {
             >
               {group.summary}
             </p>
-            <div className="mt-3 flex gap-1">
+            <div className="mt-3 flex flex-wrap gap-1">
               {group.tags?.map((tag) => (
                 <span
                   key={tag}
-                  className="text-caption-2 bg-coolNeutral-98 text-label-assistive rounded-full px-2 py-0.5"
+                  className="text-caption-2 bg-coolNeutral-98 text-label-assistive mb-1 rounded-full px-2 py-0.5"
                 >
                   #{tag}
                 </span>
@@ -55,7 +55,6 @@ export const GroupInfo = ({ group }: GroupDetailHeaderProps) => {
         </div>
 
         {/* 모임 정보 요약 */}
-
         <div className="mt-6 space-y-3">
           <div className="flex items-center gap-2 whitespace-nowrap">
             <Image

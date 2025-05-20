@@ -62,7 +62,7 @@ export const ScheduleList = ({ groupId }: { groupId: number }) => {
           일정 목록 ({totalElements})
         </h3>
         <button
-          className="bg-primary text-common-100 hover:bg-primary-strong rounded-full px-4 py-1 text-sm"
+          className="bg-primary text-common-100 hover:bg-primary-strong rounded-full px-4 py-1 text-sm transition"
           onClick={() => router.push(`/groups/${groupId}/schedule/create`)}
         >
           + 일정 만들기

@@ -78,7 +78,7 @@ export const GroupCard = ({
             </div>
             {group.tags && (
               <div className="flex flex-wrap items-center gap-1">
-                {group.tags?.slice(0, 2).map((tag) => (
+                {group.tags?.slice(0, 3).map((tag) => (
                   <span
                     key={tag}
                     className="text-caption-2 bg-strong text-label-normal rounded-full px-2 py-0.5"
@@ -86,9 +86,9 @@ export const GroupCard = ({
                     #{tag}
                   </span>
                 ))}
-                {group.tags.length > 2 && (
+                {group.tags.length > 3 && (
                   <span className="text-caption-2 text-label-normal">
-                    +{group.tags.length - 2}
+                    +{group.tags.length - 3}
                   </span>
                 )}
               </div>

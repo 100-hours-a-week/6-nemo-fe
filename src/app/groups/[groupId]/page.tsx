@@ -11,6 +11,7 @@ import BackButton from "@/shared/ui/back-button";
 import { useApplyToGroup } from "@/entities/group/model/use-apply-to-group";
 import { toast } from "sonner";
 import JSConfetti from "js-confetti";
+import { ConfirmDialog } from "@/shared/ui";
 
 export default function GroupDetailPage() {
   const params = useParams();
@@ -18,6 +19,7 @@ export default function GroupDetailPage() {
   const groupId = params.groupId as string;
   const [activeTab, setActiveTab] = useState<"info" | "schedule">("info");
   const confettiRef = useRef<JSConfetti | null>(null);
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
 
   // JSConfetti 인스턴스 생성
   useEffect(() => {
@@ -161,9 +163,20 @@ export default function GroupDetailPage() {
         )}
       </div>
 
+      {/* 모임 신청 확인 모달창 */}
+      <ConfirmDialog
+        isOpen={showConfirmDialog}
+        onClose={() => setShowConfirmDialog(false)}
+        onConfirm={handleApplyToGroup}
+        title="모임 신청"
+        description={`'${groupDetails.name}' 모임에 가입 신청하시겠습니까?`}
+        confirmLabel="신청하기"
+        cancelLabel="취소"
+      />
+
       <button
-        className="bg-primary hover:bg-primary-strong text-common-100 fixed right-0 bottom-4 left-0 mx-auto w-[calc(100%-2rem)] max-w-[calc(430px-2rem)] rounded-full py-3 font-medium shadow-lg"
-        onClick={handleApplyToGroup}
+        className="bg-primary hover:bg-primary-strong text-common-100 fixed right-0 bottom-4 left-0 mx-auto w-[calc(100%-2rem)] max-w-[calc(430px-2rem)] rounded-full py-3 font-medium shadow-lg transition"
+        onClick={() => setShowConfirmDialog(true)}
         disabled={applyMutation.isPending}
       >
         {applyMutation.isPending ? "신청 처리 중..." : "모임 신청하기"}

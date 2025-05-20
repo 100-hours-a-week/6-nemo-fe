@@ -39,7 +39,7 @@ export const GroupMemberList = ({ groupId }: { groupId: string }) => {
   const displayMembers = isExpanded ? members : members.slice(0, 4);
 
   return (
-    <div className="bg-common-100 rounded-md p-4 shadow-sm">
+    <div className="bg-common-100 border-line-solid-alternative rounded-md border p-4">
       {displayMembers.map((member: Member) => (
         <div
           key={member.userId}
@@ -89,7 +89,7 @@ export const GroupMemberList = ({ groupId }: { groupId: string }) => {
           onClick={() => setIsExpanded(!isExpanded)}
           className="text-label-2 text-label-normal mt-2 w-full rounded-md border border-gray-200 py-2 text-center"
         >
-          {isExpanded ? "접기" : "모임원 더보기"}
+          {isExpanded ? "접기" : "더보기"}
         </button>
       )}
     </div>
