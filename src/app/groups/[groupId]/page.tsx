@@ -162,7 +162,7 @@ export default function GroupDetailPage() {
       </div>
 
       <button
-        className="bg-primary hover:bg-primary-strong text-common-100 fixed right-0 bottom-4 left-0 mx-auto w-[calc(100%-2rem)] max-w-[calc(430px-2rem)] rounded-full py-3 font-medium shadow-lg"
+        className="bg-primary hover:bg-primary-strong text-common-100 fixed right-0 bottom-4 left-0 mx-auto w-[calc(100%-2rem)] max-w-[calc(430px-2rem)] rounded-full py-3 font-medium shadow-lg transition"
         onClick={handleApplyToGroup}
         disabled={applyMutation.isPending}
       >
