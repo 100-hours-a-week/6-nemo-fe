@@ -13,7 +13,6 @@ import {
 import { ScheduleParticipant, useScheduleById } from "@/entities/schdule";
 import BackButton from "@/shared/ui/back-button";
 import { useUpdateScheduleParticipation } from "@/features/schedule/model/use-update-schedule-participation";
-import { toast } from "sonner";
 
 export default function ScheduleDetailPage() {
   const params = useParams();
@@ -94,7 +93,7 @@ export default function ScheduleDetailPage() {
     schedule.participants?.filter((p) => p.status === "REJECTED") || [];
 
   return (
-    <div className="bg-common-100 relative min-h-screen pb-24">
+    <div className="relative min-h-screen pb-24">
       {/* 상단 헤더 */}
       <header className="relative flex h-14 items-center justify-between border-gray-200 px-4">
         <BackButton />
@@ -110,11 +109,11 @@ export default function ScheduleDetailPage() {
         {/* 일정 제목 */}
         <div className="mb-8 flex items-center gap-2">
           {schedule.scheduleStatus === "RECRUITING" ? (
-            <span className="text-label-2 text-primary-strong bg-primary-light rounded-ctn-md px-2 py-1 font-semibold">
+            <span className="text-label-2 text-common-100 bg-primary-strong rounded-ctn-md px-2 py-1 font-bold">
               모집중
             </span>
           ) : (
-            <span className="text-label-2 text-label-assistive bg-strong rounded-ctn-md px-2 py-1">
+            <span className="text-label-2 text-label-assistive rounded-ctn-md bg-gray-200 px-2 py-1 font-bold">
               종료
             </span>
           )}
@@ -177,7 +176,7 @@ export default function ScheduleDetailPage() {
           <h3 className="text-heading-2 text-label-strong-2 mb-3 border-l-4 border-gray-700 pl-2 font-semibold">
             상세 내용
           </h3>
-          <div className="bg-common-100 rounded-md p-4 shadow-xs">
+          <div className="bg-common-100 rounded-md border border-gray-100 p-4">
             <p className="text-body-2 text-label-assistive whitespace-pre-line">
               {schedule.description}
             </p>
@@ -186,16 +185,19 @@ export default function ScheduleDetailPage() {
 
         {/* 참여자 현황 */}
         <div>
-          <h3 className="text-heading-2 text-label-strong-2 mb-3 border-l-4 border-gray-700 pl-2 font-semibold">
+          <h3 className="text-heading-2 text-label-strong-2 mb-3 border-l-4 pl-2 font-semibold">
             참여자 현황
           </h3>
 
-          <div className="bg-common-100 rounded-md p-4 shadow-sm">
+          <div className="bg-common-100 rounded-md border border-gray-100 p-4">
             {acceptedParticipants.length > 0 && (
               <div className="mb-4">
-                <h4 className="text-body-1 text-label-assistive bg-primary-light mb-2 inline-block rounded-md px-2 py-1 font-semibold">
-                  참여 ({acceptedParticipants.length}명)
+                <h4 className="text-heading-2 text-primary mb-2 inline-block rounded-md font-bold">
+                  참여
                 </h4>
+                <span className="rounded-ctn-md px-2 py-1 font-semibold text-gray-500">
+                  ({acceptedParticipants.length})
+                </span>
                 <div className="space-y-2">
                   {acceptedParticipants.map((participant) => (
                     <div
@@ -234,9 +236,12 @@ export default function ScheduleDetailPage() {
 
             {pendingParticipants.length > 0 && (
               <div className="mb-4">
-                <h4 className="text-body-1 text-label-assistive mb-2 inline-block rounded-md bg-gray-100 px-2 py-1 font-semibold">
-                  대기 ({pendingParticipants.length}명)
+                <h4 className="text-heading-2 mb-2 inline-block rounded-md font-bold text-gray-600">
+                  대기
                 </h4>
+                <span className="rounded-ctn-md px-2 py-1 font-semibold text-gray-500">
+                  ({pendingParticipants.length})
+                </span>
                 <div className="space-y-2">
                   {pendingParticipants.map(
                     (participant: ScheduleParticipant) => (
@@ -277,9 +282,12 @@ export default function ScheduleDetailPage() {
 
             {rejectedParticipants.length > 0 && (
               <div>
-                <h4 className="text-body-1 text-label-assistive mb-2 inline-block rounded-md bg-gray-100 px-2 py-1 font-semibold">
-                  불참 ({rejectedParticipants.length}명)
+                <h4 className="text-heading-2 mb-2 inline-block rounded-md font-bold text-pink-600">
+                  불참
                 </h4>
+                <span className="rounded-ctn-md px-2 py-1 font-semibold text-gray-500">
+                  ({rejectedParticipants.length})
+                </span>
                 <div className="space-y-2">
                   {rejectedParticipants.map(
                     (participant: ScheduleParticipant) => (
@@ -322,21 +330,21 @@ export default function ScheduleDetailPage() {
       </div>
 
       {/* 하단 참가 버튼 */}
-      <div className="bg-common-100 fixed right-0 bottom-0 left-0 mx-auto w-full max-w-[430px] border-t border-gray-200 p-4">
+      <div className="fixed right-0 bottom-0 left-0 mx-auto w-full max-w-[430px] p-4">
         <div className="flex w-full gap-3">
           <button
             className="bg-primary text-common-100 rounded-ctn-sm flex-1 py-3 font-medium"
             onClick={() => handleParticipation("ACCEPTED")}
             disabled={participationMutation.isPending}
           >
-            {participationMutation.isPending ? "처리 중..." : "참여하기"}
+            {participationMutation.isPending ? "처리 중..." : "참 여"}
           </button>
           <button
             className="rounded-ctn-sm flex-1 bg-gray-200 py-3 font-medium text-gray-600"
             onClick={() => handleParticipation("REJECTED")}
             disabled={participationMutation.isPending}
           >
-            {participationMutation.isPending ? "처리 중..." : "불참하기"}
+            {participationMutation.isPending ? "처리 중..." : "불 참"}
           </button>
         </div>
       </div>

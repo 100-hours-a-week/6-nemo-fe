@@ -34,6 +34,7 @@ export { default as sorry } from "./sorry.svg";
 // export { default as user } from "./user.png"
 export { default as user } from "./user.svg"
 export { default as users } from './users.png'
+export { default as users_outline } from './users_outline.svg'
 export { default as crown } from './crown.png'
 export { default as crown_yello } from './crown_yellow.png'
 // 카테고리
