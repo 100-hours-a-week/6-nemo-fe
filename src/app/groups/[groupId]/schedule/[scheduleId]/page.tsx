@@ -3,7 +3,6 @@
 import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import {
-  crown_yello,
   location_icon,
   more_icon,
   profile_icon,
@@ -21,7 +20,12 @@ export default function ScheduleDetailPage() {
   const router = useRouter();
   const scheduleId = Number(params.scheduleId);
 
-  const { data: schedule, isLoading, error } = useScheduleById(scheduleId);
+  const {
+    data: schedule,
+    isLoading,
+    error,
+    refetch,
+  } = useScheduleById(scheduleId);
 
   const participationMutation = useUpdateScheduleParticipation(scheduleId);
 
@@ -29,12 +33,7 @@ export default function ScheduleDetailPage() {
   const handleParticipation = (status: "ACCEPTED" | "REJECTED") => {
     participationMutation.mutate(status, {
       onSuccess: () => {
-        toast("일정 참여 응답을 완료하였습니다", {
-          action: {
-            label: "확인",
-            onClick: () => console.log("Undo"),
-          },
-        });
+        refetch();
       },
     });
   };
@@ -99,7 +98,9 @@ export default function ScheduleDetailPage() {
       {/* 상단 헤더 */}
       <header className="relative flex h-14 items-center justify-between border-gray-200 px-4">
         <BackButton />
-        <h1 className="text-headline-1 font-semibold">{schedule.group.name}</h1>
+        <h1 className="text-headline-1 font-semibold">
+          {schedule.group?.name}
+        </h1>
         <button className="flex h-8 w-8 items-center justify-center rounded-full">
           <Image src={more_icon} alt="더보기" width={20} height={20} />
         </button>
@@ -141,7 +142,7 @@ export default function ScheduleDetailPage() {
               <p className="text-body-2 text-label-strong-2 font-semibold">
                 {eventDate.dayOnly}
               </p>
-              <p className="text-caption-1 text-label-normal">
+              <p className="text-label-1 text-label-normal">
                 {eventDate.timeOnly}
               </p>
             </div>
@@ -339,14 +340,6 @@ export default function ScheduleDetailPage() {
           </button>
         </div>
       </div>
-
-      {/* 에러 메시지 표시 */}
-      {participationMutation.isError && (
-        <div className="text-error bg-error-container fixed right-0 bottom-20 left-0 mx-auto max-w-[calc(430px-2rem)] rounded-md p-3 text-center">
-          일정 참여 응답에 실패했습니다. <br />
-          다시 시도해주세요.
-        </div>
-      )}
     </div>
   );
 }
