@@ -26,7 +26,7 @@ export const GroupPlan = ({ plan }: { plan: string }) => {
     <div className="bg-common-100 rounded-md p-4 shadow-xs">
       {steps.map((step) => (
         <div key={step.id} className="mb-4 last:mb-0">
-          <h4 className="text-body-1 text-label-assistive bg-primary-light rounded-ctn-sm mb-2 inline-block px-2 py-1 font-medium">
+          <h4 className="text-body-1 text-common-100 rounded-ctn-xs bg-primary-strong mb-2 inline-block px-2 py-1 font-medium">
             Step{step.id}
           </h4>
           <div className="text-body-2 text-label-assistive pl-4 whitespace-pre-line">
