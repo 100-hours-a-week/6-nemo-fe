@@ -14,12 +14,15 @@ export default function AuthInterceptor() {
     useEffect(() => {
         if (!isHydrated) return;
 
-        console.log("하이드레이션 완료 후 인증 상태:", isLoggedIn);
-
         const isProtectedPath = protectedPaths.some(path => pathname.startsWith(path));
 
         if (isProtectedPath && !isLoggedIn) {
             router.replace("/login");
+        }
+
+        const isLoginpage = pathname.startsWith('/login');
+        if (isLoginpage && isLoggedIn) {
+            router.replace("/")
         }
     }, [isLoggedIn, router, pathname, isHydrated]);
 
