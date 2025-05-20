@@ -1,0 +1,46 @@
+dialog {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 100;
+}
+
+dialog[open] {
+  opacity: 1;
+}
+
+dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+  transition: backdrop-filter 0.3s ease;
+}
+
+/* Dialog 애니메이션 */
+@keyframes dialog-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes dialog-fade-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+dialog[open] {
+  animation: dialog-fade-in 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+dialog.closing {
+  animation: dialog-fade-out 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}

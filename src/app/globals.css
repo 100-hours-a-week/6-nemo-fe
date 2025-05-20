@@ -2,6 +2,7 @@
 @import "../shared/styles/colors.css";
 @import "../shared/styles/typography.css";
 @import "../shared/styles/container.css";
+@import "../shared/styles/dialog.css";
 
 :root {
   --background: #ffffff;
