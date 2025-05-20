@@ -578,7 +578,7 @@ export default function Page() {
               onChange={(e) =>
                 setEditedGroupData({
                   ...editedGroupData,
-                  summary: e.target.value.replace(/\n/g, "\\n"),
+                  summary: e.target.value,
                 })
               }
               className="text-body-1 focus:border-primary h-16 w-full rounded-md border border-gray-300 p-2 outline-none"
@@ -594,7 +594,7 @@ export default function Page() {
               onChange={(e) =>
                 setEditedGroupData({
                   ...editedGroupData,
-                  description: e.target.value.replace(/\n/g, "\\n"),
+                  description: e.target.value,
                 })
               }
               className="text-body-1 focus:border-primary h-48 w-full rounded-md border border-gray-300 p-2 outline-none"
@@ -656,7 +656,7 @@ export default function Page() {
                 onChange={(e) =>
                   setEditedGroupData({
                     ...editedGroupData,
-                    plan: e.target.value.replace(/\n/g, "\\n"),
+                    plan: e.target.value,
                   })
                 }
                 className="text-body-1 focus:border-primary h-64 w-full rounded-md border border-gray-300 p-2 outline-none"

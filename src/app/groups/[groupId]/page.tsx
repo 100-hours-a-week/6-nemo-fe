@@ -67,7 +67,7 @@ export default function GroupDetailPage() {
         // 5초 후 인터벌 정리
         setTimeout(() => {
           clearInterval(interval);
-        }, 5000);
+        }, 3000);
       }
     } catch (error) {
       // 에러 토스트 메시지 표시
