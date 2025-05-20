@@ -13,6 +13,7 @@ import {
 import { ScheduleParticipant, useScheduleById } from "@/entities/schdule";
 import BackButton from "@/shared/ui/back-button";
 import { useUpdateScheduleParticipation } from "@/features/schedule/model/use-update-schedule-participation";
+import { toast } from "sonner";
 
 export default function ScheduleDetailPage() {
   const params = useParams();
@@ -100,7 +101,10 @@ export default function ScheduleDetailPage() {
         <h1 className="text-headline-1 font-semibold">
           {schedule.group?.name}
         </h1>
-        <button className="flex h-8 w-8 items-center justify-center rounded-full">
+        <button
+          className="flex h-8 w-8 items-center justify-center"
+          onClick={() => toast("일정 수정 기능을 구현 중 입니다.")}
+        >
           <Image src={more_icon} alt="더보기" width={20} height={20} />
         </button>
       </header>
