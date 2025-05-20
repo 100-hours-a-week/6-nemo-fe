@@ -2,7 +2,7 @@ name: Frontend CI/CD for dev-v1
 
 on:
   push:
-    branches: [dev, infra/ci-cd]
+    branches: [ dev ]
 
 jobs:
   deploy:
