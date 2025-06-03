@@ -2,6 +2,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { post } from "@/features/auth/model/auth-client";
 import { CreateGroupRequest, GroupDetails } from "@/entities/group/model/types";
 import { groupQuery } from "@/entities/group/api/group.query";
+import { errorToast, successToast } from "@/shared/lib";
+import { CREATE_GROUP_MESSAGES } from "../model/constants";
 
 export const useCreateGroup = () => {
     const queryClient = useQueryClient();
@@ -12,7 +14,7 @@ export const useCreateGroup = () => {
             const result = await response.json();
 
             if (result.code !== 201) {
-                throw new Error(result.message || "모임 생성에 실패했습니다.");
+                throw new Error(result.message);
             }
 
             return result.data;
@@ -21,6 +23,11 @@ export const useCreateGroup = () => {
             queryClient.invalidateQueries({
                 queryKey: groupQuery.lists()
             });
+
+            successToast(CREATE_GROUP_MESSAGES.SUCCESS);
         },
+        onError: (error) => {
+            errorToast(CREATE_GROUP_MESSAGES.ERROR, error.message);
+        }
     });
 };

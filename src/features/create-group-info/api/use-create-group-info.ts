@@ -1,6 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
 import { post } from "@/features/auth/model/auth-client";
 import { CreateGroupInfoRequest, GeneratedGroupData } from "@/entities/group/model/types";
+import { errorToast } from "@/shared/lib";
+import { CREATE_GROUP_INFO_MESSAGES } from "../model/constants";
 
 export const useCreateGroupInfo = () => {
     return useMutation({
@@ -9,10 +11,13 @@ export const useCreateGroupInfo = () => {
             const result = await response.json();
 
             if (result.code !== 200) {
-                throw new Error(result.message || "모임 정보 생성에 실패했습니다.");
+                throw new Error(result.message);
             }
 
             return result.data;
         },
+        onError: (error) => {
+            errorToast(CREATE_GROUP_INFO_MESSAGES.ERROR, error.message);
+        }
     });
 };

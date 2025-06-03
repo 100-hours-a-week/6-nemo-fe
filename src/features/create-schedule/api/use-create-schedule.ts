@@ -2,7 +2,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { post } from "@/features/auth/model/auth-client";
 import { CreateScheduleRequest } from "@/entities/schdule/model/types";
 import { scheduleQuery } from "@/entities/schdule/api/schedule.query";
-import { toast } from "sonner";
+import { errorToast, successToast } from "@/shared/lib";
+import { CREATE_SCHEDULE_MESSAGES } from "../model/constants";
 
 export const useCreateSchedule = () => {
     const queryClient = useQueryClient();
@@ -13,7 +14,7 @@ export const useCreateSchedule = () => {
             const result = await response.json();
 
             if (result.code !== 201) {
-                throw new Error(result.message || '일정 생성에 실패했습니다.');
+                throw new Error(result.message);
             }
 
             return result.data;
@@ -23,19 +24,10 @@ export const useCreateSchedule = () => {
                 queryKey: scheduleQuery.lists(variables.groupId)
             });
 
-            toast.success("일정 참여 응답을 완료하였습니다");
+            successToast(CREATE_SCHEDULE_MESSAGES.SUCCESS);
         },
-
         onError: (error) => {
-            toast.error(
-                error instanceof Error
-                    ? error.message
-                    : "일정 생성에 실패했습니다.",
-                {
-                    description: "잠시 후 다시 시도해주세요.",
-                    position: "top-center",
-                },
-            );
+            errorToast(CREATE_SCHEDULE_MESSAGES.ERROR, error.message);
         }
     });
 };
