@@ -1,9 +1,9 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useInfiniteSchedules } from "../model/use-infinite-schedules";
-import { ScheduleCard } from "@/entities/schdule";
+import { ScheduleCard, scheduleQuery } from "@/entities/schdule";
 import { useMemo } from "react";
+import { useInfiniteQuery } from "@tanstack/react-query";
 
 export const ScheduleList = ({ groupId }: { groupId: number }) => {
   const router = useRouter();
@@ -14,13 +14,12 @@ export const ScheduleList = ({ groupId }: { groupId: number }) => {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-  } = useInfiniteSchedules(groupId);
+  } = useInfiniteQuery(scheduleQuery.list(groupId)); // 해당 모임의 일정 리스트
 
-  const { schedules, totalElements } = useMemo(() => {
+  const { schedules } = useMemo(() => {
     const scheduleArray = data?.pages.flatMap((page) => page.schedules) ?? [];
-    const total = data?.pages[0]?.totalElements ?? 0;
 
-    return { schedules: scheduleArray, totalElements: total };
+    return { schedules: scheduleArray };
   }, [data]);
 
   if (isLoading && schedules.length === 0) {
@@ -59,7 +58,7 @@ export const ScheduleList = ({ groupId }: { groupId: number }) => {
     <div className="space-y-2">
       <div className="mb-4 flex items-center justify-between">
         <h3 className="text-heading-2 text-label-strong-1 font-semibold">
-          일정 목록 ({totalElements})
+          일정 목록 ({data?.pages[0]?.totalElements})
         </h3>
         <button
           className="bg-primary text-common-100 hover:bg-primary-strong rounded-full px-4 py-1 text-sm transition"

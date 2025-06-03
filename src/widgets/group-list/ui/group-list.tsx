@@ -1,11 +1,10 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useInView } from "react-intersection-observer";
-import { useInfiniteSearchGroups } from "../model/use-infinite-search-groups";
-import { useInfiniteCategoryGroups } from "../model/use-infinite-category-groups";
-import { useInfiniteAllGroups } from "../model/use-infinite-all-groups";
 import { GroupCard } from "@/entities/group";
+import { groupQuery } from "@/entities/group/api/group.query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 
 export const GroupList = ({
   category,
@@ -16,12 +15,15 @@ export const GroupList = ({
 }) => {
   const { ref: loadMoreRef, inView } = useInView();
 
+  // 모임 리스트 쿼리 유형
+  const queryOpt = category
+    ? groupQuery.categoryGroups(category) // 카테고리별 모임 쿼리
+    : keyword
+      ? groupQuery.searchGroups(keyword) // 키워드 검색 모임 쿼리
+      : groupQuery.allGroups(); // 전체 모임 쿼리
+
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
-    category
-      ? useInfiniteCategoryGroups(category)
-      : keyword
-        ? useInfiniteSearchGroups(keyword)
-        : useInfiniteAllGroups();
+    useInfiniteQuery(queryOpt);
 
   useEffect(() => {
     if (inView && hasNextPage) {
@@ -29,7 +31,11 @@ export const GroupList = ({
     }
   }, [inView, hasNextPage, fetchNextPage]);
 
-  const allGroups = data?.pages.flatMap((page) => page.groups) ?? [];
+  const { groups } = useMemo(() => {
+    const groupArray = data?.pages.flatMap((page) => page.groups) ?? [];
+
+    return { groups: groupArray };
+  }, [data]);
 
   if (status === "pending") {
     return (
@@ -47,7 +53,7 @@ export const GroupList = ({
     );
   }
 
-  if (allGroups.length === 0) {
+  if (groups.length === 0) {
     return (
       <div className="text-body-1 py-8 text-center text-gray-500">
         검색 결과가 없습니다.
@@ -57,7 +63,7 @@ export const GroupList = ({
 
   return (
     <div className="space-y-4">
-      {allGroups.map((group, index) => (
+      {groups.map((group, index) => (
         <GroupCard key={`group-${group.id}-${index}`} group={group} />
       ))}
 
@@ -69,7 +75,7 @@ export const GroupList = ({
         )}
       </div>
 
-      {!hasNextPage && allGroups.length > 0 && (
+      {!hasNextPage && groups.length > 0 && (
         <div className="text-caption-1 text-label-normal pt-2 text-center">
           모든 모임을 불러왔습니다.
         </div>
