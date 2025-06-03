@@ -21,10 +21,9 @@ export const groupQuery = {
         }),
 
     // 모임 멤버 조회
-    members: () => [...groupQuery.all(), "members"] as const,
-    groupMembers: (groupId: string | number) =>
+    members: (groupId: string | number) =>
         queryOptions({
-            queryKey: [...groupQuery.members(), groupId],
+            queryKey: [...groupQuery.all(), "members", groupId],
             queryFn: () => getGroupMembers(groupId),
             enabled: !!groupId,
             staleTime: 1000 * 60 * 5,

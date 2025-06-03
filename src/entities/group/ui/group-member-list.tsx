@@ -3,15 +3,19 @@
 import { useState } from "react";
 import Image from "next/image";
 import { crown_yello, user } from "@/shared/assets/images";
-import { useGroupMembers } from "../model/use-group-members";
 import { Member } from "../model/types";
+import { groupQuery } from "../api/group.query";
+import { group } from "console";
+import { useQuery } from "@tanstack/react-query";
 
 export const GroupMemberList = ({ groupId }: { groupId: string }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const { data, isLoading, error } = useGroupMembers(groupId);
-
-  const members = data?.participants || [];
+  const {
+    data: members,
+    isLoading,
+    error,
+  } = useQuery(groupQuery.members(groupId));
 
   if (isLoading) {
     return (

@@ -5,7 +5,7 @@ import { toast } from "sonner";
 
 export type ParticipationStatus = "ACCEPTED" | "REJECTED";
 
-export const useUpdateScheduleParticipation = (scheduleId: number) => {
+export const useUpdateScheduleResponse = (scheduleId: number) => {
     const queryClient = useQueryClient();
 
     return useMutation({
@@ -28,7 +28,15 @@ export const useUpdateScheduleParticipation = (scheduleId: number) => {
             });
         },
         onError: (error) => {
-            toast.error(`${error}`);
-        },
+            toast.error(
+                error instanceof Error
+                    ? error.message
+                    : "일정 참여 응답에 실패하였습니다.",
+                {
+                    description: "잠시 후 다시 시도해주세요.",
+                    position: "top-center",
+                },
+            );
+        }
     });
 };

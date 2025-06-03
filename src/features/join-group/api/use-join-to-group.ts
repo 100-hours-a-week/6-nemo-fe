@@ -1,8 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { post } from "@/features/auth/model/auth-client";
 import { groupQuery } from "@/entities/group/api/group.query";
+import { toast } from "sonner";
 
-export const useApplyToGroup = (groupId: number | string) => {
+export const useJoinToGroup = (groupId: number | string) => {
     const queryClient = useQueryClient();
 
     return useMutation({
@@ -18,8 +19,24 @@ export const useApplyToGroup = (groupId: number | string) => {
         },
         onSuccess: () => {
             queryClient.invalidateQueries({
-                queryKey: groupQuery.groupMembers(groupId).queryKey
+                queryKey: groupQuery.members(groupId).queryKey
             });
+
+            // 성공 토스트 메시지 표시
+            toast.success("모임 가입 신청이 완료되었습니다!", {
+                position: "top-center",
+            });
+        },
+        onError: (error) => {
+            toast.error(
+                error instanceof Error
+                    ? error.message
+                    : "모임 가입 신청에 실패했습니다.",
+                {
+                    description: "잠시 후 다시 시도해주세요.",
+                    position: "top-center",
+                },
+            );
         }
     });
 };

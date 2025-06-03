@@ -50,6 +50,7 @@ export type CreateGroupInfoRequest = {
     category: string;
     location: string;
     period: string;
+    maxUserCount: number;
     isPlanCreated: boolean;
 }
 
