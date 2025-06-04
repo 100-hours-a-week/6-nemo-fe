@@ -12,16 +12,10 @@ import { cn } from "lib/utils";
 import { CATEGORIES } from "@/features/category/category-filter/model/constants";
 import { GeneratedGroupData } from "@/entities/group";
 import { useCreateGroup } from "@/features/create-group";
-import { useCreateGroupInfo } from "@/features/create-group-info";
-
-// 모임 기간 옵션
-const PERIOD_OPTIONS = [
-  { id: "LESS_THAN_1_MONTH", label: "1개월 이하" },
-  { id: "ONE_TO_THREE_MONTHS", label: "1~3개월" },
-  { id: "THREE_TO_SIX_MONTHS", label: "3~6개월" },
-  { id: "SIX_TO_TWELVE_MONTHS", label: "6~12개월" },
-  { id: "MORE_THAN_1_YEAR", label: "1년 이상" },
-];
+import {
+  PERIOD_OPTIONS,
+  useCreateGroupInfo,
+} from "@/features/create-group-info";
 
 export default function Page() {
   const router = useRouter();
