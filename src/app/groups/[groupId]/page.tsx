@@ -1,22 +1,32 @@
 "use client";
 
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 import { SwitchGroupInfoTabs } from "@/features/group";
 import { ScheduleList } from "@/widgets/schdule-list";
-import { GroupMemberList, GroupPlan, useGroupById } from "@/entities/group";
+import { GroupMemberList, GroupPlan } from "@/entities/group";
 import { GroupInfo } from "@/widgets/group-details";
 import BackButton from "@/shared/ui/back-button";
-import { useApplyToGroup } from "@/entities/group/model/use-apply-to-group";
-import { toast } from "sonner";
 import JSConfetti from "js-confetti";
 import { ConfirmDialog } from "@/shared/ui";
+import { useQuery } from "@tanstack/react-query";
+import { groupQuery } from "@/entities/group/api/group.query";
+import { useJoinToGroup } from "@/features/join-group/api/use-join-to-group";
 
 export default function GroupDetailPage() {
   const params = useParams();
-  const router = useRouter();
   const groupId = params.groupId as string;
+
+  // 모임 상세 정보 Query 훅
+  const {
+    data: groupDetails,
+    isLoading,
+    error,
+  } = useQuery(groupQuery.detail(Number(groupId)));
+
+  // 가입 신청 Mutation 훅
+  const { mutate, isPending } = useJoinToGroup(groupId);
   const [activeTab, setActiveTab] = useState<"info" | "schedule">("info");
   const confettiRef = useRef<JSConfetti | null>(null);
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
@@ -29,60 +39,34 @@ export default function GroupDetailPage() {
     };
   }, []);
 
-  const {
-    data: groupDetails,
-    isLoading,
-    error,
-  } = useGroupById(Number(groupId));
-
-  // 가입 신청 뮤테이션 훅 사용
-  const applyMutation = useApplyToGroup(groupId);
-
   // 가입 신청 핸들러
-  const handleApplyToGroup = async () => {
-    try {
-      await applyMutation.mutateAsync();
+  const handleApplyToGroup = () => {
+    mutate();
 
-      // 성공 토스트 메시지 표시
-      toast.success("모임 가입 신청이 완료되었습니다!", {
-        position: "top-center",
+    // 컨페티 효과 추가 (5초 동안)
+    if (confettiRef.current) {
+      // 초기 컨페티
+      confettiRef.current.addConfetti({
+        confettiNumber: 200,
       });
 
-      // 컨페티 효과 추가 (5초 동안)
-      if (confettiRef.current) {
-        // 초기 컨페티
-        confettiRef.current.addConfetti({
-          confettiNumber: 200,
-        });
+      // 1초마다 추가 컨페티 (총 5초)
+      const interval = setInterval(() => {
+        if (confettiRef.current) {
+          confettiRef.current.addConfetti({
+            confettiNumber: 100,
+          });
+        }
+      }, 1000);
 
-        // 1초마다 추가 컨페티 (총 5초)
-        const interval = setInterval(() => {
-          if (confettiRef.current) {
-            confettiRef.current.addConfetti({
-              confettiNumber: 100,
-            });
-          }
-        }, 1000);
-
-        // 5초 후 인터벌 정리
-        setTimeout(() => {
-          clearInterval(interval);
-        }, 3000);
-      }
-    } catch (error) {
-      // 에러 토스트 메시지 표시
-      toast.error(
-        error instanceof Error
-          ? error.message
-          : "모임 가입 신청에 실패했습니다.",
-        {
-          description: "잠시 후 다시 시도해주세요.",
-          position: "top-center",
-        },
-      );
+      // 5초 후 인터벌 정리
+      setTimeout(() => {
+        clearInterval(interval);
+      }, 3000);
     }
   };
 
+  // 모임 상세 정보 로딩 화면
   if (isLoading) {
     return (
       <div className="flex h-screen w-full items-center justify-center">
@@ -91,6 +75,7 @@ export default function GroupDetailPage() {
     );
   }
 
+  // 모임 상세 정보 호출 실패
   if (error || !groupDetails) {
     return (
       <div className="p-ctn-lg flex h-screen w-full flex-col items-center justify-center">
@@ -177,9 +162,9 @@ export default function GroupDetailPage() {
       <button
         className="bg-primary hover:bg-primary-strong text-common-100 fixed right-0 bottom-4 left-0 mx-auto w-[calc(100%-2rem)] max-w-[calc(430px-2rem)] rounded-full py-3 font-medium shadow-lg transition"
         onClick={() => setShowConfirmDialog(true)}
-        disabled={applyMutation.isPending}
+        disabled={isPending}
       >
-        {applyMutation.isPending ? "신청 처리 중..." : "모임 신청하기"}
+        {isPending ? "신청 처리 중..." : "모임 신청하기"}
       </button>
     </div>
   );

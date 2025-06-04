@@ -10,10 +10,11 @@ import {
   user,
   users_icon,
 } from "@/shared/assets/images";
-import { ScheduleParticipant, useScheduleById } from "@/entities/schdule";
+import { ScheduleParticipant, scheduleQuery } from "@/entities/schdule";
 import BackButton from "@/shared/ui/back-button";
-import { useUpdateScheduleParticipation } from "@/features/schedule/model/use-update-schedule-participation";
 import { toast } from "sonner";
+import { useQuery } from "@tanstack/react-query";
+import { useUpdateScheduleResponse } from "@/features/respond-schedule/api/use-update-schedule-response";
 
 export default function ScheduleDetailPage() {
   const params = useParams();
@@ -24,18 +25,13 @@ export default function ScheduleDetailPage() {
     data: schedule,
     isLoading,
     error,
-    refetch,
-  } = useScheduleById(scheduleId);
+  } = useQuery(scheduleQuery.detail(scheduleId));
 
-  const participationMutation = useUpdateScheduleParticipation(scheduleId);
+  const { mutate, isPending } = useUpdateScheduleResponse(scheduleId);
 
-  // 참여 상태 변경 핸들러 추가
+  // 참여 상태 변경 핸들러
   const handleParticipation = (status: "ACCEPTED" | "REJECTED") => {
-    participationMutation.mutate(status, {
-      onSuccess: () => {
-        refetch();
-      },
-    });
+    mutate(status);
   };
 
   if (isLoading) {
@@ -339,16 +335,16 @@ export default function ScheduleDetailPage() {
           <button
             className="bg-primary text-common-100 rounded-ctn-sm flex-1 py-3 font-medium"
             onClick={() => handleParticipation("ACCEPTED")}
-            disabled={participationMutation.isPending}
+            disabled={isPending}
           >
-            {participationMutation.isPending ? "처리 중..." : "참 여"}
+            {isPending ? "처리 중..." : "참여"}
           </button>
           <button
             className="rounded-ctn-sm flex-1 bg-gray-200 py-3 font-medium text-gray-600"
             onClick={() => handleParticipation("REJECTED")}
-            disabled={participationMutation.isPending}
+            disabled={isPending}
           >
-            {participationMutation.isPending ? "처리 중..." : "불 참"}
+            {isPending ? "처리 중..." : "불참"}
           </button>
         </div>
       </div>

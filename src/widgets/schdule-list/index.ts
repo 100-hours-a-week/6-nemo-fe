@@ -1,3 +1,5 @@
+// ui
 export * from './ui/schedule-list'
-export * from './model/use-infinite-schedules'
+
+// api
 export * from '../../entities/schdule/api/get-schedules'
