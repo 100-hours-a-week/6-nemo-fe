@@ -1,7 +1,7 @@
 import { Member } from "@/entities/group";
 
 export type Schedule = {
-    id: number;
+    scheduleId: number;
     title: string;
     startAt: string;
     address: string;

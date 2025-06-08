@@ -3,7 +3,6 @@ export type GroupItem = {
     name: string;
     category: string;
     summary: string;
-    description: string;
     location: string;
     currentUserCount: number;
     maxUserCount: number;
