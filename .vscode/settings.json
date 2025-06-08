@@ -12,7 +12,6 @@
         "typescript",
         "typescriptreact"
     ],
-    "typescript.preferences.importModuleSpecifier": "relative",
     "files.insertFinalNewline": true,
     "folder-color.pathColors": [
         // Mac
