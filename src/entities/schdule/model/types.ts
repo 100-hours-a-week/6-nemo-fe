@@ -7,7 +7,7 @@ export type Schedule = {
     address: string;
     description: string;
     ownerName: string;
-    scheduleStatus?: 'RECRUITING' | 'CLOSED';
+    status: 'RECRUITING' | 'CLOSED';
     currentUserCount?: number;
 };
 
@@ -34,4 +34,13 @@ export type CreateScheduleRequest = {
     address: string;
     addressDetail: string;
     startAt: string;
+};
+
+export type MyScheduleItem = Schedule & {
+    groupName: string;
+};
+
+export type MySchedulesResponse = {
+    notResponded: { schedule: MyScheduleItem; }[];
+    respondedOngoing: { schedule: MyScheduleItem; }[];
 };

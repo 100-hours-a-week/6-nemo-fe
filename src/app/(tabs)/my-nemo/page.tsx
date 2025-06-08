@@ -2,8 +2,7 @@
 
 import { SwitchGroupToScheduleTabs } from "@/features/group/switch-group-to-schedule-tabs/ui/switch-group-to-schedule-tabs";
 import { MyGroupList } from "@/widgets/my-group-list";
-
-import { ScheduleList } from "@/widgets/schdule-list";
+import { MyScheduleList } from "@/widgets/my-schedule-list";
 import { useState } from "react";
 
 export default function Page() {
@@ -17,11 +16,7 @@ export default function Page() {
         onTabChange={setActiveTab}
       />
       <main className="bg-common-100 min-h-screen p-4">
-        {activeTab === "my-nemo" ? (
-          <MyGroupList />
-        ) : (
-          <ScheduleList groupId={1} />
-        )}
+        {activeTab === "my-nemo" ? <MyGroupList /> : <MyScheduleList />}
       </main>
     </>
   );

@@ -1,10 +1,9 @@
 import Link from "next/link";
-import { Schedule } from "../model/types";
+import { MyScheduleItem } from "../model/types";
 
-// 날짜 및 시간 포맷 유틸리티 함수 (추후 lib에 분리)
 const formatDatetime = (dateTimeStr: string) => {
   try {
-    const date = new Date(dateTimeStr);
+    const date = new Date(dateTimeStr.replace(" ", "T"));
     return {
       date: date.toLocaleDateString("ko-KR", {
         year: "numeric",
@@ -18,54 +17,23 @@ const formatDatetime = (dateTimeStr: string) => {
       }),
     };
   } catch (e) {
-    return { date: "", time: "" };
+    return { date: dateTimeStr, time: "" };
   }
 };
 
-export const ScheduleCard = ({
-  schedule,
-  href,
-}: {
-  schedule: Schedule;
-  href: string;
-}) => {
+export const MyScheduleCard = ({ schedule }: { schedule: MyScheduleItem }) => {
   const { date, time } = formatDatetime(schedule.startAt);
 
-  // 일정 상태에 따른 태그 스타일
-  const getStatusStyle = () => {
-    switch (schedule.status) {
-      case "RECRUITING":
-        return "bg-primary-light text-primary";
-      case "CLOSED":
-        return "bg-gray-200 text-gray-600";
-      default:
-        return "bg-gray-200 text-gray-600";
-    }
-  };
-
-  // 일정 상태 한글 표시
-  const getStatusText = () => {
-    switch (schedule.status) {
-      case "RECRUITING":
-        return "모집중";
-      case "CLOSED":
-        return "종료";
-      default:
-        return "알 수 없음";
-    }
-  };
-
   return (
-    <Link href={href}>
+    <Link href={`/schedule/${schedule.scheduleId}`}>
       <div className="bg-common-100 hover:bg-strong mb-3 rounded-lg border border-gray-200 p-4 shadow-sm transition hover:shadow-md">
         <div className="mb-3 flex items-center justify-between">
           <h3 className="text-headline-1 line-clamp-1 font-semibold">
             {schedule.title}
           </h3>
-          <span
-            className={`text-caption-1 rounded-full px-2 py-0.5 ${getStatusStyle()}`}
-          >
-            {getStatusText()}
+          {/* 모임명 */}
+          <span className="text-headline-3 text-primary font-medium">
+            {schedule.groupName}
           </span>
         </div>
 

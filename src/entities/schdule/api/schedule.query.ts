@@ -1,6 +1,7 @@
 import { infiniteQueryOptions, queryOptions } from "@tanstack/react-query";
-import { getSchedules } from "./get-schedules";
+import { getMySchedules } from "./get-my-schedules";
 import { getScheduleDetails } from "./get-schedule-details";
+import { getSchedules } from "./get-schedules";
 
 export const scheduleQuery = {
     all: (groupId: number) => ["group", groupId, "schedule"] as const,
@@ -29,5 +30,13 @@ export const scheduleQuery = {
             queryFn: () => getScheduleDetails(scheduleId),
             enabled: !!scheduleId,
             staleTime: 1000 * 60 * 5, // 5분
-        })
+        }),
+
+    // 나의 일정 조회
+    mySchedules: () =>
+        queryOptions({
+            queryKey: ["schedule", "me"],
+            queryFn: () => getMySchedules(),
+            staleTime: 1000 * 60 * 5, // 5분
+        }),
 }
