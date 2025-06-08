@@ -1,22 +1,22 @@
-import Image from "next/image";
-import Link from "next/link";
-import { cn } from "lib/utils";
 import {
   bg_group2,
   location_icon,
   users_icon,
 } from "@/shared/assets/images/index";
-import { Group } from "../model/types";
+import { cn } from "lib/utils";
+import Image from "next/image";
+import Link from "next/link";
+import { GroupItem } from "../model/types";
 
 export const GroupCard = ({
   group,
   className,
 }: {
-  group: Group;
+  group: GroupItem;
   className?: string;
 }) => {
   return (
-    <Link href={`/groups/${group.id}`} className={cn("block", className)}>
+    <Link href={`/groups/${group.groupId}`} className={cn("block", className)}>
       <div className="bg-common-100 rounded-ctn-sm overflow-hidden shadow-sm">
         <div className="relative h-50 w-full">
           {group.imageUrl ? (
