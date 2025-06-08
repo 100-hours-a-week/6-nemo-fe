@@ -1,7 +1,7 @@
 "use client";
 
-import { useParams, useRouter } from "next/navigation";
-import Image from "next/image";
+import { ScheduleParticipant, scheduleQuery } from "@/entities/schdule";
+import { useUpdateScheduleResponse } from "@/features/respond-schedule/api/use-update-schedule-response";
 import {
   location_icon,
   more_icon,
@@ -10,11 +10,11 @@ import {
   user,
   users_icon,
 } from "@/shared/assets/images";
-import { ScheduleParticipant, scheduleQuery } from "@/entities/schdule";
-import BackButton from "@/shared/ui/back-button";
-import { toast } from "sonner";
+import { BackButton } from "@/shared/ui";
 import { useQuery } from "@tanstack/react-query";
-import { useUpdateScheduleResponse } from "@/features/respond-schedule/api/use-update-schedule-response";
+import Image from "next/image";
+import { useParams, useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export default function ScheduleDetailPage() {
   const params = useParams();
@@ -93,7 +93,7 @@ export default function ScheduleDetailPage() {
     <div className="relative min-h-screen pb-24">
       {/* 상단 헤더 */}
       <header className="relative flex h-14 items-center justify-between border-gray-200 px-4">
-        <BackButton />
+        <BackButton/>
         <h1 className="text-headline-1 font-semibold">
           {schedule.group?.name}
         </h1>
@@ -274,7 +274,7 @@ export default function ScheduleDetailPage() {
                           </span>
                         </div>
                       </div>
-                    ),
+                    )
                   )}
                 </div>
               </div>
@@ -320,7 +320,7 @@ export default function ScheduleDetailPage() {
                           </span>
                         </div>
                       </div>
-                    ),
+                    )
                   )}
                 </div>
               </div>
