@@ -1,4 +1,4 @@
-import { infiniteQueryOptions, keepPreviousData, queryOptions } from "@tanstack/react-query";
+import { infiniteQueryOptions, queryOptions } from "@tanstack/react-query";
 import { getAllGroups } from "./get-all-groups";
 import { getCategoryGroups } from "./get-category-groups";
 import { getSearchGroups } from "./get-search-groups";
@@ -10,8 +10,8 @@ export const groupQuery = {
 
     lists: () => [...groupQuery.all(), "list"] as const,
 
-    // 모임 상세 조회
     details: () => [...groupQuery.all(), "detail"] as const,
+    // 모임 상세 조회
     detail: (groupId: number) =>
         queryOptions({
             queryKey: [...groupQuery.details(), groupId],
