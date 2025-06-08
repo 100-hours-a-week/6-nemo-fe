@@ -13,6 +13,7 @@
         "typescriptreact"
     ],
     "typescript.preferences.importModuleSpecifier": "relative",
+    "files.insertFinalNewline": true,
     "folder-color.pathColors": [
         {
             "folderPath": "6-nemo-fe/src/widgets/",
@@ -38,5 +39,5 @@
             "folderPath": "6-nemo-fe/src/features/",
             "badge": "🔵"
         }
-    ],
+    ]
 }
