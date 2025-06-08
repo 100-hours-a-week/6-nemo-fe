@@ -3,7 +3,7 @@
 import { cn } from "lib/utils";
 import { useRouter } from "next/navigation";
 
-const BackButton = ({
+export const BackButton = ({
   href,
   fill = false,
   className,
@@ -19,7 +19,7 @@ const BackButton = ({
       className={cn(
         "z-10 flex h-9 w-9 items-center justify-center rounded-full",
         fill ? "bg-common-100 shadow-md" : "",
-        className,
+        className
       )}
       onClick={() => (href ? router.push(href) : router.back())}
     >
@@ -41,5 +41,3 @@ const BackButton = ({
     </div>
   );
 };
-
-export default BackButton;
