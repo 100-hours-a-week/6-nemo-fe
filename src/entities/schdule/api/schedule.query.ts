@@ -22,7 +22,7 @@ export const scheduleQuery = {
         }),
 
     // 일정 상세 조회
-    details: () => ["schedules", "detail"] as const,
+    details: () => ["schedule", "detail"] as const,
     detail: (scheduleId: number) =>
         queryOptions({
             queryKey: [...scheduleQuery.details(), scheduleId],
