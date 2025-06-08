@@ -23,7 +23,7 @@ export default function GroupDetailPage() {
   } = useQuery(groupQuery.detail(Number(groupId)));
 
   // 가입 신청 Mutation 훅
-  const { mutate, isPending } = useJoinToGroup(groupId);
+  const { mutate, isPending } = useJoinToGroup(Number(groupId));
   const [activeTab, setActiveTab] = useState<"info" | "schedule">("info");
   const confettiRef = useRef<JSConfetti | null>(null);
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);

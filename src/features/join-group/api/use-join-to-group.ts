@@ -1,10 +1,10 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { post } from "@/features/auth/model/auth-client";
 import { groupQuery } from "@/entities/group/api/group.query";
-import { JOIN_GROUP_MESSAGES } from "../model/constants";
+import { post } from "@/features/auth/model/auth-client";
 import { errorToast, successToast } from "@/shared/lib";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { JOIN_GROUP_MESSAGES } from "../model/constants";
 
-export const useJoinToGroup = (groupId: number | string) => {
+export const useJoinToGroup = (groupId: number) => {
     const queryClient = useQueryClient();
 
     return useMutation({
@@ -19,8 +19,11 @@ export const useJoinToGroup = (groupId: number | string) => {
             return true;
         },
         onSuccess: () => {
-            queryClient.invalidateQueries({
+            queryClient.refetchQueries({
                 queryKey: groupQuery.members(groupId).queryKey
+            });
+            queryClient.refetchQueries({
+                queryKey: groupQuery.detail(groupId).queryKey
             });
 
             successToast(JOIN_GROUP_MESSAGES.SUCCESS);

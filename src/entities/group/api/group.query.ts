@@ -1,9 +1,9 @@
 import { infiniteQueryOptions, queryOptions } from "@tanstack/react-query";
 import { getAllGroups } from "./get-all-groups";
 import { getCategoryGroups } from "./get-category-groups";
-import { getSearchGroups } from "./get-search-groups";
 import { getGroupDetails } from "./get-group-details";
 import { getGroupMembers } from "./get-group-members";
+import { getSearchGroups } from "./get-search-groups";
 
 export const groupQuery = {
     all: () => ["group"] as const,
@@ -21,7 +21,7 @@ export const groupQuery = {
         }),
 
     // 모임 멤버 조회
-    members: (groupId: string | number) =>
+    members: (groupId: number) =>
         queryOptions({
             queryKey: [...groupQuery.all(), "members", groupId],
             queryFn: () => getGroupMembers(groupId),

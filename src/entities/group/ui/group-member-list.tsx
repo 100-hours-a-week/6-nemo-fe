@@ -14,7 +14,7 @@ export const GroupMemberList = ({ groupId }: { groupId: string }) => {
     data: members,
     isLoading,
     error,
-  } = useQuery(groupQuery.members(groupId));
+  } = useQuery(groupQuery.members(Number(groupId)));
 
   if (isLoading) {
     return (
