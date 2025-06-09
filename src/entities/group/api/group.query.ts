@@ -5,6 +5,7 @@ import { getGroupDetails } from "./get-group-details";
 import { getGroupMembers } from "./get-group-members";
 import { getMyGroups } from "./get-my-groups";
 import { getSearchGroups } from "./get-search-groups";
+import { GroupListResponse } from "../model/types";
 
 export const groupQuery = {
     all: () => ["group"] as const,
@@ -35,7 +36,7 @@ export const groupQuery = {
         infiniteQueryOptions({
             queryKey: [...groupQuery.lists(), "all"],
             queryFn: ({ pageParam = 0 }: { pageParam: number }) => getAllGroups(pageParam),
-            getNextPageParam: (lastPage: any) => {
+            getNextPageParam: (lastPage: GroupListResponse) => {
                 return lastPage.isLast ? undefined : lastPage.pageNumber + 1;
             },
             initialPageParam: 0,
@@ -48,7 +49,7 @@ export const groupQuery = {
             queryKey: [...groupQuery.lists(), "category", category],
             queryFn: ({ pageParam = 0 }: { pageParam: number }) =>
                 getCategoryGroups(category, pageParam),
-            getNextPageParam: (lastPage: any) => {
+            getNextPageParam: (lastPage: GroupListResponse) => {
                 return lastPage.isLast ? undefined : lastPage.pageNumber + 1;
             },
             initialPageParam: 0,
@@ -61,7 +62,7 @@ export const groupQuery = {
             queryKey: [...groupQuery.lists(), "search", keyword],
             queryFn: ({ pageParam = 0 }: { pageParam: number }) =>
                 getSearchGroups(keyword, pageParam),
-            getNextPageParam: (lastPage: any) => {
+            getNextPageParam: (lastPage: GroupListResponse) => {
                 return lastPage.isLast ? undefined : lastPage.pageNumber + 1;
             },
             initialPageParam: 0,
