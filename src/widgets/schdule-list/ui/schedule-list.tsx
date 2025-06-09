@@ -1,9 +1,9 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { ScheduleCard, scheduleQuery } from "@/entities/schdule";
-import { useMemo } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
+import { useMemo } from "react";
 
 export const ScheduleList = ({ groupId }: { groupId: number }) => {
   const router = useRouter();
@@ -71,9 +71,9 @@ export const ScheduleList = ({ groupId }: { groupId: number }) => {
       <div className="space-y-4">
         {schedules.map((schedule) => (
           <ScheduleCard
-            key={schedule.id}
+            key={schedule.scheduleId}
             schedule={schedule}
-            href={`/groups/${groupId}/schedule/${schedule.id}`}
+            href={`/groups/${groupId}/schedule/${schedule.scheduleId}`}
           />
         ))}
       </div>
