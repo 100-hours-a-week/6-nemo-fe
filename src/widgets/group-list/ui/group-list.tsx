@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useEffect, useMemo } from "react";
-import { useInView } from "react-intersection-observer";
 import { GroupCard } from "@/entities/group";
 import { groupQuery } from "@/entities/group/api/group.query";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { useEffect, useMemo } from "react";
+import { useInView } from "react-intersection-observer";
 
 export const GroupList = ({
   category,
@@ -64,7 +64,7 @@ export const GroupList = ({
   return (
     <div className="space-y-4">
       {groups.map((group, index) => (
-        <GroupCard key={`group-${group.id}-${index}`} group={group} />
+        <GroupCard key={`group-${group.groupId}-${index}`} group={group} />
       ))}
 
       <div ref={loadMoreRef} className="h-10 w-full">

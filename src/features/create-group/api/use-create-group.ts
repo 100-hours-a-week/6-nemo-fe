@@ -1,6 +1,6 @@
 import { groupQuery } from "@/entities/group/api/group.query";
 import { CreateGroupRequest, CreateGroupResponse } from "@/entities/group/model/types";
-import { post } from "@/features/auth/model/auth-client";
+import { post } from "@/features/auth/login";
 import { errorToast, successToast } from "@/shared/lib";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CREATE_GROUP_MESSAGES } from "../model/constants";
