@@ -1,7 +1,10 @@
-import { getUserProfile } from "@/entities/profile";
+"use client";
+
+import { profileQuery } from "@/entities/profile";
 import { LogoutButton } from "@/features/auth/logout";
 import { NicknameEditor } from "@/features/profile/update-nickname";
 import { ProfileImageEditor } from "@/features/profile/update-profile-image";
+import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 
 const MenuItem = ({
@@ -57,8 +60,37 @@ const MenuItem = ({
   );
 };
 
-export default async function ProfilePage() {
-  const userProfile = await getUserProfile();
+export default function ProfilePage() {
+  // const userProfile = await getUserProfile(); // 추후 미들웨어로 전환 시
+  const {
+    data: userProfile,
+    isLoading,
+    error,
+  } = useQuery(profileQuery.profile());
+
+  // 로딩 상태
+  if (isLoading) {
+    return (
+      <div className="flex h-screen w-full items-center justify-center">
+        <div className="border-primary h-8 w-8 animate-spin rounded-full border-2 border-t-transparent" />
+      </div>
+    );
+  }
+  if (error || !userProfile) {
+    return (
+      <div className="p-ctn-lg flex h-screen w-full flex-col items-center justify-center">
+        <p className="text-body-1 text-label-normal mb-4">
+          프로필 정보를 불러올 수 없습니다.
+        </p>
+        <button
+          onClick={() => window.location.reload()}
+          className="bg-primary text-common-100 rounded-full px-6 py-2"
+        >
+          다시 시도
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
