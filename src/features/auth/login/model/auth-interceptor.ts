@@ -1,15 +1,15 @@
 "use client";
 
-import { useEffect } from "react";
-import { useRouter, usePathname } from "next/navigation";
 import { useAuthStore } from "@/shared/store/auth-store";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function AuthInterceptor() {
     const { isLoggedIn, isHydrated } = useAuthStore();
     const router = useRouter();
     const pathname = usePathname();
 
-    const protectedPaths = ['/home', '/groups', '/my-nemo', '/profile', '/chatbot'];
+    const protectedPaths = ['/home', '/groups', '/my-nemo', '/my-profile', '/chatbot'];
 
     useEffect(() => {
         if (!isHydrated) return;
