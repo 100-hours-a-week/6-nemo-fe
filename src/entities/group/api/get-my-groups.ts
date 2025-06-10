@@ -1,4 +1,4 @@
-import { get } from "@/features/auth/model/auth-client";
+import { get } from "@/features/auth/login";
 import { GroupItem } from "../model/types";
 
 export const getMyGroups = async (): Promise<GroupItem[]> => {

@@ -1,8 +1,8 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { post } from "@/features/auth/model/auth-client";
-import { CreateScheduleRequest } from "@/entities/schdule/model/types";
 import { scheduleQuery } from "@/entities/schdule/api/schedule.query";
+import { CreateScheduleRequest } from "@/entities/schdule/model/types";
+import { post } from "@/features/auth/login";
 import { errorToast, successToast } from "@/shared/lib";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CREATE_SCHEDULE_MESSAGES } from "../model/constants";
 
 export const useCreateSchedule = () => {

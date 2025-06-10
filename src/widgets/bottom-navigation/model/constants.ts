@@ -39,7 +39,7 @@ export const TAB_NAVIGATION_ITEMS: BottomNavigationItemProps[] = [
         label: '나의네모',
     },
     {
-        href: '/profile',
+        href: '/my-profile',
         activeIcon: profile_active_icon,
         inactiveIcon: profile_icon,
         label: '프로필',
