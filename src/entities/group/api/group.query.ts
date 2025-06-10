@@ -23,9 +23,9 @@ export const groupQuery = {
         }),
 
     // 모임 멤버 조회
-    members: (groupId: string | number) =>
+    members: (groupId: number) =>
         queryOptions({
-            queryKey: [...groupQuery.all(), "member", "list", groupId],
+            queryKey: [...groupQuery.all(), "members", groupId],
             queryFn: () => getGroupMembers(groupId),
             enabled: !!groupId,
             staleTime: 1000 * 60 * 5,
@@ -36,7 +36,7 @@ export const groupQuery = {
         infiniteQueryOptions({
             queryKey: [...groupQuery.lists(), "all"],
             queryFn: ({ pageParam = 0 }: { pageParam: number }) => getAllGroups(pageParam),
-            getNextPageParam: (lastPage: any) => {
+            getNextPageParam: (lastPage: GroupListResponse) => {
                 return lastPage.isLast ? undefined : lastPage.pageNumber + 1;
             },
             initialPageParam: 0,
@@ -49,7 +49,7 @@ export const groupQuery = {
             queryKey: [...groupQuery.lists(), "category", category],
             queryFn: ({ pageParam = 0 }: { pageParam: number }) =>
                 getCategoryGroups(category, pageParam),
-            getNextPageParam: (lastPage: any) => {
+            getNextPageParam: (lastPage: GroupListResponse) => {
                 return lastPage.isLast ? undefined : lastPage.pageNumber + 1;
             },
             initialPageParam: 0,
@@ -62,13 +62,14 @@ export const groupQuery = {
             queryKey: [...groupQuery.lists(), "search", keyword],
             queryFn: ({ pageParam = 0 }: { pageParam: number }) =>
                 getSearchGroups(keyword, pageParam),
-            getNextPageParam: (lastPage: any) => {
+            getNextPageParam: (lastPage: GroupListResponse) => {
                 return lastPage.isLast ? undefined : lastPage.pageNumber + 1;
             },
             initialPageParam: 0,
             enabled: !!keyword,
             staleTime: 1000 * 60 * 2,
         }),
+
     myGroups: () =>
         queryOptions({
             queryKey: [...groupQuery.lists(), "me"],

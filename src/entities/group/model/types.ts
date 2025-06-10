@@ -10,6 +10,14 @@ export type GroupItem = {
     tags: string[];
 }
 
+export type GroupListResponse = {
+    groups: GroupItem[];
+    totalPages: number;
+    totalElements: number;
+    pageNumber: number;
+    isLast: boolean;
+};
+
 export type GroupDetails = {
     name: string;
     category: string;
@@ -25,26 +33,6 @@ export type GroupDetails = {
     role: string;
 }
 
-export type SearchParams = {
-    keyword?: string;
-    category?: string;
-    page?: number;
-    size?: number;
-    sort?: string;
-};
-
-export type SearchResponse = {
-    code: number;
-    message: string;
-    data: {
-        groups: GroupItem[];
-        totalPages: number;
-        totalElements: number;
-        pageNumber: number;
-        isLast: boolean;
-    };
-};
-
 export type Member = {
     userId: string;
     nickname: string;
@@ -52,7 +40,7 @@ export type Member = {
     role: "LEADER" | "MEMBER";
 };
 
-// 모임 정보 생성에 필요한 사용자 입력 데이터
+// 모임 정보 생성 요청 타입
 export type CreateGroupInfoRequest = {
     name: string;
     goal: string;
@@ -63,8 +51,8 @@ export type CreateGroupInfoRequest = {
     isPlanCreated: boolean;
 }
 
-// 사용자 입력 데이터를 통해 생성된 모임 정보
-export type GeneratedGroupData = {
+// 모임 정보 생성 응답 타입
+export type CreateGroupInfoResponse = {
     name: string;
     goal: string;
     category: string;
@@ -79,6 +67,7 @@ export type GeneratedGroupData = {
     imageUrl: string | null;
 }
 
+// 모임 생성 요청 타입
 export type CreateGroupRequest = {
     name: string;
     summary: string;
@@ -91,6 +80,7 @@ export type CreateGroupRequest = {
     plan?: string | null;
 }
 
+// 모임 생성 응답 타입
 export type CreateGroupResponse = {
     groupId: number;
     name: string;

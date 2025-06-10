@@ -9,7 +9,6 @@ import {
 } from "@/features/create-group-info";
 import { AddressData } from "@/features/schedule/model/types";
 import { AddressSearch } from "@/features/schedule/ui/address-search";
-import { createImageHandler } from "@/shared/lib";
 import { BackButton } from "@/shared/ui";
 import { Button } from "@/shared/ui/button";
 import { ProgressBar } from "@/shared/ui/progress-bar";
@@ -44,11 +43,11 @@ export default function Page() {
 
   // 생성된 모임 데이터와 로딩 상태
   const [generatedGroup, setGeneratedGroup] =
-    useState<GeneratedGroupData | null>(null);
+    useState<CreateGroupInfoResponse | null>(null);
 
   // 수정 상태
   const [editedGroupData, setEditedGroupData] =
-    useState<GeneratedGroupData | null>(null);
+    useState<CreateGroupInfoResponse | null>(null);
 
   // 입력 유효성 검사
   const isStepValid = () => {
