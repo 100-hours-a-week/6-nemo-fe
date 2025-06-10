@@ -9,7 +9,7 @@ export const useUpdateProfileImage = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: async (file: File): Promise<void> => {
+        mutationFn: async (file: string): Promise<void> => {
             const formData = new FormData();
             formData.append("profileImage", file);
 

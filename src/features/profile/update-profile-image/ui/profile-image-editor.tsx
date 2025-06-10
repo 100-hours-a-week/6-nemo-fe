@@ -2,6 +2,7 @@
 
 import { UserProfile } from "@/entities/profile";
 import { user } from "@/shared/assets/images";
+import { createImageHandler } from "@/shared/lib";
 import Image from "next/image";
 import { useRef } from "react";
 import { useUpdateProfileImage } from "../api/use-update-profile-image";
@@ -14,30 +15,13 @@ export const ProfileImageEditor = ({
   userProfile,
 }: ProfileImageEditorProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const { mutate, isPending } = useUpdateProfileImage();
+  const { mutate: profileImageMutate, isPending } = useUpdateProfileImage();
 
   const handleImageClick = () => {
     fileInputRef.current?.click();
   };
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    // 파일 크기 제한 (5MB)
-    if (file.size > 5 * 1024 * 1024) {
-      alert("이미지 크기는 5MB 이하여야 합니다.");
-      return;
-    }
-
-    // 이미지 타입 확인
-    if (!file.type.startsWith("image/")) {
-      alert("이미지 파일만 업로드 가능합니다.");
-      return;
-    }
-
-    mutate(file);
-  };
+  const handleImageChange = createImageHandler(profileImageMutate);
 
   return (
     <div className="flex flex-col items-center">
