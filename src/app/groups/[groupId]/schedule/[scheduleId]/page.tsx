@@ -93,7 +93,7 @@ export default function ScheduleDetailPage() {
     <div className="relative min-h-screen pb-24">
       {/* 상단 헤더 */}
       <header className="relative flex h-14 items-center justify-between border-gray-200 px-4">
-        <BackButton/>
+        <BackButton />
         <h1 className="text-headline-1 font-semibold">
           {schedule.group?.name}
         </h1>
@@ -108,7 +108,7 @@ export default function ScheduleDetailPage() {
       <div className="p-ctn-lg">
         {/* 일정 제목 */}
         <div className="mb-8 flex items-center gap-2">
-          {schedule.scheduleStatus === "RECRUITING" ? (
+          {schedule.status === "RECRUITING" ? (
             <span className="text-label-2 text-common-100 bg-primary-strong rounded-ctn-md px-2 py-1 font-bold">
               모집중
             </span>
