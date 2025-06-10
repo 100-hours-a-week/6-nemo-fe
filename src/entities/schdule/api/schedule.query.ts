@@ -1,7 +1,6 @@
 import { infiniteQueryOptions, queryOptions } from "@tanstack/react-query";
 import { getMySchedules } from "./get-my-schedules";
 import { getScheduleDetails } from "./get-schedule-details";
-import { getSchedules } from "./get-schedules";
 
 export const scheduleQuery = {
     all: (groupId: number) => ["group", groupId, "schedule"] as const,

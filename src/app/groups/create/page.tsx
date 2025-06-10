@@ -9,7 +9,6 @@ import {
 } from "@/features/create-group-info";
 import { AddressData } from "@/features/schedule/model/types";
 import { AddressSearch } from "@/features/schedule/ui/address-search";
-import { createImageHandler } from "@/shared/lib";
 import { BackButton } from "@/shared/ui";
 import { Button } from "@/shared/ui/button";
 import { ProgressBar } from "@/shared/ui/progress-bar";
@@ -387,16 +386,37 @@ export default function Page() {
   };
 
   // 생성된 모임 정보 편집 화면
+  // 모임 생성 페이지의 renderGeneratedGroup 함수 수정
   const renderGeneratedGroup = () => {
     if (!editedGroupData) return null;
 
-    // shared 레이어의 공통 함수 사용
-    const handleImageUpload = createImageHandler((imageFile) => {
-      setEditedGroupData({
-        ...editedGroupData,
-        imageUrl: imageFile,
-      });
-    });
+    // 이미지 업로드 처리 함수
+    const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+
+      // 파일 크기 제한 (5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        alert("이미지 크기는 5MB 이하여야 합니다.");
+        return;
+      }
+
+      // 이미지 타입 확인
+      if (!file.type.startsWith("image/")) {
+        alert("이미지 파일만 업로드 가능합니다.");
+        return;
+      }
+
+      // 이미지를 Base64로 변환
+      const reader = new FileReader();
+      reader.onload = () => {
+        setEditedGroupData({
+          ...editedGroupData,
+          imageUrl: reader.result as string,
+        });
+      };
+      reader.readAsDataURL(file);
+    };
 
     return (
       <div className="p-ctn-lg space-y-6">

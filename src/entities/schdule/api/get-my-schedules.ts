@@ -1,4 +1,5 @@
-import { get } from "@/features/auth/login";
+// src/entities/schedule/api/get-my-schedules.ts
+import { get } from "@/features/auth/model/auth-client";
 import { MySchedulesResponse } from "../model/types";
 
 export const getMySchedules = async (): Promise<MySchedulesResponse> => {
