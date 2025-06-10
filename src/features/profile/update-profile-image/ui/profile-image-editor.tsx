@@ -1,7 +1,7 @@
 "use client";
 
 import { UserProfile } from "@/entities/profile";
-import { user } from "@/shared/assets/images";
+import { edit, user } from "@/shared/assets/images";
 import { createImageHandler } from "@/shared/lib";
 import Image from "next/image";
 import { useRef } from "react";
@@ -28,14 +28,14 @@ export const ProfileImageEditor = ({
       <button
         onClick={handleImageClick}
         disabled={isPending}
-        className="relative h-24 w-24 overflow-hidden rounded-full bg-gray-200"
+        className="group relative h-24 w-24 overflow-hidden rounded-full bg-gray-200 transition-transform duration-200 hover:scale-105"
       >
         {userProfile.profileImageUrl ? (
           <Image
             src={userProfile.profileImageUrl}
             alt={userProfile.nickname}
             fill
-            className="object-cover"
+            className="object-cover transition-opacity duration-200 group-hover:opacity-80"
             sizes="96px"
           />
         ) : (
@@ -44,9 +44,16 @@ export const ProfileImageEditor = ({
             alt="기본 프로필"
             width={96}
             height={96}
-            className="object-cover opacity-50"
+            className="object-cover opacity-50 transition-opacity duration-200 group-hover:opacity-70"
           />
         )}
+
+        {/* 호버 오버레이 */}
+        <div className="bg-opacity-50 absolute inset-0 flex items-center justify-center bg-black opacity-0 transition-opacity duration-200 group-hover:opacity-70">
+          <Image src={edit} alt="edit icon" width={24} height={24} />
+        </div>
+
+        {/* 로딩 오버레이 */}
         {isPending && (
           <div className="bg-opacity-50 absolute inset-0 flex items-center justify-center bg-black">
             <div className="h-6 w-6 animate-spin rounded-full border-2 border-white border-t-transparent" />
@@ -60,9 +67,6 @@ export const ProfileImageEditor = ({
         onChange={handleImageChange}
         className="hidden"
       />
-      <p className="text-caption-1 text-label-normal mt-2">
-        프로필 사진을 클릭하여 변경
-      </p>
     </div>
   );
 };

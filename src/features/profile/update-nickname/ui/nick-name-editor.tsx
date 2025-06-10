@@ -1,6 +1,8 @@
 "use client";
 
 import { UserProfile } from "@/entities/profile";
+import { edit } from "@/shared/assets/images";
+import Image from "next/image";
 import { useState } from "react";
 import { useUpdateNickname } from "../api/use-update-nickname";
 
@@ -39,12 +41,12 @@ export const NicknameEditor = ({ userProfile }: NicknameEditorProps) => {
   return (
     <div className="text-center">
       {isEditing ? (
-        <div className="flex items-center gap-2">
+        <div className="flex items-center justify-center gap-2">
           <input
             type="text"
             value={nickname}
             onChange={(e) => setNickname(e.target.value)}
-            className="text-heading-2 w-full rounded-md border border-gray-300 px-2 py-1 text-center font-semibold"
+            className="text-heading-2 rounded-md border border-gray-300 px-2 py-1 text-center font-semibold"
             maxLength={20}
             autoFocus
           />
@@ -64,20 +66,26 @@ export const NicknameEditor = ({ userProfile }: NicknameEditorProps) => {
           </button>
         </div>
       ) : (
-        <div className="flex items-center justify-center gap-2">
+        <div className="relative inline-flex items-center">
           <h2 className="text-heading-2 font-semibold">
             {userProfile.nickname}
           </h2>
           <button
             onClick={() => setIsEditing(true)}
-            className="text-body-2 text-gray-500"
+            className="absolute -right-4"
           >
-            수정
+            <Image
+              src={edit}
+              alt="Edit icon"
+              width={14}
+              height={14}
+              className="hover:size-4"
+            />
           </button>
         </div>
       )}
       <p className="text-body-2 text-label-normal mt-1">{userProfile.email}</p>
-      <p className="text-caption-1 text-label-assistive mt-2">
+      <p className="text-caption-2 text-label-normal mt-2">
         가입일: {new Date(userProfile.createdAt).toLocaleDateString()}
       </p>
     </div>

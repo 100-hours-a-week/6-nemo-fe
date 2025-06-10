@@ -26,7 +26,7 @@ export const LogoutButton = () => {
       <button
         onClick={() => setShowConfirmDialog(true)}
         disabled={isPending}
-        className="w-full rounded-lg bg-gray-100 py-4 text-center font-medium text-gray-700 disabled:opacity-50"
+        className="bg-primary hover:bg-primary-strong text-common-100 rounded-ctn-xs mt-4 w-full py-3 font-medium transition"
       >
         {isPending ? "로그아웃 중..." : "로그아웃"}
       </button>
