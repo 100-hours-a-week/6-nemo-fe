@@ -25,7 +25,6 @@ export const useJoinToGroup = (groupId: number) => {
             queryClient.refetchQueries({
                 queryKey: groupQuery.detail(groupId).queryKey
             });
-
             successToast(JOIN_GROUP_MESSAGES.SUCCESS);
         },
         onError: (error) => {
