@@ -1,17 +1,33 @@
+import { infiniteQueryOptions, queryOptions } from "@tanstack/react-query";
 import { getSchedules } from "./get-schedules";
+import { getScheduleDetails } from "./get-schedule-details";
 
-export const schedulesQueryKeys = {
-    all: (groupId: number) => ["schedules", groupId] as const,
-    detail: (groupId: number, scheduleId: number) =>
-        ["schedules", groupId, scheduleId] as const,
-};
+export const scheduleQuery = {
+    all: (groupId: number) => ["group", groupId, "schedule"] as const,
 
-export const schedulesQueryFns = {
-    list: ({ groupId, pageParam }: { groupId: number; pageParam: number }) =>
-        getSchedules({ groupId, pageParam }),
+    lists: (groupId: number) => [...scheduleQuery.all(groupId), "list"] as const,
 
-    detail: ({ groupId, scheduleId }: { groupId: number; scheduleId: number }) =>
-        fetch(`/api/groups/${groupId}/schedules/${scheduleId}`).then((res) =>
-            res.json()
-        ),
-};
+    // 모임의 일정 리스트 조회
+    list: (groupId: number) =>
+        infiniteQueryOptions({
+            queryKey: [...scheduleQuery.lists(groupId)],
+            queryFn: ({ pageParam = 0 }: { pageParam: number }) =>
+                getSchedules({ groupId, pageParam }),
+            getNextPageParam: (lastPage: any) => {
+                return lastPage.isLast ? undefined : lastPage.pageNumber + 1;
+            },
+            initialPageParam: 0,
+            enabled: !!groupId,
+            staleTime: 1000 * 60 * 3, // 3분
+        }),
+
+    // 일정 상세 조회
+    details: () => ["schedule", "detail"] as const,
+    detail: (scheduleId: number) =>
+        queryOptions({
+            queryKey: [...scheduleQuery.details(), scheduleId],
+            queryFn: () => getScheduleDetails(scheduleId),
+            enabled: !!scheduleId,
+            staleTime: 1000 * 60 * 5, // 5분
+        })
+}
