@@ -15,7 +15,7 @@ export const SwitchGroupToScheduleTabs = ({
           }`}
           onClick={() => onTabChange("my-nemo")}
         >
-          나의 네모
+          나의 모임
         </button>
         <button
           className={`flex-1 border-b-2 py-3 text-center ${

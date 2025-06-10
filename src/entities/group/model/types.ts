@@ -1,19 +1,28 @@
-export type Group = {
-    id?: number;
-    ownerName?: string;
+export type GroupItem = {
+    groupId: number;
     name: string;
-    summary: string;
-    description?: string;
     category: string;
+    summary: string;
     location: string;
     currentUserCount: number;
     maxUserCount: number;
-    imageUrl?: string;
-    tags?: string[];
+    imageUrl: string | null;
+    tags: string[];
 }
 
-export type GroupDetails = Group & {
-    plan?: string;
+export type GroupDetails = {
+    name: string;
+    category: string;
+    summary: string;
+    description: string;
+    plan: string | null;
+    location: string;
+    currentUserCount: number;
+    maxUserCount: number;
+    imageUrl: string | null;
+    tags: string[];
+    ownerName: string;
+    role: string;
 }
 
 export type SearchParams = {
@@ -28,7 +37,7 @@ export type SearchResponse = {
     code: number;
     message: string;
     data: {
-        groups: Group[];
+        groups: GroupItem[];
         totalPages: number;
         totalElements: number;
         pageNumber: number;
@@ -39,8 +48,8 @@ export type SearchResponse = {
 export type Member = {
     userId: string;
     nickname: string;
-    profileImageUrl?: string;
-    role?: "LEADER" | "MEMBER";
+    profileImageUrl: string | null;
+    role: "LEADER" | "MEMBER";
 };
 
 // 모임 정보 생성에 필요한 사용자 입력 데이터
@@ -80,4 +89,18 @@ export type CreateGroupRequest = {
     imageUrl: string | null;
     tags: string[];
     plan?: string | null;
+}
+
+export type CreateGroupResponse = {
+    groupId: number;
+    name: string;
+    category: string;
+    summary: string;
+    description: string;
+    plan: string | null;
+    location: string;
+    currentUserCount: number;
+    maxUserCount: number;
+    imageUrl: string | null;
+    tags: string[];
 }

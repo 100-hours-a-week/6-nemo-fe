@@ -3,12 +3,12 @@
 import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import DateTimePicker from "@/features/schedule/ui/date-time-picker";
-import BackButton from "@/shared/ui/back-button";
 import { AddressData } from "@/features/schedule/model/types";
 import { AddressSearch } from "@/features/schedule/ui/address-search";
 import Image from "next/image";
 import { calendar_icon, location2_icon } from "@/shared/assets/images";
 import { useCreateSchedule } from "@/features/create-schedule";
+import { BackButton } from "@/shared/ui";
 
 export default function CreateSchedulePage() {
   const params = useParams();

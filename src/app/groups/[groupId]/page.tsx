@@ -1,18 +1,15 @@
 "use client";
 
+import { GroupMemberList, GroupPlan, groupQuery } from "@/entities/group";
+import { SwitchGroupInfoTabs } from "@/features/group";
+import { useJoinToGroup } from "@/features/join-group";
+import { BackButton, ConfirmDialog } from "@/shared/ui";
+import { GroupInfo } from "@/widgets/group-details";
+import { ScheduleList } from "@/widgets/schdule-list";
+import { useQuery } from "@tanstack/react-query";
+import JSConfetti from "js-confetti";
 import { useParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-
-import { SwitchGroupInfoTabs } from "@/features/group";
-import { ScheduleList } from "@/widgets/schdule-list";
-import { GroupMemberList, GroupPlan } from "@/entities/group";
-import { GroupInfo } from "@/widgets/group-details";
-import BackButton from "@/shared/ui/back-button";
-import JSConfetti from "js-confetti";
-import { ConfirmDialog } from "@/shared/ui";
-import { useQuery } from "@tanstack/react-query";
-import { groupQuery } from "@/entities/group/api/group.query";
-import { useJoinToGroup } from "@/features/join-group/api/use-join-to-group";
 
 export default function GroupDetailPage() {
   const params = useParams();
@@ -26,7 +23,7 @@ export default function GroupDetailPage() {
   } = useQuery(groupQuery.detail(Number(groupId)));
 
   // 가입 신청 Mutation 훅
-  const { mutate, isPending } = useJoinToGroup(groupId);
+  const { mutate, isPending } = useJoinToGroup(Number(groupId));
   const [activeTab, setActiveTab] = useState<"info" | "schedule">("info");
   const confettiRef = useRef<JSConfetti | null>(null);
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
@@ -100,7 +97,7 @@ export default function GroupDetailPage() {
         className="absolute top-4 left-4 opacity-75"
       />
       {/* 모임 상세 헤더 */}
-      <GroupInfo group={groupDetails} />
+      <GroupInfo groupDetails={groupDetails} />
 
       {/* 탭 메뉴 */}
       <SwitchGroupInfoTabs activeTab={activeTab} onTabChange={setActiveTab} />

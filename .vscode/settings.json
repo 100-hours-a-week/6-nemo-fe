@@ -12,9 +12,9 @@
         "typescript",
         "typescriptreact"
     ],
-    "typescript.preferences.importModuleSpecifier": "relative",
     "files.insertFinalNewline": true,
     "folder-color.pathColors": [
+        // Mac
         {
             "folderPath": "6-nemo-fe/src/widgets/",
             "badge": "🟢"
@@ -32,11 +32,28 @@
             "badge": "⚪"
         },
         {
-            "folderPath": "6-nemo-fe/lib/",
-            "color": "foldercolorizer.color_ffcc99"
+            "folderPath": "6-nemo-fe/src/features/",
+            "badge": "🔵"
+        },
+        // Windows
+        {
+            "folderPath": "6-nemo-fe\\src\\widgets\\",
+            "badge": "🟢"
         },
         {
-            "folderPath": "6-nemo-fe/src/features/",
+            "folderPath": "6-nemo-fe\\src\\entities\\",
+            "badge": "🟠"
+        },
+        {
+            "folderPath": "6-nemo-fe\\src\\shared\\",
+            "badge": "🟣"
+        },
+        {
+            "folderPath": "6-nemo-fe\\src\\app\\",
+            "badge": "⚪"
+        },
+        {
+            "folderPath": "6-nemo-fe\\src\\features\\",
             "badge": "🔵"
         }
     ]

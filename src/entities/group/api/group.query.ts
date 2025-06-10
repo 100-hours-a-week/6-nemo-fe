@@ -1,9 +1,11 @@
 import { infiniteQueryOptions, queryOptions } from "@tanstack/react-query";
 import { getAllGroups } from "./get-all-groups";
 import { getCategoryGroups } from "./get-category-groups";
-import { getSearchGroups } from "./get-search-groups";
 import { getGroupDetails } from "./get-group-details";
 import { getGroupMembers } from "./get-group-members";
+import { getMyGroups } from "./get-my-groups";
+import { getSearchGroups } from "./get-search-groups";
+import { GroupListResponse } from "../model/types";
 
 export const groupQuery = {
     all: () => ["group"] as const,
@@ -66,5 +68,11 @@ export const groupQuery = {
             initialPageParam: 0,
             enabled: !!keyword,
             staleTime: 1000 * 60 * 2,
+        }),
+    myGroups: () =>
+        queryOptions({
+            queryKey: [...groupQuery.lists(), "me"],
+            queryFn: () => getMyGroups(),
+            staleTime: 1000 * 60 * 5,
         }),
 };

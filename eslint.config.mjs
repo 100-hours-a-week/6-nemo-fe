@@ -1,6 +1,6 @@
+import { FlatCompat } from "@eslint/eslintrc";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
-import { FlatCompat } from "@eslint/eslintrc";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -77,9 +77,7 @@ const eslintConfig = [
         "error",
         {
           allow: [
-            "src/entities/*/index",
-            "src/features/*/index",
-            "src/widgets/*/index",
+            "@/shared/*/index",
             "@/entities/*/index",
             "@/features/*/index",
             "@/widgets/*/index",

@@ -1,21 +1,22 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import Image from "next/image";
-import { AddressSearch } from "@/features/schedule/ui/address-search";
-import { AddressData } from "@/features/schedule/model/types";
-import BackButton from "@/shared/ui/back-button";
-import { ProgressBar } from "@/shared/ui/progress-bar";
-import { Button } from "@/shared/ui/button";
-import { cn } from "lib/utils";
+import { CreateGroupInfoResponse } from "@/entities/group";
 import { CATEGORIES } from "@/features/category/category-filter/model/constants";
-import { GeneratedGroupData } from "@/entities/group";
 import { useCreateGroup } from "@/features/create-group";
 import {
   PERIOD_OPTIONS,
   useCreateGroupInfo,
 } from "@/features/create-group-info";
+import { AddressData } from "@/features/schedule/model/types";
+import { AddressSearch } from "@/features/schedule/ui/address-search";
+import { createImageHandler } from "@/shared/lib";
+import { BackButton } from "@/shared/ui";
+import { Button } from "@/shared/ui/button";
+import { ProgressBar } from "@/shared/ui/progress-bar";
+import { cn } from "lib/utils";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function Page() {
   const router = useRouter();
@@ -127,7 +128,7 @@ export default function Page() {
 
       const result = await createGroupMutation.mutateAsync(requestData);
 
-      router.push(`/groups/create/success?groupId=${result.id}`);
+      router.push(`/groups/create/success?groupId=${result.groupId}`);
     }
   };
 
@@ -201,7 +202,7 @@ export default function Page() {
                     "rounded-ctn-sm flex flex-col items-center justify-center p-4 transition-all",
                     category === cat.label
                       ? "bg-primary-light text-primary shadow-sm"
-                      : "bg-gray-50 text-gray-600 hover:bg-gray-100",
+                      : "bg-gray-50 text-gray-600 hover:bg-gray-100"
                   )}
                 >
                   <Image
@@ -251,7 +252,7 @@ export default function Page() {
                     "rounded-lg border p-4 text-left transition-all",
                     period === option.label
                       ? "border-primary bg-primary-light"
-                      : "border-gray-200 hover:bg-gray-50",
+                      : "border-gray-200 hover:bg-gray-50"
                   )}
                 >
                   <span
@@ -348,7 +349,7 @@ export default function Page() {
                   "rounded-lg border p-4 text-left transition-all",
                   isIncludePlan === true
                     ? "border-primary bg-primary-light"
-                    : "border-gray-200 hover:bg-gray-50",
+                    : "border-gray-200 hover:bg-gray-50"
                 )}
               >
                 <span
@@ -365,7 +366,7 @@ export default function Page() {
                   "rounded-lg border p-4 text-left transition-all",
                   isIncludePlan === false
                     ? "border-primary bg-primary-light"
-                    : "border-gray-200 hover:bg-gray-50",
+                    : "border-gray-200 hover:bg-gray-50"
                 )}
               >
                 <span
