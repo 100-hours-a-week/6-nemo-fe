@@ -16,18 +16,19 @@ export const useUpdateProfileImage = () => {
             const token = useAuthStore.getState().token;
 
             const response = await fetch(`${BASE_URL}/api/v2/users/me/profile-image`, {
-                method: "PUT",
+                method: "PATCH",
                 headers: {
                     Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
                 },
-                body: formData,
+                body: JSON.stringify({
+                    profileImage: file,
+                }),
                 credentials: "include",
             });
 
-            const data = await response.json();
-
-            if (data.code !== 200) {
-                throw new Error(data.message || "프로필 이미지 변경에 실패했습니다.");
+            if (!response.ok) {
+                throw new Error("프로필 이미지 변경에 실패했습니다.");
             }
         },
         onSuccess: () => {
