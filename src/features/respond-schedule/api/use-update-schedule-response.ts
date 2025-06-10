@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { patch } from "@/features/auth/model/auth-client";
 import { scheduleQuery } from "@/entities/schdule/api/schedule.query";
-import { patch } from "@/features/auth/login";
 import { errorToast, successToast } from "@/shared/lib";
 import { RESPOND_SCHEDULE_MESSAGES } from "../model/constants";
 

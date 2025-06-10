@@ -1,6 +1,6 @@
 import { BASE_URL } from "@/shared/constants";
 import { useAuthStore } from "@/shared/store/auth-store";
-import { refreshAccessToken } from "./refresh-access-token";
+import { refreshAccessToken } from "@/features/auth/model/refresh-access-token";
 
 // 재시도 상태를 추적하기 위한 변수
 let isRefreshing = false;

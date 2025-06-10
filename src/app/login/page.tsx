@@ -1,6 +1,6 @@
 "use client";
 
-import LoginButton from "@/features/auth/login/ui/login-button";
+import LoginButton from "@/features/auth/ui/login-button";
 import { bg_post } from "@/shared/assets/images";
 import { useAuthStore } from "@/shared/store/auth-store";
 import Image from "next/image";
