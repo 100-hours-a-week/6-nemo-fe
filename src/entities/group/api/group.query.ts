@@ -5,6 +5,7 @@ import { getGroupDetails } from "./get-group-details";
 import { getGroupMembers } from "./get-group-members";
 import { getMyGroups } from "./get-my-groups";
 import { getSearchGroups } from "./get-search-groups";
+import { GroupListResponse } from "../model/types";
 
 export const groupQuery = {
     all: () => ["group"] as const,
@@ -22,9 +23,9 @@ export const groupQuery = {
         }),
 
     // 모임 멤버 조회
-    members: (groupId: number) =>
+    members: (groupId: string | number) =>
         queryOptions({
-            queryKey: [...groupQuery.all(), "members", groupId],
+            queryKey: [...groupQuery.all(), "member", "list", groupId],
             queryFn: () => getGroupMembers(groupId),
             enabled: !!groupId,
             staleTime: 1000 * 60 * 5,
@@ -68,7 +69,6 @@ export const groupQuery = {
             enabled: !!keyword,
             staleTime: 1000 * 60 * 2,
         }),
-
     myGroups: () =>
         queryOptions({
             queryKey: [...groupQuery.lists(), "me"],

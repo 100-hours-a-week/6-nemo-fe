@@ -1,5 +1,5 @@
 import { groupQuery } from "@/entities/group/api/group.query";
-import { post } from "@/features/auth/model/auth-client";
+import { post } from "@/features/auth/login";
 import { errorToast, successToast } from "@/shared/lib";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { JOIN_GROUP_MESSAGES } from "../model/constants";
@@ -25,7 +25,7 @@ export const useJoinToGroup = (groupId: number) => {
             queryClient.refetchQueries({
                 queryKey: groupQuery.detail(groupId).queryKey
             });
-
+          
             successToast(JOIN_GROUP_MESSAGES.SUCCESS);
         },
         onError: (error) => {

@@ -1,6 +1,6 @@
 "use client";
 
-import { GeneratedGroupData } from "@/entities/group";
+import { CreateGroupInfoResponse } from "@/entities/group";
 import { CATEGORIES } from "@/features/category/category-filter/model/constants";
 import { useCreateGroup } from "@/features/create-group";
 import {
@@ -9,6 +9,7 @@ import {
 } from "@/features/create-group-info";
 import { AddressData } from "@/features/schedule/model/types";
 import { AddressSearch } from "@/features/schedule/ui/address-search";
+import { createImageHandler } from "@/shared/lib";
 import { BackButton } from "@/shared/ui";
 import { Button } from "@/shared/ui/button";
 import { ProgressBar } from "@/shared/ui/progress-bar";
