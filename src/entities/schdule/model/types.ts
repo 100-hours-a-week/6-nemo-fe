@@ -22,7 +22,7 @@ export type ScheduleDetials = Schedule & {
 }
 
 export type ScheduleParticipant = {
-    id: number;
+    userId: number;
     user: Member;
     status: "ACCEPTED" | "REJECTED" | "PENDING";
 }
@@ -38,6 +38,7 @@ export type CreateScheduleRequest = {
 
 export type MyScheduleItem = Schedule & {
     groupName: string;
+    groupId: string;
 };
 
 export type MySchedulesResponse = {
