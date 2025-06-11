@@ -201,7 +201,7 @@ export default function ScheduleDetailPage() {
                 <div className="space-y-2">
                   {acceptedParticipants.map((participant) => (
                     <div
-                      key={participant.userId}
+                      key={participant.user.userId}
                       className="flex items-center justify-between py-2"
                     >
                       <div className="flex items-center gap-3">
@@ -246,7 +246,7 @@ export default function ScheduleDetailPage() {
                   {pendingParticipants.map(
                     (participant: ScheduleParticipant) => (
                       <div
-                        key={participant.userId}
+                        key={`participant-${participant.user.userId}`}
                         className="flex items-center justify-between py-2"
                       >
                         <div className="flex items-center gap-3">
@@ -292,7 +292,7 @@ export default function ScheduleDetailPage() {
                   {rejectedParticipants.map(
                     (participant: ScheduleParticipant) => (
                       <div
-                        key={participant.userId}
+                        key={participant.user.userId}
                         className="flex items-center justify-between py-2"
                       >
                         <div className="flex items-center gap-3">
