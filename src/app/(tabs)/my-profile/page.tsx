@@ -42,7 +42,7 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="p-ctn-lg min-h-screen">
+    <div className="p-ctn-lg min-h-[calc(100vh-58px)]">
       {/* 프로필 섹션 */}
       <div className="pt-8 pb-6">
         <ProfileImageEditor userProfile={userProfile} />
@@ -74,7 +74,7 @@ export default function ProfilePage() {
             <Image src={info} alt="message icon" width={16} height={16} />
             <span className="font-medium text-gray-900">앱 버전</span>
           </div>
-          <span className="text-body-2 text-gray-500">v 1.1.0</span>
+          <span className="text-body-2 text-gray-500">v 2.0.0</span>
         </Link>
       </div>
       <div className="p-4">
