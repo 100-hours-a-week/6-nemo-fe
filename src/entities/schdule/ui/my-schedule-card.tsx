@@ -25,7 +25,7 @@ export const MyScheduleCard = ({ schedule }: { schedule: MyScheduleItem }) => {
   const { date, time } = formatDatetime(schedule.startAt);
 
   return (
-    <Link href={`/schedule/${schedule.scheduleId}`}>
+    <Link href={`/groups/${schedule.groupId}/schedule/${schedule.scheduleId}`}>
       <div className="bg-common-100 hover:bg-strong mb-3 rounded-lg border border-gray-200 p-4 shadow-sm transition hover:shadow-md">
         <div className="mb-3 flex items-center justify-between">
           <h3 className="text-headline-1 line-clamp-1 font-semibold">
