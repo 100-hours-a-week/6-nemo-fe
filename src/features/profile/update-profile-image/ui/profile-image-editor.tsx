@@ -28,7 +28,7 @@ export const ProfileImageEditor = ({
       <button
         onClick={handleImageClick}
         disabled={isPending}
-        className="group relative h-24 w-24 overflow-hidden rounded-full bg-gray-200 transition-transform duration-200 hover:scale-105"
+        className="group relative h-32 w-32 overflow-hidden rounded-full bg-gray-200 transition-transform duration-200 hover:scale-105"
       >
         {userProfile.profileImageUrl ? (
           <Image

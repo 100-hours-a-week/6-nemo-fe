@@ -1,10 +1,9 @@
 "use client";
 
-import { ScheduleCard, scheduleQuery } from "@/entities/schdule";
+import { ScheduleCard, scheduleQuery } from "@/entities/schedule";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useMemo } from "react";
-import { useInfiniteQuery } from "@tanstack/react-query";
 
 export const ScheduleList = ({ groupId }: { groupId: number }) => {
   const router = useRouter();

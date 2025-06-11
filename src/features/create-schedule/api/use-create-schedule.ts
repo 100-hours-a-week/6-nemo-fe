@@ -1,5 +1,5 @@
-import { scheduleQuery } from "@/entities/schdule/api/schedule.query";
-import { CreateScheduleRequest } from "@/entities/schdule/model/types";
+import { scheduleQuery } from "@/entities/schedule/api/schedule.query";
+import { CreateScheduleRequest } from "@/entities/schedule/model/types";
 import { post } from "@/features/auth/login";
 import { errorToast, successToast } from "@/shared/lib";
 import { useMutation, useQueryClient } from "@tanstack/react-query";

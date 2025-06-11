@@ -1,6 +1,6 @@
 "use client";
 
-import { ScheduleParticipant, scheduleQuery } from "@/entities/schdule";
+import { ScheduleParticipant, scheduleQuery } from "@/entities/schedule";
 import { useUpdateScheduleResponse } from "@/features/respond-schedule/api/use-update-schedule-response";
 import {
   location_icon,
@@ -93,7 +93,7 @@ export default function ScheduleDetailPage() {
     <div className="relative min-h-screen pb-24">
       {/* 상단 헤더 */}
       <header className="relative flex h-14 items-center justify-between border-gray-200 px-4">
-        <BackButton/>
+        <BackButton />
         <h1 className="text-headline-1 font-semibold">
           {schedule.group?.name}
         </h1>
@@ -201,7 +201,7 @@ export default function ScheduleDetailPage() {
                 <div className="space-y-2">
                   {acceptedParticipants.map((participant) => (
                     <div
-                      key={participant.id}
+                      key={participant.user.userId}
                       className="flex items-center justify-between py-2"
                     >
                       <div className="flex items-center gap-3">
@@ -246,7 +246,7 @@ export default function ScheduleDetailPage() {
                   {pendingParticipants.map(
                     (participant: ScheduleParticipant) => (
                       <div
-                        key={participant.id}
+                        key={`participant-${participant.user.userId}`}
                         className="flex items-center justify-between py-2"
                       >
                         <div className="flex items-center gap-3">
@@ -292,7 +292,7 @@ export default function ScheduleDetailPage() {
                   {rejectedParticipants.map(
                     (participant: ScheduleParticipant) => (
                       <div
-                        key={participant.id}
+                        key={participant.user.userId}
                         className="flex items-center justify-between py-2"
                       >
                         <div className="flex items-center gap-3">
