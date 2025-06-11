@@ -1,6 +1,6 @@
 "use client";
 
-import { ScheduleParticipant, scheduleQuery } from "@/entities/schdule";
+import { ScheduleParticipant, scheduleQuery } from "@/entities/schedule";
 import { useUpdateScheduleResponse } from "@/features/respond-schedule/api/use-update-schedule-response";
 import {
   location_icon,

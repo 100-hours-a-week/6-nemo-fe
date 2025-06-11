@@ -5,7 +5,7 @@ import { SwitchGroupInfoTabs } from "@/features/group";
 import { useJoinToGroup } from "@/features/join-group";
 import { BackButton, ConfirmDialog } from "@/shared/ui";
 import { GroupInfo } from "@/widgets/group-details";
-import { ScheduleList } from "@/widgets/schdule-list";
+import { ScheduleList } from "@/widgets/schedule-list";
 import { useQuery } from "@tanstack/react-query";
 import JSConfetti from "js-confetti";
 import { useParams } from "next/navigation";
