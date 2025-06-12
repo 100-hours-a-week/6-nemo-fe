@@ -1,14 +1,14 @@
 "use client";
 
-import { useState } from "react";
-import { useParams, useRouter } from "next/navigation";
-import DateTimePicker from "@/features/schedule/ui/date-time-picker";
+import { useCreateSchedule } from "@/features/create-schedule";
 import { AddressData } from "@/features/schedule/model/types";
 import { AddressSearch } from "@/features/schedule/ui/address-search";
-import Image from "next/image";
+import DateTimePicker from "@/features/schedule/ui/date-time-picker";
 import { calendar_icon, location2_icon } from "@/shared/assets/images";
-import { useCreateSchedule } from "@/features/create-schedule";
 import { BackButton } from "@/shared/ui";
+import Image from "next/image";
+import { useParams, useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function CreateSchedulePage() {
   const params = useParams();
@@ -40,7 +40,7 @@ export default function CreateSchedulePage() {
     };
     createScheduleMutation.mutate(scheduleInfo);
 
-    router.push(`/groups/${groupId}`);
+    router.push(`/groups/${groupId}?tab=schedule-list`);
   };
 
   return (
