@@ -2,7 +2,7 @@
 
 import { GroupMemberList, GroupPlan, groupQuery } from "@/entities/group";
 import { SwitchGroupInfoTabs } from "@/features/group";
-import { useJoinToGroup } from "@/features/join-group";
+import { useJoinGroup } from "@/features/join-group";
 import { BackButton, ConfirmDialog } from "@/shared/ui";
 import { GroupInfo } from "@/widgets/group-details";
 import { ScheduleList } from "@/widgets/schdule-list";
@@ -23,7 +23,7 @@ export default function GroupDetailPage() {
   } = useQuery(groupQuery.detail(Number(groupId)));
 
   // 가입 신청 Mutation 훅
-  const { mutate, isPending } = useJoinToGroup(Number(groupId));
+  const { mutate, isPending } = useJoinGroup(Number(groupId));
   const [activeTab, setActiveTab] = useState<"info" | "schedule">("info");
   const confettiRef = useRef<JSConfetti | null>(null);
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);

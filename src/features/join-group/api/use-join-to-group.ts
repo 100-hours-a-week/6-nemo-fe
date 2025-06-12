@@ -4,7 +4,7 @@ import { errorToast, successToast } from "@/shared/lib";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { JOIN_GROUP_MESSAGES } from "../model/constants";
 
-export const useJoinToGroup = (groupId: number) => {
+export const useJoinGroup = (groupId: number) => {
     const queryClient = useQueryClient();
 
     return useMutation({
