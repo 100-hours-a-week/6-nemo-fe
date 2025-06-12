@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useRef, useEffect, useState } from "react";
 import { cn } from "lib/utils";
+import React, { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 
-export const ConfirmDialog = ({
+export const Modal = ({
   isOpen,
   onClose,
   onConfirm,
@@ -67,7 +68,7 @@ export const ConfirmDialog = ({
     }
   };
 
-  return (
+  return createPortal(
     <dialog
       ref={dialogRef}
       className="fixed top-1/2 left-1/2 m-0 w-[85%] max-w-[320px] -translate-x-1/2 -translate-y-1/2 rounded-lg border border-gray-200 bg-white p-0 shadow-lg"
@@ -80,17 +81,11 @@ export const ConfirmDialog = ({
         )}
         <div className="mt-6 flex justify-end gap-3">
           <button
-            className="text-body-2 rounded-md border border-gray-200 bg-white px-4 py-2 font-medium hover:bg-gray-50"
-            onClick={onClose}
-          >
-            {cancelLabel}
-          </button>
-          <button
             className={cn(
               "text-body-2 text-common-100 rounded-md px-4 py-2 font-medium",
               variant === "destructive"
                 ? "bg-pink-500 hover:bg-pink-600"
-                : "bg-primary hover:bg-primary-strong",
+                : "bg-primary hover:bg-primary-strong"
             )}
             onClick={() => {
               onConfirm();
@@ -99,8 +94,15 @@ export const ConfirmDialog = ({
           >
             {confirmLabel}
           </button>
+          <button
+            className="text-body-2 rounded-md border border-gray-200 bg-white px-4 py-2 font-medium hover:bg-gray-50"
+            onClick={onClose}
+          >
+            {cancelLabel}
+          </button>
         </div>
       </div>
-    </dialog>
+    </dialog>,
+    document.getElementById("modal-root") as HTMLElement
   );
 };
