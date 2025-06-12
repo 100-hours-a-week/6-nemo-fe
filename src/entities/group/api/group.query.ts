@@ -1,11 +1,11 @@
 import { infiniteQueryOptions, queryOptions } from "@tanstack/react-query";
+import { GroupListResponse } from "../model/types";
 import { getAllGroups } from "./get-all-groups";
 import { getCategoryGroups } from "./get-category-groups";
 import { getGroupDetails } from "./get-group-details";
 import { getGroupMembers } from "./get-group-members";
 import { getMyGroups } from "./get-my-groups";
 import { getSearchGroups } from "./get-search-groups";
-import { GroupListResponse } from "../model/types";
 
 export const groupQuery = {
     all: () => ["group"] as const,
@@ -14,7 +14,7 @@ export const groupQuery = {
 
     details: () => [...groupQuery.all(), "detail"] as const,
     // 모임 상세 조회
-    detail: (groupId: number) =>
+    detail: (groupId: number | string) =>
         queryOptions({
             queryKey: [...groupQuery.details(), groupId],
             queryFn: () => getGroupDetails(groupId),
@@ -23,7 +23,7 @@ export const groupQuery = {
         }),
 
     // 모임 멤버 조회
-    members: (groupId: number) =>
+    members: (groupId: number | string) =>
         queryOptions({
             queryKey: [...groupQuery.all(), "members", groupId],
             queryFn: () => getGroupMembers(groupId),

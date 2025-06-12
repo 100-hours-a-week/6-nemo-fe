@@ -1,4 +1,5 @@
 import { getGroupDetails, GroupMemberList, GroupPlan } from "@/entities/group";
+import { JoinGroupButton } from "@/features/join-group/ui/join-group-button";
 import { GROUP_DETAILS_TAB_ITEMS } from "@/shared/constants";
 import { BackButton, SubTab } from "@/shared/ui";
 import { GroupInfo } from "@/widgets/group-details";
@@ -75,6 +76,8 @@ export default async function GroupDetailsPage({
             <ScheduleList groupId={Number(groupId)} />
           </div>
         )}
+
+        <JoinGroupButton groupId={groupId} groupName={groupDetails.name} />
       </div>
     </div>
   );

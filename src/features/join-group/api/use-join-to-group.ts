@@ -4,7 +4,7 @@ import { errorToast, successToast } from "@/shared/lib";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { JOIN_GROUP_MESSAGES } from "../model/constants";
 
-export const useJoinGroup = (groupId: number) => {
+export const useJoinGroup = (groupId: number | string) => {
     const queryClient = useQueryClient();
 
     return useMutation({
@@ -21,9 +21,6 @@ export const useJoinGroup = (groupId: number) => {
         onSuccess: () => {
             queryClient.refetchQueries({
                 queryKey: groupQuery.members(groupId).queryKey
-            });
-            queryClient.refetchQueries({
-                queryKey: groupQuery.detail(groupId).queryKey
             });
             successToast(JOIN_GROUP_MESSAGES.SUCCESS);
         },
