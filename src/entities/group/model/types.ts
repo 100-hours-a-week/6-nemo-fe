@@ -18,7 +18,7 @@ export type GroupListResponse = {
     isLast: boolean;
 };
 
-export type GroupDetails = {
+export type GroupDetailsResponse = {
     name: string;
     category: string;
     summary: string;

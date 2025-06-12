@@ -1,4 +1,4 @@
-import { GroupDetails } from "@/entities/group";
+import { GroupDetailsResponse } from "@/entities/group";
 import {
   bg_group2,
   crown_yello,
@@ -8,7 +8,7 @@ import {
 import Image from "next/image";
 
 type Props = {
-  groupDetails: GroupDetails;
+  groupDetails: GroupDetailsResponse;
 };
 
 export const GroupInfo = ({ groupDetails }: Props) => {

@@ -1,8 +1,8 @@
 // src/entities/group/api/get-group-details.ts
 import { BASE_URL } from "@/shared/constants";
-import { GroupDetails } from "../model/types";
+import { GroupDetailsResponse } from "../model/types";
 
-export const getGroupDetails = async (groupId: number): Promise<GroupDetails> => {
+export const getGroupDetails = async (groupId: number | string): Promise<GroupDetailsResponse> => {
     const response = await fetch(`${BASE_URL}/api/v1/groups/${groupId}`);
     const data = await response.json();
 
