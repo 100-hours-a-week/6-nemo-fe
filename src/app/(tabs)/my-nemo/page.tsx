@@ -1,22 +1,23 @@
-"use client";
-
-import { SwitchGroupToScheduleTabs } from "@/features/group/switch-group-to-schedule-tabs/ui/switch-group-to-schedule-tabs";
+import { MY_NEMO_TAB_ITEMS } from "@/shared/constants";
+import { SubTab } from "@/shared/ui";
 import { MyGroupList } from "@/widgets/my-group-list";
 import { MyScheduleList } from "@/widgets/my-schedule-list";
-import { useState } from "react";
 
-export default function Page() {
-  const [activeTab, setActiveTab] = useState<"my-nemo" | "my-schedule">(
-    "my-nemo"
-  );
+type Props = {
+  searchParams: Promise<{
+    tab?: "group" | "schedule";
+  }>;
+};
+
+export default async function Page({ searchParams }: Props) {
+  const { tab } = await searchParams;
+  const activeTab = tab ?? "group";
+
   return (
     <>
-      <SwitchGroupToScheduleTabs
-        activeTab={activeTab}
-        onTabChange={setActiveTab}
-      />
+      <SubTab tabs={MY_NEMO_TAB_ITEMS} activeTab={activeTab} />
       <main className="bg-common-100 min-h-screen p-4">
-        {activeTab === "my-nemo" ? <MyGroupList /> : <MyScheduleList />}
+        {activeTab === "group" ? <MyGroupList /> : <MyScheduleList />}
       </main>
     </>
   );
