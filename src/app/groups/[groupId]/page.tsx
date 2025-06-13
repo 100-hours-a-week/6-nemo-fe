@@ -77,7 +77,11 @@ export default async function GroupDetailsPage({
           </div>
         )}
 
-        <JoinGroupButton groupId={groupId} groupName={groupDetails.name} />
+        <JoinGroupButton
+          groupId={groupId}
+          groupName={groupDetails.name}
+          role={groupDetails.role}
+        />
       </div>
     </div>
   );

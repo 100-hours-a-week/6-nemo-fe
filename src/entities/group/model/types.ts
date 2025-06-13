@@ -30,7 +30,7 @@ export type GroupDetailsResponse = {
     imageUrl: string | null;
     tags: string[];
     ownerName: string;
-    role: string;
+    role: "LEADER" | "MEMBER" | "NON_MEMBER" | "GUEST";
 }
 
 export type Member = {
