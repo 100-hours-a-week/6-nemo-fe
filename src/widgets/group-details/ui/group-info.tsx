@@ -1,20 +1,24 @@
-import Image from "next/image";
-import { GroupDetailHeaderProps } from "../model/types";
+import { GroupDetails } from "@/entities/group";
 import {
   bg_group2,
   crown_yello,
   location_icon,
   users_icon,
 } from "@/shared/assets/images";
+import Image from "next/image";
 
-export const GroupInfo = ({ group }: GroupDetailHeaderProps) => {
+type Props = {
+  groupDetails: GroupDetails;
+};
+
+export const GroupInfo = ({ groupDetails }: Props) => {
   return (
     <div className="relative">
       {/* 이미지 배경 */}
       <div className="relative h-64 w-full overflow-hidden">
         <Image
-          src={group.imageUrl ?? bg_group2}
-          alt={group.name}
+          src={groupDetails.imageUrl ?? bg_group2}
+          alt={groupDetails.name}
           fill
           className="object-cover"
           sizes="100%"
@@ -28,18 +32,18 @@ export const GroupInfo = ({ group }: GroupDetailHeaderProps) => {
           <div className="flex-1 pr-2">
             <h1
               className="text-title-3 text-label-strong-1 mb-1 font-bold"
-              title={group.name}
+              title={groupDetails.name}
             >
-              {group.name}
+              {groupDetails.name}
             </h1>
             <p
               className="text-body-2 text-label-normal line-clamp-1"
-              title={group.summary}
+              title={groupDetails.summary}
             >
-              {group.summary}
+              {groupDetails.summary}
             </p>
             <div className="mt-3 flex flex-wrap gap-1">
-              {group.tags?.map((tag) => (
+              {groupDetails.tags?.map((tag: string) => (
                 <span
                   key={tag}
                   className="text-caption-2 bg-coolNeutral-98 text-label-assistive mb-1 rounded-full px-2 py-0.5"
@@ -50,7 +54,7 @@ export const GroupInfo = ({ group }: GroupDetailHeaderProps) => {
             </div>
           </div>
           <div className="bg-primary-light text-primary text-body-2 rounded-full px-3 py-1 whitespace-nowrap">
-            {group.category}
+            {groupDetails.category}
           </div>
         </div>
 
@@ -66,7 +70,7 @@ export const GroupInfo = ({ group }: GroupDetailHeaderProps) => {
             />
             <span className="text-label-1 text-label-normal">모임장</span>
             <span className="text-body-2 text-label-assistive ml-1 font-medium">
-              {group.ownerName || "등록된 모임장 없음"}
+              {groupDetails.ownerName || "등록된 모임장 없음"}
             </span>
           </div>
 
@@ -80,7 +84,7 @@ export const GroupInfo = ({ group }: GroupDetailHeaderProps) => {
             />
             <span className="text-label-1 text-label-normal">인원</span>
             <span className="text-body-2 text-label-assistive ml-1 font-medium">
-              {group.currentUserCount}/{group.maxUserCount}명
+              {groupDetails.currentUserCount}/{groupDetails.maxUserCount}명
             </span>
           </div>
 
@@ -95,7 +99,7 @@ export const GroupInfo = ({ group }: GroupDetailHeaderProps) => {
             <span className="text-label-1 text-label-normal">위치</span>
 
             <span className="text-body-2 text-label-assistive ml-1 line-clamp-1 font-medium">
-              {group.location}
+              {groupDetails.location}
             </span>
           </div>
         </div>

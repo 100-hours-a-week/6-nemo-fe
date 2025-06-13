@@ -1,7 +1,7 @@
 "use client";
 
-import { useParams, useRouter } from "next/navigation";
-import Image from "next/image";
+import { ScheduleParticipant, scheduleQuery } from "@/entities/schedule";
+import { useUpdateScheduleResponse } from "@/features/respond-schedule/api/use-update-schedule-response";
 import {
   location_icon,
   more_icon,
@@ -10,9 +10,10 @@ import {
   user,
   users_icon,
 } from "@/shared/assets/images";
-import { ScheduleParticipant, useScheduleById } from "@/entities/schdule";
-import BackButton from "@/shared/ui/back-button";
-import { useUpdateScheduleParticipation } from "@/features/schedule/model/use-update-schedule-participation";
+import { BackButton } from "@/shared/ui";
+import { useQuery } from "@tanstack/react-query";
+import Image from "next/image";
+import { useParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 export default function ScheduleDetailPage() {
@@ -24,18 +25,13 @@ export default function ScheduleDetailPage() {
     data: schedule,
     isLoading,
     error,
-    refetch,
-  } = useScheduleById(scheduleId);
+  } = useQuery(scheduleQuery.detail(scheduleId));
 
-  const participationMutation = useUpdateScheduleParticipation(scheduleId);
+  const { mutate, isPending } = useUpdateScheduleResponse(scheduleId);
 
-  // 참여 상태 변경 핸들러 추가
+  // 참여 상태 변경 핸들러
   const handleParticipation = (status: "ACCEPTED" | "REJECTED") => {
-    participationMutation.mutate(status, {
-      onSuccess: () => {
-        refetch();
-      },
-    });
+    mutate(status);
   };
 
   if (isLoading) {
@@ -112,7 +108,7 @@ export default function ScheduleDetailPage() {
       <div className="p-ctn-lg">
         {/* 일정 제목 */}
         <div className="mb-8 flex items-center gap-2">
-          {schedule.scheduleStatus === "RECRUITING" ? (
+          {schedule.status === "RECRUITING" ? (
             <span className="text-label-2 text-common-100 bg-primary-strong rounded-ctn-md px-2 py-1 font-bold">
               모집중
             </span>
@@ -205,7 +201,7 @@ export default function ScheduleDetailPage() {
                 <div className="space-y-2">
                   {acceptedParticipants.map((participant) => (
                     <div
-                      key={participant.id}
+                      key={participant.user.userId}
                       className="flex items-center justify-between py-2"
                     >
                       <div className="flex items-center gap-3">
@@ -250,7 +246,7 @@ export default function ScheduleDetailPage() {
                   {pendingParticipants.map(
                     (participant: ScheduleParticipant) => (
                       <div
-                        key={participant.id}
+                        key={`participant-${participant.user.userId}`}
                         className="flex items-center justify-between py-2"
                       >
                         <div className="flex items-center gap-3">
@@ -278,7 +274,7 @@ export default function ScheduleDetailPage() {
                           </span>
                         </div>
                       </div>
-                    ),
+                    )
                   )}
                 </div>
               </div>
@@ -296,7 +292,7 @@ export default function ScheduleDetailPage() {
                   {rejectedParticipants.map(
                     (participant: ScheduleParticipant) => (
                       <div
-                        key={participant.id}
+                        key={participant.user.userId}
                         className="flex items-center justify-between py-2"
                       >
                         <div className="flex items-center gap-3">
@@ -324,7 +320,7 @@ export default function ScheduleDetailPage() {
                           </span>
                         </div>
                       </div>
-                    ),
+                    )
                   )}
                 </div>
               </div>
@@ -339,16 +335,16 @@ export default function ScheduleDetailPage() {
           <button
             className="bg-primary text-common-100 rounded-ctn-sm flex-1 py-3 font-medium"
             onClick={() => handleParticipation("ACCEPTED")}
-            disabled={participationMutation.isPending}
+            disabled={isPending}
           >
-            {participationMutation.isPending ? "처리 중..." : "참 여"}
+            {isPending ? "처리 중..." : "참여"}
           </button>
           <button
             className="rounded-ctn-sm flex-1 bg-gray-200 py-3 font-medium text-gray-600"
             onClick={() => handleParticipation("REJECTED")}
-            disabled={participationMutation.isPending}
+            disabled={isPending}
           >
-            {participationMutation.isPending ? "처리 중..." : "불 참"}
+            {isPending ? "처리 중..." : "불참"}
           </button>
         </div>
       </div>

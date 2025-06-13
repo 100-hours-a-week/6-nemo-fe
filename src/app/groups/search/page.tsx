@@ -1,8 +1,7 @@
 import { Suspense } from "react";
 import { SearchBar } from "@/features/search/search-groups";
 import { GroupList } from "@/widgets/group-list";
-import BackButton from "@/shared/ui/back-button";
-
+import { BackButton } from "@/shared/ui";
 export default async function SearchPage({
   searchParams,
 }: {
@@ -15,7 +14,7 @@ export default async function SearchPage({
   return (
     <div className="p-ctn-lg flex flex-col gap-4">
       <div className="flex items-center">
-        <BackButton />
+        <BackButton/>
         <SearchBar className="ml-2 w-full" />
       </div>
       <Suspense

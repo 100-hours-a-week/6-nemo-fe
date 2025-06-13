@@ -3,12 +3,12 @@
 import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import DateTimePicker from "@/features/schedule/ui/date-time-picker";
-import BackButton from "@/shared/ui/back-button";
 import { AddressData } from "@/features/schedule/model/types";
-import { useCreateSchedule } from "@/entities/schdule";
 import { AddressSearch } from "@/features/schedule/ui/address-search";
 import Image from "next/image";
 import { calendar_icon, location2_icon } from "@/shared/assets/images";
+import { useCreateSchedule } from "@/features/create-schedule";
+import { BackButton } from "@/shared/ui";
 
 export default function CreateSchedulePage() {
   const params = useParams();
@@ -25,25 +25,22 @@ export default function CreateSchedulePage() {
   });
   const [startAt, setStartAt] = useState("");
 
-  const createMutation = useCreateSchedule();
+  const createScheduleMutation = useCreateSchedule();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    try {
-      await createMutation.mutateAsync({
-        groupId: groupId,
-        title: title,
-        description: description,
-        address: addressData.address,
-        addressDetail: addressData.detailAddress,
-        startAt: startAt,
-      });
+    const scheduleInfo = {
+      groupId: groupId,
+      title: title,
+      description: description,
+      address: addressData.address,
+      addressDetail: addressData.detailAddress,
+      startAt: startAt,
+    };
+    createScheduleMutation.mutate(scheduleInfo);
 
-      router.push(`/groups/${groupId}`);
-    } catch (error) {
-      console.error("일정 생성 중 오류 발생:", error);
-    }
+    router.push(`/groups/${groupId}`);
   };
 
   return (
@@ -116,7 +113,7 @@ export default function CreateSchedulePage() {
           <button
             type="submit"
             className={`w-full rounded-md py-3 text-center font-medium ${
-              createMutation.isPending ||
+              createScheduleMutation.isPending ||
               !title ||
               !startAt ||
               !addressData.address ||
@@ -125,24 +122,17 @@ export default function CreateSchedulePage() {
                 : "bg-primary text-common-100"
             }`}
             disabled={
-              createMutation.isPending ||
+              createScheduleMutation.isPending ||
               !title ||
               !startAt ||
               !addressData.address ||
               !description
             }
           >
-            {createMutation.isPending ? "생성 중..." : "다음"}
+            {createScheduleMutation.isPending ? "생성 중..." : "다음"}
           </button>
         </div>
       </form>
-
-      {/* 에러 메시지 */}
-      {createMutation.isError && (
-        <div className="text-error bg-error-container fixed right-0 bottom-20 left-0 mx-auto max-w-[calc(430px-2rem)] rounded-md p-3 text-center">
-          일정 생성에 실패했습니다. 다시 시도해주세요.
-        </div>
-      )}
     </div>
   );
 }

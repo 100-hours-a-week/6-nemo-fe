@@ -1,31 +1,27 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import Image from "next/image";
-import { AddressSearch } from "@/features/schedule/ui/address-search";
-import { AddressData } from "@/features/schedule/model/types";
-import BackButton from "@/shared/ui/back-button";
-import { ProgressBar } from "@/shared/ui/progress-bar";
-import { Button } from "@/shared/ui/button";
-import { cn } from "lib/utils";
+import { CreateGroupInfoResponse } from "@/entities/group";
 import { CATEGORIES } from "@/features/category/category-filter/model/constants";
-import { GeneratedGroupData } from "@/entities/group";
-import { createGroupInfo } from "@/entities/group/api/create-group-info";
-import { useCreateGroup } from "@/entities/group/model/use-create-group";
-
-// 모임 기간 옵션
-const PERIOD_OPTIONS = [
-  { id: "LESS_THAN_1_MONTH", label: "1개월 이하" },
-  { id: "ONE_TO_THREE_MONTHS", label: "1~3개월" },
-  { id: "THREE_TO_SIX_MONTHS", label: "3~6개월" },
-  { id: "SIX_TO_TWELVE_MONTHS", label: "6~12개월" },
-  { id: "MORE_THAN_1_YEAR", label: "1년 이상" },
-];
+import { useCreateGroup } from "@/features/create-group";
+import {
+  PERIOD_OPTIONS,
+  useCreateGroupInfo,
+} from "@/features/create-group-info";
+import { AddressData } from "@/features/schedule/model/types";
+import { AddressSearch } from "@/features/schedule/ui/address-search";
+import { createImageHandler } from "@/shared/lib";
+import { BackButton } from "@/shared/ui";
+import { Button } from "@/shared/ui/button";
+import { ProgressBar } from "@/shared/ui/progress-bar";
+import { cn } from "lib/utils";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function Page() {
   const router = useRouter();
-  const createGroup = useCreateGroup();
+  const createGroupMutation = useCreateGroup();
+  const createGroupInfoMutation = useCreateGroupInfo();
 
   // 단계 상태
   const [currentStep, setCurrentStep] = useState(1);
@@ -48,13 +44,11 @@ export default function Page() {
 
   // 생성된 모임 데이터와 로딩 상태
   const [generatedGroup, setGeneratedGroup] =
-    useState<GeneratedGroupData | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
+    useState<CreateGroupInfoResponse | null>(null);
 
   // 수정 상태
   const [editedGroupData, setEditedGroupData] =
-    useState<GeneratedGroupData | null>(null);
+    useState<CreateGroupInfoResponse | null>(null);
 
   // 입력 유효성 검사
   const isStepValid = () => {
@@ -101,61 +95,40 @@ export default function Page() {
 
   // 모임 정보 생성 요청
   const handleCreateGroupInfo = async () => {
-    try {
-      setIsLoading(true);
-      setError("");
+    const groupData = {
+      name: name,
+      goal: goal,
+      category: category,
+      location: `${addressData.address} ${addressData.detailAddress}`.trim(),
+      period: period,
+      maxUserCount: maxUserCount,
+      isPlanCreated: isIncludePlan,
+    };
 
-      const groupData = {
-        name: name,
-        goal: goal,
-        category: category,
-        location: `${addressData.address} ${addressData.detailAddress}`.trim(),
-        period,
-        maxUserCount: maxUserCount,
-        isPlanCreated: isIncludePlan,
-      };
+    const groupInfo = await createGroupInfoMutation.mutateAsync(groupData);
 
-      const groupInfo = await createGroupInfo(groupData);
-
-      setGeneratedGroup(groupInfo);
-      setEditedGroupData(groupInfo);
-    } catch (err) {
-      setError(
-        err instanceof Error
-          ? err.message
-          : "모임 생성 중 오류가 발생했습니다.",
-      );
-    } finally {
-      setIsLoading(false);
-    }
+    setGeneratedGroup(groupInfo);
+    setEditedGroupData(groupInfo);
   };
 
   // 최종 모임 생성
   const handleCreateGroup = async () => {
     if (editedGroupData) {
-      try {
-        const requestData = {
-          name: editedGroupData.name,
-          summary: editedGroupData.summary,
-          description: editedGroupData.description,
-          category: editedGroupData.category,
-          location: editedGroupData.location,
-          maxUserCount: editedGroupData.maxUserCount,
-          imageUrl: editedGroupData?.imageUrl || null,
-          tags: editedGroupData?.tags,
-          plan: editedGroupData?.plan || null,
-        };
+      const requestData = {
+        name: editedGroupData.name,
+        summary: editedGroupData.summary,
+        description: editedGroupData.description,
+        category: editedGroupData.category,
+        location: editedGroupData.location,
+        maxUserCount: editedGroupData.maxUserCount,
+        imageUrl: editedGroupData?.imageUrl || null,
+        tags: editedGroupData?.tags,
+        plan: editedGroupData?.plan || null,
+      };
 
-        const result = await createGroup.mutateAsync(requestData);
+      const result = await createGroupMutation.mutateAsync(requestData);
 
-        router.push(`/groups/create/success?groupId=${result.id}`);
-      } catch (err) {
-        setError(
-          err instanceof Error
-            ? err.message
-            : "모임 생성 중 오류가 발생했습니다.",
-        );
-      }
+      router.push(`/groups/create/success?groupId=${result.groupId}`);
     }
   };
 
@@ -229,7 +202,7 @@ export default function Page() {
                     "rounded-ctn-sm flex flex-col items-center justify-center p-4 transition-all",
                     category === cat.label
                       ? "bg-primary-light text-primary shadow-sm"
-                      : "bg-gray-50 text-gray-600 hover:bg-gray-100",
+                      : "bg-gray-50 text-gray-600 hover:bg-gray-100"
                   )}
                 >
                   <Image
@@ -279,7 +252,7 @@ export default function Page() {
                     "rounded-lg border p-4 text-left transition-all",
                     period === option.label
                       ? "border-primary bg-primary-light"
-                      : "border-gray-200 hover:bg-gray-50",
+                      : "border-gray-200 hover:bg-gray-50"
                   )}
                 >
                   <span
@@ -376,7 +349,7 @@ export default function Page() {
                   "rounded-lg border p-4 text-left transition-all",
                   isIncludePlan === true
                     ? "border-primary bg-primary-light"
-                    : "border-gray-200 hover:bg-gray-50",
+                    : "border-gray-200 hover:bg-gray-50"
                 )}
               >
                 <span
@@ -393,7 +366,7 @@ export default function Page() {
                   "rounded-lg border p-4 text-left transition-all",
                   isIncludePlan === false
                     ? "border-primary bg-primary-light"
-                    : "border-gray-200 hover:bg-gray-50",
+                    : "border-gray-200 hover:bg-gray-50"
                 )}
               >
                 <span
@@ -414,37 +387,16 @@ export default function Page() {
   };
 
   // 생성된 모임 정보 편집 화면
-  // 모임 생성 페이지의 renderGeneratedGroup 함수 수정
   const renderGeneratedGroup = () => {
     if (!editedGroupData) return null;
 
-    // 이미지 업로드 처리 함수
-    const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const file = e.target.files?.[0];
-      if (!file) return;
-
-      // 파일 크기 제한 (5MB)
-      if (file.size > 5 * 1024 * 1024) {
-        alert("이미지 크기는 5MB 이하여야 합니다.");
-        return;
-      }
-
-      // 이미지 타입 확인
-      if (!file.type.startsWith("image/")) {
-        alert("이미지 파일만 업로드 가능합니다.");
-        return;
-      }
-
-      // 이미지를 Base64로 변환
-      const reader = new FileReader();
-      reader.onload = () => {
-        setEditedGroupData({
-          ...editedGroupData,
-          imageUrl: reader.result as string,
-        });
-      };
-      reader.readAsDataURL(file);
-    };
+    // shared 레이어의 공통 함수 사용
+    const handleImageUpload = createImageHandler((imageFile) => {
+      setEditedGroupData({
+        ...editedGroupData,
+        imageUrl: imageFile,
+      });
+    });
 
     return (
       <div className="p-ctn-lg space-y-6">
@@ -668,10 +620,12 @@ export default function Page() {
         <div className="pt-6">
           <Button
             onClick={handleCreateGroup}
-            disabled={createGroup.isPending}
+            disabled={createGroupMutation.isPending}
             className="bg-primary w-full py-5 text-center font-medium text-white"
           >
-            {createGroup.isPending ? "모임 생성 중..." : "모임 생성 완료"}
+            {createGroupMutation.isPending
+              ? "모임 생성 중..."
+              : "모임 생성 완료"}
           </Button>
         </div>
       </div>
@@ -679,7 +633,7 @@ export default function Page() {
   };
 
   // 로딩 화면
-  if (isLoading) {
+  if (createGroupInfoMutation.isPending) {
     return (
       <div className="flex h-screen flex-col items-center justify-center">
         <div className="border-primary h-12 w-12 animate-spin rounded-full border-4 border-t-transparent"></div>
@@ -694,13 +648,14 @@ export default function Page() {
   }
 
   // 에러 화면
-  if (error) {
+  if (createGroupInfoMutation.isError) {
     return (
       <div className="p-ctn-lg flex h-screen flex-col items-center justify-center">
-        <p className="text-body-1 text-error mb-4">{error}</p>
+        <p className="text-body-1 text-error mb-4">
+          모임 정보 생성에 실패하였습니다.
+        </p>
         <Button
           onClick={() => {
-            setError("");
             setCurrentStep(1);
           }}
           className="bg-primary text-common-100 rounded-full px-6 py-2"

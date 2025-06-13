@@ -1,60 +1,58 @@
-export type Group = {
-    id?: number;
-    ownerName?: string;
+export type GroupItem = {
+    groupId: number;
     name: string;
-    summary: string;
-    description?: string;
     category: string;
+    summary: string;
     location: string;
     currentUserCount: number;
     maxUserCount: number;
-    imageUrl?: string;
-    tags?: string[];
+    imageUrl: string | null;
+    tags: string[];
 }
 
-export type GroupDetails = Group & {
-    plan?: string;
+export type GroupListResponse = {
+    groups: GroupItem[];
+    totalPages: number;
+    totalElements: number;
+    pageNumber: number;
+    isLast: boolean;
+};
+
+export type GroupDetails = {
+    name: string;
+    category: string;
+    summary: string;
+    description: string;
+    plan: string | null;
+    location: string;
+    currentUserCount: number;
+    maxUserCount: number;
+    imageUrl: string | null;
+    tags: string[];
+    ownerName: string;
+    role: string;
 }
-
-export type SearchParams = {
-    keyword?: string;
-    category?: string;
-    page?: number;
-    size?: number;
-    sort?: string;
-};
-
-export type SearchResponse = {
-    code: number;
-    message: string;
-    data: {
-        groups: Group[];
-        totalPages: number;
-        totalElements: number;
-        pageNumber: number;
-        isLast: boolean;
-    };
-};
 
 export type Member = {
     userId: string;
     nickname: string;
-    profileImageUrl?: string;
-    role?: "LEADER" | "MEMBER";
+    profileImageUrl: string | null;
+    role: "LEADER" | "MEMBER";
 };
 
-// 모임 정보 생성에 필요한 사용자 입력 데이터
+// 모임 정보 생성 요청 타입
 export type CreateGroupInfoRequest = {
     name: string;
     goal: string;
     category: string;
     location: string;
     period: string;
+    maxUserCount: number;
     isPlanCreated: boolean;
 }
 
-// 사용자 입력 데이터를 통해 생성된 모임 정보
-export type GeneratedGroupData = {
+// 모임 정보 생성 응답 타입
+export type CreateGroupInfoResponse = {
     name: string;
     goal: string;
     category: string;
@@ -69,6 +67,7 @@ export type GeneratedGroupData = {
     imageUrl: string | null;
 }
 
+// 모임 생성 요청 타입
 export type CreateGroupRequest = {
     name: string;
     summary: string;
@@ -79,4 +78,19 @@ export type CreateGroupRequest = {
     imageUrl: string | null;
     tags: string[];
     plan?: string | null;
+}
+
+// 모임 생성 응답 타입
+export type CreateGroupResponse = {
+    groupId: number;
+    name: string;
+    category: string;
+    summary: string;
+    description: string;
+    plan: string | null;
+    location: string;
+    currentUserCount: number;
+    maxUserCount: number;
+    imageUrl: string | null;
+    tags: string[];
 }

@@ -1,12 +1,7 @@
-import { Group } from "@/entities/group/model/types";
-
-export type GroupDetailHeaderProps = {
-    group: Group;
-};
-
+import { GroupItem } from "@/entities/group/model/types";
 
 export type GroupDetailResponse = {
     code: number;
     message: string;
-    data: Group;
+    data: GroupItem;
 };
