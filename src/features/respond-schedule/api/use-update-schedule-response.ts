@@ -1,7 +1,7 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { scheduleQuery } from "@/entities/schdule/api/schedule.query";
+import { scheduleQuery } from "@/entities/schedule/api/schedule.query";
 import { patch } from "@/features/auth/login";
 import { errorToast, successToast } from "@/shared/lib";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { RESPOND_SCHEDULE_MESSAGES } from "../model/constants";
 
 export type ParticipationStatus = "ACCEPTED" | "REJECTED";

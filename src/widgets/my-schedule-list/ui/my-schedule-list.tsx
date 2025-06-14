@@ -1,6 +1,6 @@
 "use client";
 
-import { MyScheduleCard, scheduleQuery } from "@/entities/schdule";
+import { MyScheduleCard, scheduleQuery } from "@/entities/schedule";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 

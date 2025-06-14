@@ -1,5 +1,3 @@
-import { Member } from "@/entities/group";
-
 export type Schedule = {
     scheduleId: number;
     title: string;
@@ -11,7 +9,7 @@ export type Schedule = {
     currentUserCount?: number;
 };
 
-export type ScheduleDetials = Schedule & {
+export type ScheduleDetails = Schedule & {
     createdAt: string;
     group: {
         groupId: number;
@@ -22,8 +20,11 @@ export type ScheduleDetials = Schedule & {
 }
 
 export type ScheduleParticipant = {
-    id: number;
-    user: Member;
+    user: {
+        userId: string;
+        nickname: string;
+        profileImageUrl: string | null;
+    }
     status: "ACCEPTED" | "REJECTED" | "PENDING";
 }
 
@@ -38,6 +39,7 @@ export type CreateScheduleRequest = {
 
 export type MyScheduleItem = Schedule & {
     groupName: string;
+    groupId: string;
 };
 
 export type MySchedulesResponse = {

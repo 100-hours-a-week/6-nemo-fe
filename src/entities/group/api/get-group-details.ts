@@ -1,4 +1,4 @@
-// src/entities/group/api/get-group-details.ts
+import { get } from "@/features/auth/login";
 import { BASE_URL } from "@/shared/constants";
 import { GroupDetailsResponse } from "../model/types";
 

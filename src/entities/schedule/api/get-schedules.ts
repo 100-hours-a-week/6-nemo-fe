@@ -1,3 +1,4 @@
+import { get } from "@/features/auth/login";
 import { BASE_URL } from "@/shared/constants";
 
 export const getSchedules = async ({
@@ -7,7 +8,7 @@ export const getSchedules = async ({
     groupId: number;
     pageParam?: number;
 }) => {
-    const res = await fetch(
+    const res = await get(
         `${BASE_URL}/api/v1/groups/${groupId}/schedules?sort=startAt&page=${pageParam}&size=10`
     );
     const json = await res.json();

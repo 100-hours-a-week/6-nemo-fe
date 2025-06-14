@@ -3,7 +3,7 @@ import { JoinGroupButton } from "@/features/join-group/ui/join-group-button";
 import { GROUP_DETAILS_TAB_ITEMS } from "@/shared/constants";
 import { BackButton, SubTab } from "@/shared/ui";
 import { GroupInfo } from "@/widgets/group-details";
-import { ScheduleList } from "@/widgets/schdule-list";
+import { ScheduleList } from "@/widgets/schedule-list";
 
 type Props = {
   params: Promise<{ groupId: string }>;
