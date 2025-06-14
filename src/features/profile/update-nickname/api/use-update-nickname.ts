@@ -1,4 +1,6 @@
+import { groupQuery } from "@/entities/group";
 import { profileQuery } from "@/entities/profile";
+import { scheduleQuery } from "@/entities/schdule";
 import { patch } from "@/features/auth/login";
 import { errorToast, successToast } from "@/shared/lib";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -18,6 +20,12 @@ export const useUpdateNickname = () => {
         onSuccess: () => {
             queryClient.refetchQueries({
                 queryKey: profileQuery.profile().queryKey,
+            });
+            queryClient.invalidateQueries({
+                queryKey: groupQuery.details(),
+            });
+            queryClient.invalidateQueries({
+                queryKey: scheduleQuery.details(),
             });
             successToast("닉네임이 변경되었습니다.");
         },
