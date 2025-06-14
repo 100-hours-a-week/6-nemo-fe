@@ -1,9 +1,9 @@
 "use client";
 
 import { useConfetti } from "@/shared/lib";
+import dynamic from "next/dynamic";
 import { useState } from "react";
 import { useJoinGroup } from "../api/use-join-to-group";
-import { Modal } from "@/shared/ui";
 
 type Props = {
   groupId: string;
@@ -23,6 +23,13 @@ export function JoinGroupButton({ groupId, groupName, role }: Props) {
       },
     });
   };
+
+  const DynamicModal = dynamic(
+    () => import("@/shared/ui/modal").then((mod) => ({ default: mod.Modal })),
+    {
+      ssr: false,
+    }
+  );
 
   // 모임장
   if (role === "LEADER" || !role) {
@@ -45,7 +52,7 @@ export function JoinGroupButton({ groupId, groupName, role }: Props) {
   if (role === "NON_MEMBER" || role === "GUEST")
     return (
       <>
-        <Modal
+        <DynamicModal
           isOpen={showConfirmDialog}
           onClose={() => setShowConfirmDialog(false)}
           onConfirm={() => handleJoinGroup()}
