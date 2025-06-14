@@ -11,10 +11,18 @@ type Props = {
   role: "LEADER" | "MEMBER" | "NON_MEMBER" | "GUEST";
 };
 
+const DynamicModal = dynamic(
+  () => import("@/shared/ui/modal").then((mod) => ({ default: mod.Modal })),
+  {
+    ssr: false,
+  }
+);
+
 export function JoinGroupButton({ groupId, groupName, role }: Props) {
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const { mutate: JoinGroupMutate, isPending } = useJoinGroup(groupId);
   const confetti = useConfetti();
+  console.log(role);
 
   const handleJoinGroup = () => {
     JoinGroupMutate(undefined, {
@@ -23,13 +31,6 @@ export function JoinGroupButton({ groupId, groupName, role }: Props) {
       },
     });
   };
-
-  const DynamicModal = dynamic(
-    () => import("@/shared/ui/modal").then((mod) => ({ default: mod.Modal })),
-    {
-      ssr: false,
-    }
-  );
 
   // 모임장
   if (role === "LEADER" || !role) {
@@ -40,10 +41,10 @@ export function JoinGroupButton({ groupId, groupName, role }: Props) {
   if (role === "MEMBER") {
     return (
       <button
-        className="fixed right-0 bottom-4 left-0 mx-auto w-[calc(100%-2rem)] max-w-[calc(430px-2rem)] cursor-not-allowed rounded-full bg-gray-300 py-3 font-medium text-gray-600 shadow-lg"
+        className="rounded-ctn-md fixed right-0 bottom-4 left-0 mx-auto w-[calc(100%-2rem)] max-w-[calc(430px-2rem)] cursor-not-allowed bg-gray-100 py-3 font-medium text-gray-500 opacity-90 shadow-lg"
         disabled={true}
       >
-        이미 가입한 모임입니다
+        가입 완료
       </button>
     );
   }
@@ -62,7 +63,7 @@ export function JoinGroupButton({ groupId, groupName, role }: Props) {
           cancelLabel="취소"
         />
         <button
-          className="bg-primary hover:bg-primary-strong text-common-100 fixed right-0 bottom-4 left-0 mx-auto w-[calc(100%-2rem)] max-w-[calc(430px-2rem)] rounded-full py-3 font-medium shadow-lg transition"
+          className="bg-primary hover:bg-primary-strong text-common-100 rounded-ctn-md fixed right-0 bottom-4 left-0 mx-auto w-[calc(100%-2rem)] max-w-[calc(430px-2rem)] py-3 font-medium shadow-lg transition"
           onClick={() => setShowConfirmDialog(true)}
           disabled={isPending}
         >
