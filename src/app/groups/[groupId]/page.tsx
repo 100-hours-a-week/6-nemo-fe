@@ -26,7 +26,7 @@ export default async function GroupDetailsPage({
   return (
     <div className="bg-common-100 relative flex min-h-screen flex-col pb-24">
       <div className="absolute top-4 right-4 left-4 z-10 flex items-center justify-between">
-        <BackButton href="/groups" fill={true} className="opacity-75" />
+        <BackButton fill={true} className="opacity-75" />
         <GroupManagementButton
           groupId={groupId}
           groupName={groupDetails.name}
