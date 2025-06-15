@@ -4,11 +4,11 @@ import { Role } from "@/entities/group";
 import { USER_ROLE_IN_GROUP } from "@/entities/group/model/constants";
 import { DeleteGroupButton } from "@/features/group/delete-group";
 import { LeaveGroupButton } from "@/features/group/leave-group";
-import { ManageGroupMembersButton } from "@/features/group/manage-group-members";
 import { UpdateGroupImageButton } from "@/features/group/update-group-image";
 import { more_icon } from "@/shared/assets/images";
 import Image from "next/image";
 import { useState } from "react";
+import { ManageMembersButton } from "../../manage-members";
 
 type Props = {
   groupId: string;
@@ -32,8 +32,9 @@ export const GroupManagementButton = ({ groupId, groupName, role }: Props) => {
             groupId={groupId}
             onSuccess={handleCloseBottomSheet}
           />
-          <ManageGroupMembersButton
+          <ManageMembersButton
             groupId={groupId}
+            groupName={groupName}
             onSuccess={handleCloseBottomSheet}
           />
           <DeleteGroupButton
