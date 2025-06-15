@@ -22,7 +22,6 @@ export function JoinGroupButton({ groupId, groupName, role }: Props) {
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const { mutate: JoinGroupMutate, isPending } = useJoinGroup(groupId);
   const confetti = useConfetti();
-  console.log(role);
 
   const handleJoinGroup = () => {
     JoinGroupMutate(undefined, {

@@ -1,4 +1,5 @@
 import { getGroupDetails, GroupMemberList, GroupPlan } from "@/entities/group";
+import { GroupManagementButton } from "@/features/group/manage-group";
 import { JoinGroupButton } from "@/features/join-group/ui/join-group-button";
 import { GROUP_DETAILS_TAB_ITEMS } from "@/shared/constants";
 import { BackButton, SubTab } from "@/shared/ui";
@@ -24,11 +25,14 @@ export default async function GroupDetailsPage({
 
   return (
     <div className="bg-common-100 relative flex min-h-screen flex-col pb-24">
-      <BackButton
-        href="/groups"
-        fill={true}
-        className="absolute top-4 left-4 opacity-75"
-      />
+      <div className="absolute top-4 right-4 left-4 z-10 flex items-center justify-between">
+        <BackButton href="/groups" fill={true} className="opacity-75" />
+        <GroupManagementButton
+          groupId={groupId}
+          groupName={groupDetails.name}
+          role={groupDetails.role}
+        />
+      </div>
       {/* 모임 상세 헤더 */}
       <GroupInfo groupDetails={groupDetails} />
 

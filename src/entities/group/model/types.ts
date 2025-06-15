@@ -1,3 +1,5 @@
+import { USER_ROLE_IN_GROUP } from "./constants";
+
 export type GroupItem = {
     groupId: number;
     name: string;
@@ -94,3 +96,5 @@ export type CreateGroupResponse = {
     imageUrl: string | null;
     tags: string[];
 }
+
+export type Role = typeof USER_ROLE_IN_GROUP[keyof typeof USER_ROLE_IN_GROUP];
