@@ -19,7 +19,7 @@ export const BackButton = ({
   return (
     <div
       className={cn(
-        "z-10 flex h-9 w-9 items-center justify-center rounded-full",
+        "z-10 flex h-9 w-9 items-center justify-center rounded-full transition hover:opacity-70",
         fill ? "bg-common-100 shadow-md" : "",
         className
       )}
