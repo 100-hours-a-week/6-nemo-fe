@@ -1,14 +1,10 @@
 "use client";
 
 import { Role } from "@/entities/group";
-import { USER_ROLE_IN_GROUP } from "@/entities/group/model/constants";
-import { DeleteGroupButton } from "@/features/group/delete-group";
-import { LeaveGroupButton } from "@/features/group/leave-group";
-import { UpdateGroupImageButton } from "@/features/group/update-group-image";
 import { more_icon } from "@/shared/assets/images";
 import Image from "next/image";
 import { useState } from "react";
-import { ManageMembersButton } from "../../manage-members";
+import { RenderMenuItemsByRole } from "./render-menu-items-by-role";
 
 type Props = {
   groupId: string;
@@ -23,49 +19,14 @@ export const GroupManagementButton = ({ groupId, groupName, role }: Props) => {
     setIsBottomSheetOpen(false);
   };
 
-  // 역할에 따른 메뉴 렌더링
-  const renderMenuItems = () => {
-    if (role === USER_ROLE_IN_GROUP.LEADER) {
-      return (
-        <>
-          <UpdateGroupImageButton
-            groupId={groupId}
-            onSuccess={handleCloseBottomSheet}
-          />
-          <ManageMembersButton
-            groupId={groupId}
-            groupName={groupName}
-            onSuccess={handleCloseBottomSheet}
-          />
-          <DeleteGroupButton
-            groupId={groupId}
-            groupName={groupName}
-            onSuccess={handleCloseBottomSheet}
-          />
-        </>
-      );
-    }
-
-    if (role === USER_ROLE_IN_GROUP.MEMBER) {
-      return (
-        <LeaveGroupButton
-          groupId={groupId}
-          groupName={groupName}
-          onSuccess={handleCloseBottomSheet}
-        />
-      );
-    }
-
-    return null;
-  };
-
+  // 모임원이 아니거나 비로그인이면 버튼 노출되지 않음.
   if (role === "NON_MEMBER" || role === "GUEST") return null;
 
   return (
     <>
       <button
         onClick={() => setIsBottomSheetOpen(true)}
-        className="flex h-8 w-8 items-center justify-center rounded-full hover:opacity-70"
+        className="flex h-8 w-8 items-center justify-center rounded-full transition hover:scale-110 hover:opacity-50"
       >
         <Image src={more_icon} alt="더보기" width={20} height={20} />
       </button>
@@ -87,7 +48,12 @@ export const GroupManagementButton = ({ groupId, groupName, role }: Props) => {
             <div className="bg-common-100 rounded-t-2xl px-4 py-6 shadow-lg">
               {/* 메뉴 아이템들 */}
               <div className="rounded-ctn-md mb-4 space-y-1 bg-gray-50">
-                {renderMenuItems()}
+                <RenderMenuItemsByRole
+                  groupId={groupId}
+                  groupName={groupName}
+                  role={role}
+                  onSuccess={handleCloseBottomSheet}
+                />
               </div>
 
               {/* 닫기 버튼 */}
