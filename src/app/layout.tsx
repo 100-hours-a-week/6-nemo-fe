@@ -30,6 +30,7 @@ export default function RootLayout({
             {children}
             <Toaster position="top-center" />
           </div>
+          <div id="modal-root"></div>
         </QueryProvider>
       </body>
     </html>

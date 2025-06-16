@@ -25,6 +25,9 @@ export const useUpdateScheduleResponse = (scheduleId: number) => {
             queryClient.refetchQueries({
                 queryKey: scheduleQuery.detail(scheduleId).queryKey
             });
+            queryClient.invalidateQueries({
+                queryKey: scheduleQuery.myList().queryKey
+            });
 
             successToast(RESPOND_SCHEDULE_MESSAGES.SUCCESS);
         },

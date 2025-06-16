@@ -1,6 +1,11 @@
 import { withSentryConfig } from "@sentry/nextjs";
 import type { NextConfig } from "next";
 
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+  openAnalyzer: false,
+});
+
 const nextConfig: NextConfig = {
   images: {
     domains: [
@@ -15,8 +20,9 @@ const nextConfig: NextConfig = {
     ],
   },
 };
+const configWithBundleAnalyzer = withBundleAnalyzer(nextConfig);
 
-export default withSentryConfig(nextConfig, {
+export default withSentryConfig(configWithBundleAnalyzer, {
   // For all available options, see:
   // https://www.npmjs.com/package/@sentry/webpack-plugin#options
 

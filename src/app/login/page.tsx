@@ -4,11 +4,11 @@ import LoginButton from "@/features/auth/login/ui/login-button";
 import { bg_post } from "@/shared/assets/images";
 import { useAuthStore } from "@/shared/store/auth-store";
 import Image from "next/image";
-import { useSearchParams } from "next/navigation";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect } from "react";
 
-export default function LoginPage() {
+// useSearchParams를 사용하는 컴포넌트 임시 분리
+function LoginContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const accessToken = searchParams.get("token");
@@ -23,34 +23,40 @@ export default function LoginPage() {
     if (isLoggedIn) {
       router.replace("/");
     }
-  }, [accessToken, router, login]);
+  }, [accessToken, router, login, isLoggedIn]);
 
+  return (
+    <div className="p-ctn-lg flex min-h-screen flex-col items-center justify-center">
+      <h1 className="text-title-1 text-label-strong-2 text-right font-extralight">
+        네가 찾는 모임,
+        <br />
+        <span className="text-display-1 text-primary-strong font-bold">
+          네모!
+        </span>
+      </h1>
+      <Image
+        src={bg_post}
+        alt="배경 이미지"
+        width={318}
+        height={318}
+        className="mt-10 ml-15"
+      />
+      <LoginButton platform="kakao" />
+    </div>
+  );
+}
+
+export default function LoginPage() {
   return (
     <Suspense
       fallback={
-        <div className="flex h-24 items-center justify-center">
-          <div className="border-primary h-6 w-6 animate-spin rounded-full border-2 border-t-transparent"></div>
+        <div className="p-ctn-lg flex min-h-screen flex-col items-center justify-center">
+          <div className="border-primary h-12 w-12 animate-spin rounded-full border-4 border-t-transparent"></div>
+          <p className="text-body-1 mt-4 text-gray-600">로딩 중...</p>
         </div>
       }
     >
-      <div className="p-ctn-lg flex min-h-screen flex-col items-center justify-center">
-        <h1 className="text-title-1 text-label-strong-2 text-right font-extralight">
-          네가 찾는 모임,
-          <br />
-          <span className="text-display-1 text-primary-strong font-bold">
-            네모!
-          </span>
-        </h1>
-        {/* <Image src={nemo_logo} alt="Logo" width={192} height={192} /> */}
-        <Image
-          src={bg_post}
-          alt="배경 이미지"
-          width={318}
-          height={318}
-          className="mt-10 ml-15"
-        />
-        <LoginButton platform="kakao" />
-      </div>
+      <LoginContent />
     </Suspense>
   );
 }

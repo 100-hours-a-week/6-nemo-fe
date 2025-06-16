@@ -1,3 +1,5 @@
+import { USER_ROLE_IN_GROUP } from "./constants";
+
 export type GroupItem = {
     groupId: number;
     name: string;
@@ -18,7 +20,7 @@ export type GroupListResponse = {
     isLast: boolean;
 };
 
-export type GroupDetails = {
+export type GroupDetailsResponse = {
     name: string;
     category: string;
     summary: string;
@@ -30,7 +32,7 @@ export type GroupDetails = {
     imageUrl: string | null;
     tags: string[];
     ownerName: string;
-    role: string;
+    role: "LEADER" | "MEMBER" | "NON_MEMBER" | "GUEST";
 }
 
 export type Member = {
@@ -94,3 +96,5 @@ export type CreateGroupResponse = {
     imageUrl: string | null;
     tags: string[];
 }
+
+export type Role = typeof USER_ROLE_IN_GROUP[keyof typeof USER_ROLE_IN_GROUP];

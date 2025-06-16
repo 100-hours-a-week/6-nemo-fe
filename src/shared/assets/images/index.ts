@@ -36,6 +36,12 @@ export { default as time_bk_icon } from "./time_bk_icon.svg";
 export { default as time_icon } from "./time_icon.svg";
 export { default as users_bk_icon } from "./users_bk_icon.svg";
 export { default as users_icon } from "./users_icon.svg";
+// 바텀 시트
+export { default as delete_group } from "./delete_group.svg";
+export { default as delete_user } from "./delete_user.svg";
+export { default as group_image_icon } from "./group_image_icon.svg";
+export { default as leave } from "./leave.svg";
+
 // 이미지
 // export { default as user } from "./user.png"
 export { default as crown } from './crown.png';

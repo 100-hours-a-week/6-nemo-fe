@@ -142,6 +142,7 @@
 
   --color-warn: var(--color-yellow-400);
   --color-complete: var(--color-green-300);
+  --color-delete: #e2625c;
 
   --color-kakao: #fee500;
   --color-on-kakao: #181600;
