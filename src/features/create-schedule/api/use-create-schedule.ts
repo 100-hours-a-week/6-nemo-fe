@@ -21,7 +21,7 @@ export const useCreateSchedule = () => {
         },
         onSuccess: (_, variables) => {
             queryClient.invalidateQueries({
-                queryKey: scheduleQuery.lists(variables.groupId)
+                queryKey: scheduleQuery.list(variables.groupId).queryKey
             });
 
             successToast(CREATE_SCHEDULE_MESSAGES.SUCCESS);
