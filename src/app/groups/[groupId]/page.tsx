@@ -1,10 +1,16 @@
-import { getGroupDetails, GroupMemberList, GroupPlan } from "@/entities/group";
+import {
+  getGroupDetails,
+  getGroupMembers,
+  GroupMemberList,
+  GroupPlan,
+} from "@/entities/group";
 import { GroupManagementButton } from "@/features/group/manage-group";
 import { JoinGroupButton } from "@/features/join-group/ui/join-group-button";
 import { GROUP_DETAILS_TAB_ITEMS } from "@/shared/constants";
 import { BackButton, SubTab } from "@/shared/ui";
 import { GroupInfo } from "@/widgets/group-details";
 import { ScheduleList } from "@/widgets/schedule-list";
+import { Suspense } from "react";
 
 type Props = {
   params: Promise<{ groupId: string }>;
@@ -19,6 +25,7 @@ export default async function GroupDetailsPage({
 }: Props) {
   const { groupId } = await params;
   const groupDetails = await getGroupDetails(groupId);
+  const groupMembers = await getGroupMembers(groupId);
 
   const { tab } = await searchParams;
   const activeTab = tab ?? "detail-info";
@@ -48,7 +55,15 @@ export default async function GroupDetailsPage({
               <h3 className="text-heading-2 text-label-strong-2 mb-3 border-l-4 border-gray-700 pl-2 font-semibold">
                 모임원
               </h3>
-              <GroupMemberList groupId={groupId} />
+              <Suspense
+                fallback={
+                  <div className="flex h-24 items-center justify-center">
+                    <div className="border-primary h-6 w-6 animate-spin rounded-full border-2 border-t-transparent"></div>
+                  </div>
+                }
+              >
+                <GroupMemberList members={groupMembers} />
+              </Suspense>
             </section>
 
             {/* 모임 상세 소개 */}
