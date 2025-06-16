@@ -1,7 +1,7 @@
 "use client";
 
 import { useAuthStore } from "@/shared/store/auth-store";
-import { ConfirmDialog } from "@/shared/ui";
+import { Modal } from "@/shared/ui";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useLogout } from "../api/use-logout";
@@ -31,7 +31,7 @@ export const LogoutButton = () => {
         {isPending ? "로그아웃 중..." : "로그아웃"}
       </button>
 
-      <ConfirmDialog
+      <Modal
         isOpen={showConfirmDialog}
         onClose={() => setShowConfirmDialog(false)}
         onConfirm={handleLogout}

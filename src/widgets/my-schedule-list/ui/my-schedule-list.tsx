@@ -11,7 +11,7 @@ export const MyScheduleList = () => {
     data: mySchedules,
     isLoading,
     error,
-  } = useQuery(scheduleQuery.mySchedules());
+  } = useQuery(scheduleQuery.myList());
 
   if (isLoading) {
     return (

@@ -1,36 +1,12 @@
 "use client";
 
 import { crown_yello, user } from "@/shared/assets/images";
-import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useState } from "react";
-import { groupQuery } from "../api/group.query";
 import { Member } from "../model/types";
 
-export const GroupMemberList = ({ groupId }: { groupId: string }) => {
+export const GroupMemberList = ({ members }: { members: Member[] }) => {
   const [isExpanded, setIsExpanded] = useState(false);
-
-  const {
-    data: members,
-    isLoading,
-    error,
-  } = useQuery(groupQuery.members(Number(groupId)));
-
-  if (isLoading) {
-    return (
-      <div className="flex h-24 items-center justify-center">
-        <div className="border-primary h-6 w-6 animate-spin rounded-full border-2 border-t-transparent"></div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <p className="text-body-2 text-error py-4">
-        모임원 목록을 불러오는데 실패했습니다.
-      </p>
-    );
-  }
 
   if (members.length === 0) {
     return (

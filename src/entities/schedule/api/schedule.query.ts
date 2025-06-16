@@ -4,14 +4,15 @@ import { getScheduleDetails } from "./get-schedule-details";
 import { getSchedules } from "./get-schedules";
 
 export const scheduleQuery = {
-    all: (groupId: number) => ["group", groupId, "schedule"] as const,
+    all: () => ["schedule"] as const,
+    group: (groupId: number) => ["group", groupId] as const,
 
-    lists: (groupId: number) => [...scheduleQuery.all(groupId), "list"] as const,
+    lists: () => [...scheduleQuery.all(), "list"] as const,
 
     // 모임의 일정 리스트 조회
     list: (groupId: number) =>
         infiniteQueryOptions({
-            queryKey: [...scheduleQuery.lists(groupId)],
+            queryKey: [...scheduleQuery.group(groupId), ...scheduleQuery.lists()],
             queryFn: ({ pageParam = 0 }: { pageParam: number }) =>
                 getSchedules({ groupId, pageParam }),
             getNextPageParam: (lastPage: any) => {
@@ -19,7 +20,7 @@ export const scheduleQuery = {
             },
             initialPageParam: 0,
             enabled: !!groupId,
-            staleTime: 1000 * 60 * 3, // 3분
+            staleTime: 1000 * 60 * 3,
         }),
 
     // 일정 상세 조회
@@ -29,14 +30,14 @@ export const scheduleQuery = {
             queryKey: [...scheduleQuery.details(), scheduleId],
             queryFn: () => getScheduleDetails(scheduleId),
             enabled: !!scheduleId,
-            staleTime: 1000 * 60 * 5, // 5분
+            staleTime: 1000 * 60 * 5,
         }),
 
     // 나의 일정 조회
-    mySchedules: () =>
+    myList: () =>
         queryOptions({
-            queryKey: ["schedule", "me"],
+            queryKey: [...scheduleQuery.lists(), "me"],
             queryFn: () => getMySchedules(),
-            staleTime: 1000 * 60 * 5, // 5분
+            staleTime: 1000 * 60 * 5,
         }),
 }
