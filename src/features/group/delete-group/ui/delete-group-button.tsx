@@ -1,6 +1,6 @@
 "use client";
 
-import { Modal } from "@/shared/ui";
+import { MenuItemSpinLoader, Modal } from "@/shared/ui";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useDeleteGroup } from "../api/use-delete-group";
@@ -20,8 +20,7 @@ export const DeleteGroupButton = ({ groupId, groupName, onSuccess }: Props) => {
   const handleDeleteGroup = () => {
     deleteGroupMutate(undefined, {
       onSuccess: () => {
-        onSuccess?.();
-        router.push("/groups");
+        router.back();
       },
     });
   };
@@ -43,7 +42,13 @@ export const DeleteGroupButton = ({ groupId, groupName, onSuccess }: Props) => {
         onConfirm={handleDeleteGroup}
         title="모임 삭제"
         description={`정말로 '${groupName}' 모임을 삭제하시겠습니까?`}
-        confirmLabel={isPending ? "삭제 중..." : "삭제하기"}
+        confirmLabel={
+          isPending ? (
+            <MenuItemSpinLoader text="삭제 중..." />
+          ) : (
+            "삭제하기"
+          )
+        }
         cancelLabel="취소"
         variant="destructive"
       />

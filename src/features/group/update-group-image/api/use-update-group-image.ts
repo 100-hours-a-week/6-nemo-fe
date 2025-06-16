@@ -18,9 +18,6 @@ export const useUpdateGroupImage = (groupId: string) => {
             }
         },
         onSuccess: () => {
-            queryClient.refetchQueries({
-                queryKey: groupQuery.detail(groupId).queryKey
-            });
             queryClient.invalidateQueries({
                 queryKey: groupQuery.lists()
             });

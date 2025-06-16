@@ -19,7 +19,7 @@ export const Modal = ({
   onConfirm: () => void;
   title: string;
   description?: string;
-  confirmLabel?: string;
+  confirmLabel?: React.ReactNode;
   cancelLabel?: string;
   variant?: "default" | "destructive";
 }) => {

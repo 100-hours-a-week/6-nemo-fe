@@ -19,11 +19,6 @@ export const useKickMember = (groupId: string) => {
             queryClient.refetchQueries({
                 queryKey: groupQuery.members(groupId).queryKey
             });
-
-            queryClient.refetchQueries({
-                queryKey: groupQuery.detail(groupId).queryKey
-            });
-
             successToast("모임원이 추방되었습니다.");
         },
         onError: (error) => {

@@ -18,7 +18,6 @@ export const ManageMembersButton = ({
 
   const handleClick = () => {
     setShowManagementModal(true);
-    // onSuccess?.();
   };
 
   const handleModalClose = () => {

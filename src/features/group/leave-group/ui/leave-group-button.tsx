@@ -1,5 +1,6 @@
 "use client";
 
+import { MenuItemSpinLoader } from "@/shared/ui";
 import { Modal } from "@/shared/ui/modal";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -19,8 +20,7 @@ export const LeaveGroupButton = ({ groupId, groupName, onSuccess }: Props) => {
   const handleLeaveGroup = () => {
     leaveGroupMutate(undefined, {
       onSuccess: () => {
-        onSuccess?.();
-        router.push("/groups");
+        router.back();
       },
     });
   };
@@ -40,7 +40,9 @@ export const LeaveGroupButton = ({ groupId, groupName, onSuccess }: Props) => {
         onConfirm={handleLeaveGroup}
         title="모임 탈퇴"
         description={`정말로 '${groupName}' 모임에서 탈퇴하시겠습니까?`}
-        confirmLabel={isPending ? "탈퇴 중..." : "탈퇴하기"}
+        confirmLabel={
+          isPending ? <MenuItemSpinLoader text="탈퇴 중..." /> : "탈퇴하기"
+        }
         cancelLabel="취소"
         variant="destructive"
       />

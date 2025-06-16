@@ -2,6 +2,7 @@
 
 import { useConfetti } from "@/shared/lib";
 import dynamic from "next/dynamic";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useJoinGroup } from "../api/use-join-to-group";
 
@@ -19,6 +20,7 @@ const DynamicModal = dynamic(
 );
 
 export function JoinGroupButton({ groupId, groupName, role }: Props) {
+  const router = useRouter();
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const { mutate: JoinGroupMutate, isPending } = useJoinGroup(groupId);
   const confetti = useConfetti();
@@ -26,6 +28,7 @@ export function JoinGroupButton({ groupId, groupName, role }: Props) {
   const handleJoinGroup = () => {
     JoinGroupMutate(undefined, {
       onSuccess: () => {
+        router.refresh();
         confetti();
       },
     });
@@ -66,7 +69,14 @@ export function JoinGroupButton({ groupId, groupName, role }: Props) {
           onClick={() => setShowConfirmDialog(true)}
           disabled={isPending}
         >
-          {isPending ? "신청 중..." : "모임 신청하기"}
+          {isPending ? (
+            <>
+              <div className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
+              <span>신청 중...</span>
+            </>
+          ) : (
+            "모임 신청하기"
+          )}
         </button>
       </>
     );

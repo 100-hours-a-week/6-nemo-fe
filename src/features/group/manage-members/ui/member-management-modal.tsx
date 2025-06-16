@@ -6,6 +6,7 @@ import { Modal } from "@/shared/ui";
 import { useQuery } from "@tanstack/react-query";
 import { cn } from "lib/utils";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { createPortal } from "react-dom";
 import { useKickMember } from "../api/use-kick-member";
@@ -23,25 +24,24 @@ export const MemberManagementModal = ({
   groupId,
   groupName,
 }: Props) => {
+  const router = useRouter();
   const [selectedMember, setSelectedMember] = useState<Member | null>(null);
-  const [showKickConfirm, setShowKickConfirm] = useState(false);
-
-  console.log(isOpen);
-
+  const [isKickModalOpen, setIsKickModalOpen] = useState(false);
   const {
     data: members,
     isLoading,
     error,
   } = useQuery(groupQuery.members(groupId));
 
-  const { mutate: kickMember, isPending } = useKickMember(groupId);
+  const { mutate: kickMemberMutate, isPending } = useKickMember(groupId);
 
   const handleKickMember = () => {
     if (selectedMember) {
-      kickMember(selectedMember.userId, {
+      kickMemberMutate(selectedMember.userId, {
         onSuccess: () => {
-          setShowKickConfirm(false);
+          setIsKickModalOpen(false);
           setSelectedMember(null);
+          router.refresh();
         },
       });
     }
@@ -53,7 +53,7 @@ export const MemberManagementModal = ({
       return;
     }
     setSelectedMember(member);
-    setShowKickConfirm(true);
+    setIsKickModalOpen(true);
   };
 
   if (!isOpen) return null;
@@ -97,7 +97,7 @@ export const MemberManagementModal = ({
               </button>
             </div>
             <p className="text-body-2 text-label-normal mt-1">
-              모임원을 클릭하여 추방할 수 있습니다.
+              추방할 모임원을 선택합니다.
             </p>
           </div>
 
@@ -175,8 +175,8 @@ export const MemberManagementModal = ({
                           모임장
                         </span>
                       ) : (
-                        <span className="text-caption-1 text-gray-500">
-                          클릭하여 추방
+                        <span className="text-caption-1 text-common-100 rounded-full bg-red-500 px-3 py-1 hover:bg-red-600">
+                          추방
                         </span>
                       )}
                     </div>
@@ -190,7 +190,7 @@ export const MemberManagementModal = ({
           <div className="border-t border-gray-200 px-6 py-4">
             <button
               onClick={onClose}
-              className="w-full rounded-md border border-gray-200 bg-white px-4 py-2 font-medium hover:bg-gray-50"
+              className="w-full rounded-md border border-gray-200 bg-white px-4 py-2 font-medium transition hover:bg-gray-50 active:bg-gray-300"
             >
               닫기
             </button>
@@ -200,9 +200,9 @@ export const MemberManagementModal = ({
 
       {/* 추방 확인 모달 */}
       <Modal
-        isOpen={showKickConfirm}
+        isOpen={isKickModalOpen}
         onClose={() => {
-          setShowKickConfirm(false);
+          setIsKickModalOpen(false);
           setSelectedMember(null);
         }}
         onConfirm={handleKickMember}
