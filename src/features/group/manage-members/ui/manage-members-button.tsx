@@ -1,5 +1,7 @@
 "use client";
 
+import { delete_user } from "@/shared/assets/images";
+import Image from "next/image";
 import { useState } from "react";
 import { MemberManagementModal } from "./member-management-modal";
 
@@ -28,9 +30,15 @@ export const ManageMembersButton = ({
     <>
       <button
         onClick={handleClick}
-        className="flex w-full items-center justify-center rounded-lg px-4 py-4 text-center transition-colors hover:bg-gray-100 active:bg-gray-200"
+        className="flex w-full items-center gap-4 rounded-lg px-4 py-4 text-center transition-colors hover:bg-gray-100 active:bg-gray-200"
       >
-        <span className="text-body-1 font-medium text-gray-900">
+        <Image
+          src={delete_user}
+          alt="delete user icon"
+          width={20}
+          height={20}
+        />
+        <span className="text-body-1 text-label-assistive font-medium">
           모임원 관리
         </span>
       </button>

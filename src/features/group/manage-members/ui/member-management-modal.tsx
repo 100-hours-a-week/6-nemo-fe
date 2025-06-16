@@ -175,7 +175,7 @@ export const MemberManagementModal = ({
                           모임장
                         </span>
                       ) : (
-                        <span className="text-caption-1 text-common-100 rounded-full bg-red-500 px-3 py-1 hover:bg-red-600">
+                        <span className="text-caption-1 text-common-100 bg-delete rounded-full px-3 py-1 hover:bg-red-400">
                           추방
                         </span>
                       )}

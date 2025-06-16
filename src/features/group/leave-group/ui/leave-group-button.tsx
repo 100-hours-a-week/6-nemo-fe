@@ -1,7 +1,9 @@
 "use client";
 
+import { leave } from "@/shared/assets/images";
 import { MenuItemSpinLoader } from "@/shared/ui";
 import { Modal } from "@/shared/ui/modal";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useLeaveGroup } from "../api/use-leave-group";
@@ -29,8 +31,9 @@ export const LeaveGroupButton = ({ groupId, groupName, onSuccess }: Props) => {
     <>
       <button
         onClick={() => setShowConfirmDialog(true)}
-        className="flex w-full items-center justify-center rounded-lg px-4 py-4 text-center text-red-500 transition-colors hover:bg-red-50 active:bg-red-100"
+        className="text-delete flex w-full items-center gap-4 rounded-lg px-4 py-4 text-center transition-colors hover:bg-red-50 active:bg-red-100"
       >
+        <Image src={leave} alt="leave icon" width={20} height={20} />
         <span className="text-body-1 font-medium">모임 탈퇴</span>
       </button>
 

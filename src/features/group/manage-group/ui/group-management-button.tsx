@@ -31,7 +31,6 @@ export const GroupManagementButton = ({ groupId, groupName, role }: Props) => {
         <Image src={more_icon} alt="더보기" width={20} height={20} />
       </button>
 
-      {/* 커스텀 BottomSheet */}
       {isBottomSheetOpen && (
         <div className="fixed inset-0 z-50 flex items-end justify-center">
           {/* 배경 오버레이 - 클릭 시 닫기 */}

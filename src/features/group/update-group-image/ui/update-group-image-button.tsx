@@ -1,7 +1,9 @@
 "use client";
 
+import { group_image_icon } from "@/shared/assets/images";
 import { createImageHandler } from "@/shared/lib";
 import { MenuItemSpinLoader } from "@/shared/ui";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useRef } from "react";
 import { useUpdateGroupImage } from "../api/use-update-group-image";
@@ -35,9 +37,15 @@ export const UpdateGroupImageButton = ({ groupId, onSuccess }: Props) => {
       <button
         onClick={handleImageClick}
         disabled={isPending}
-        className="flex w-full items-center justify-center rounded-lg px-4 py-4 text-center transition-colors hover:bg-gray-100 active:bg-gray-200"
+        className="flex w-full items-center gap-4 rounded-lg px-4 py-4 text-center transition-colors hover:bg-gray-100 active:bg-gray-200"
       >
-        <span className="text-body-1 font-medium text-gray-900">
+        <Image
+          src={group_image_icon}
+          alt="group image icon"
+          width={20}
+          height={20}
+        />
+        <span className="text-body-1 text-label-assistive font-medium">
           {isPending ? (
             <MenuItemSpinLoader text="수정 중..." />
           ) : (

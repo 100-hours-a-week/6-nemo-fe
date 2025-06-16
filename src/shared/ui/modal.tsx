@@ -84,7 +84,7 @@ export const Modal = ({
             className={cn(
               "text-body-2 text-common-100 rounded-md px-4 py-2 font-medium",
               variant === "destructive"
-                ? "bg-red-500 hover:bg-red-600"
+                ? "bg-red-400 hover:bg-red-500"
                 : "bg-primary hover:bg-primary-strong"
             )}
             onClick={() => {
