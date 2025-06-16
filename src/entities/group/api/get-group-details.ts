@@ -19,7 +19,7 @@ export const getGroupDetails = async (groupId: number | string): Promise<GroupDe
 
     // 토큰이 만료된 경우 임시 리다이렉트 처리 (미들웨어 리팩토링 전)
     if (data.code === 401) {
-        redirect('/login');
+        redirect('/my-profile');
     }
 
     if (data.code !== 200) {
