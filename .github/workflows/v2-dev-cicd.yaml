@@ -41,6 +41,9 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
 
+    - name: Configure Docker for Artifact Registry
+      run: gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev --quiet
+
     - name: Load .env from GCP Secret Manager
       run: |
         gcloud secrets versions access latest --secret="${{ env.SERVICE }}-env-${{ env.ENVIRONMENT }}" > .env
