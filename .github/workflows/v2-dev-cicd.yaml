@@ -15,7 +15,7 @@ jobs:
       SERVICE: frontend
       ENVIRONMENT: dev
       DEPLOY_SCRIPT: ~/nemo/cloud/v2/scripts/deploy.sh
-      ENV_FILE: cloud/v2/envs/frontend.dev.env # ~/ 제거!
+      ENV_FILE: cloud/v2/envs/frontend.dev.env
 
     steps:
     - name: Checkout Code
@@ -48,7 +48,7 @@ jobs:
       run: |
         corepack enable
         corepack prepare pnpm@10.10.0 --activate
-        pnpm install --frozen-lockfile
+        RUN pnpm install --frozen-lockfile --yes
         pnpm build
 
     - name: Build and Push Docker Image
