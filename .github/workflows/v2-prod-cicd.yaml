@@ -6,6 +6,8 @@ on:
       version:
         description: '릴리즈 버전 태그 (예: v1.3.0)'
         required: true
+  push:
+    branches: [ infra/v2-cicd ] # 테스트 후 제거 예정 (dev 환경 배포)
 
 jobs:
   build-and-deploy:
@@ -46,8 +48,12 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
 
-    - name: Apply prod environment file
-      run: cp nemo/cloud/v2/envs/frontend.${{ env.ENVIRONMENT }}.env .env
+    - name: Configure Docker for Artifact Registry
+      run: gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev --quiet
+
+    - name: Load .env from GCP Secret Manager
+      run: |
+        gcloud secrets versions access latest --secret="${{ env.SERVICE }}-env-${{ env.ENVIRONMENT }}" > .env
 
     - name: Install Dependencies & Build (Next.js)
       run: |
