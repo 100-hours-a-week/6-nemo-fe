@@ -42,7 +42,7 @@ jobs:
 
     - name: Load .env from GCP Secret Manager
       run: |
-        gcloud secrets versions access latest --secret="${{ env.SERVICE }}-${{ env.ENVIRONMENT }}-env" > .env
+        gcloud secrets versions access latest --secret="${{ env.SERVICE }}-env-${{ env.ENVIRONMENT }}" > .env
 
     - name: Install Dependencies & Build (Next.js)
       run: |
