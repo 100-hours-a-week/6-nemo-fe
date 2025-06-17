@@ -48,7 +48,7 @@ jobs:
       run: |
         corepack enable
         corepack prepare pnpm@10.10.0 --activate
-        RUN pnpm install --frozen-lockfile --yes
+        pnpm install --frozen-lockfile --yes
         pnpm build
 
     - name: Build and Push Docker Image
