@@ -129,7 +129,7 @@ export default function ScheduleDetailPage() {
               <Image src={users_icon} alt="위치" width={22} height={22} />
             </div>
             <p className="text-body-2 text-primary font-semibold">
-              {schedule.participants.length}명 참여 중
+              {acceptedParticipants.length}명 참여 중
             </p>
           </div>
 
