@@ -70,10 +70,10 @@ export function JoinGroupButton({ groupId, groupName, role }: Props) {
           disabled={isPending}
         >
           {isPending ? (
-            <>
+            <div className="flex items-center justify-center gap-4">
               <div className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
               <span>신청 중...</span>
-            </>
+            </div>
           ) : (
             "모임 신청하기"
           )}
