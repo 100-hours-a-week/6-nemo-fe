@@ -2,7 +2,7 @@ name: Frontend CI/CD for v2-dev
 
 on:
   push:
-    branches: [ develop, infra/v2-cicd ] # 테스트 후 제거 예정 
+    branches: [ develop ]
 
 jobs:
   build-and-deploy:
@@ -15,7 +15,6 @@ jobs:
       SERVICE: frontend
       ENVIRONMENT: dev
       DEPLOY_SCRIPT: ~/nemo/cloud/v2/scripts/deploy.sh
-      ENV_FILE: cloud/v2/envs/frontend.dev.env
 
     steps:
     - name: Checkout Code
