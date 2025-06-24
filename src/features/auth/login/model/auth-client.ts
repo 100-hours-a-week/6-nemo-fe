@@ -1,45 +1,28 @@
 import { BASE_URL } from "@/shared/constants";
-import { useAuthStore } from "@/shared/store/auth-store";
-import { refreshAccessToken } from "./refresh-access-token";
 
-// 재시도 상태를 추적하기 위한 변수
 let isRefreshing = false;
-// 제네릭 타입 T를 사용하여 타입 안전성 개선
 let failedQueue: Array<{
-    resolve: (value: Response | PromiseLike<Response>) => void; // 특정 타입으로 변경
+    resolve: (value: Response | PromiseLike<Response>) => void;
     reject: (reason?: any) => void;
     config: RequestInit & { url: string };
 }> = [];
 
-const processQueue = (error: any, token: string | null = null) => {
+const processQueue = (error: any) => {
     failedQueue.forEach((prom) => {
         if (error) {
             prom.reject(error);
         } else {
-            const config = prom.config;
-
-            // 헤더 생성 방식 변경
-            if (token && config.headers) {
-                // Headers 객체 생성
-                const newHeaders = new Headers(config.headers);
-                newHeaders.set('Authorization', `Bearer ${token}`);
-                config.headers = newHeaders;
-            }
-
-            prom.resolve(apiClient(config.url, config));
+            // 갱신 성공 시 원래 요청 재시도
+            prom.resolve(apiClient(prom.config.url, prom.config));
         }
     });
 
     failedQueue = [];
 };
 
-// 기본 API 클라이언트 - 반환 타입을 명시적으로 Response로 지정
+// 기본 API 클라이언트 - 쿠키 기반 인증
 export const apiClient = async (url: string, config: RequestInit = {}): Promise<Response> => {
-    // 완전한 URL 생성
     const fullUrl = url.startsWith("http") ? url : `${BASE_URL}${url}`;
-
-    // 토큰 가져오기
-    const token = useAuthStore.getState().token;
 
     // Headers 객체 생성
     const headers = new Headers(config.headers || {});
@@ -49,24 +32,18 @@ export const apiClient = async (url: string, config: RequestInit = {}): Promise<
         headers.set('Content-Type', 'application/json');
     }
 
-    // 토큰이 있으면 Authorization 헤더 추가
-    if (token) {
-        headers.set('Authorization', `Bearer ${token}`);
-    }
-
     // 요청 설정
     const requestConfig: RequestInit = {
         ...config,
         headers,
-        credentials: 'include', // 쿠키를 포함시키기 위해 추가
+        credentials: 'include',
     };
 
     try {
         const response = await fetch(fullUrl, requestConfig);
 
-        // 401 에러 처리 (토큰 만료)
+        // 401 토큰 만료
         if (response.status === 401) {
-            // 원본 요청 설정 저장
             const originalRequest = {
                 url,
                 ...requestConfig,
@@ -83,33 +60,35 @@ export const apiClient = async (url: string, config: RequestInit = {}): Promise<
 
             try {
                 // 토큰 재발급 요청
-                const refreshResult = await refreshAccessToken();
-                const newToken = refreshResult.accessToken;
+                const refreshResponse = await fetch(`${BASE_URL}/api/v1/auth/token/refresh`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include',
+                });
 
-                // 새 토큰 저장
-                useAuthStore.getState().login(newToken);
+                if (refreshResponse.ok) {
+                    // 갱신 성공 - 큐에 저장된 요청들 처리
+                    processQueue(null);
 
-                // 헤더 업데이트
-                if (requestConfig.headers instanceof Headers) {
-                    requestConfig.headers.set('Authorization', `Bearer ${newToken}`);
+                    return await fetch(fullUrl, requestConfig);
+                } else {
+                    // 갱신 실패 - 로그인 페이지로 리다이렉트
+                    processQueue(new Error('Token refresh failed'));
+                    window.location.href = '/login';
+                    throw new Error('Authentication failed');
                 }
-
-                // 큐에 저장된 요청 처리
-                processQueue(null, newToken);
-
-                // 원래 요청 다시 시도
-                return await fetch(fullUrl, requestConfig);
             } catch (refreshError) {
                 // 토큰 재발급 실패 시 로그아웃 처리
-                processQueue(refreshError, null);
-                useAuthStore.getState().logout();
+                processQueue(refreshError);
+                window.location.href = '/login';
                 throw refreshError;
             } finally {
                 isRefreshing = false;
             }
         }
 
-        // 응답 반환
         return response;
     } catch (error) {
         throw error;
