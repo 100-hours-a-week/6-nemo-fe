@@ -1,3 +1,4 @@
+// src/shared/store/chatbot-store.ts
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
@@ -10,7 +11,6 @@ export type ChatMessage = {
 };
 
 export type ChatbotSession = {
-    sessionId: string | null;
     messages: ChatMessage[];
     isLoading: boolean;
     currentQuestion: {
@@ -37,8 +37,7 @@ type ChatbotState = {
     session: ChatbotSession;
     isHydrated: boolean;
 
-    // Actions
-    setSessionId: (sessionId: string) => void;
+    // Actions - setSessionId 제거
     addMessage: (message: Omit<ChatMessage, 'id' | 'timestamp'>) => void;
     setCurrentQuestion: (question: { question: string; options: string[] } | null) => void;
     setLoading: (loading: boolean) => void;
@@ -49,7 +48,7 @@ type ChatbotState = {
 };
 
 const initialSession: ChatbotSession = {
-    sessionId: null,
+    // sessionId 제거
     messages: [],
     isLoading: false,
     currentQuestion: null,
@@ -64,14 +63,7 @@ export const useChatbotStore = create<ChatbotState>()(
             session: initialSession,
             isHydrated: false,
 
-            setSessionId: (sessionId: string) => {
-                set((state) => ({
-                    session: {
-                        ...state.session,
-                        sessionId,
-                    }
-                }));
-            },
+            // setSessionId 액션 제거
 
             addMessage: (message) => {
                 const newMessage: ChatMessage = {

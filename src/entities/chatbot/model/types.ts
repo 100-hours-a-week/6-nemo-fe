@@ -1,5 +1,3 @@
-// src/features/chatbot/model/types.ts
-
 export type ChatbotQuestionRequest = {
     answer: string | null;
 };
@@ -9,7 +7,7 @@ export type ChatbotQuestionResponse = {
     message: string;
     data: {
         question: string;
-        answer: string[];
+        options: string[];
     };
 };
 
@@ -36,11 +34,5 @@ export type ChatbotRecommendationResponse = {
 export type ChatbotSessionResponse = {
     code: number;
     message: string;
-    data: {
-        messages: Array<{
-            role: 'ai' | 'user';
-            text: string;
-            option?: string[];
-        }> | null;
-    };
+    data: null;
 };

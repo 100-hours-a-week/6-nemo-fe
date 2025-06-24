@@ -1,3 +1,4 @@
+import { get, post } from "@/features/auth/login";
 import { ChatbotQuestionResponse, ChatbotRecommendationResponse } from "../model/types";
 
 export type QuestionResponse = {
@@ -22,25 +23,14 @@ export type RecommendationResponse = {
 };
 
 // 새로운 세션 생성
-export const createChatbotSession = async (): Promise<string> => {
+export const createChatbotSession = async (): Promise<void> => {
     try {
-        const response = await fetch("/api/v2/groups/recommendations/session", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({}),
-        });
-
+        const response = await post("/api/v2/groups/recommendations/session", {});
         const data = await response.json();
 
-        if (response.status === 201 && data.code === 201 && data.data?.sessionId) {
-            console.log('세션 ID 추출 성공:', data.data.sessionId);
-            return data.data.sessionId;
+        if (data.code !== 204) {
+            throw new Error(data.message || "세션 생성에 실패했습니다.");
         }
-
-        console.error('세션 생성 실패:', data);
-        throw new Error(data.message || "세션 생성에 실패했습니다.");
 
     } catch (error) {
         console.error('세션 생성 오류:', error);
@@ -49,30 +39,18 @@ export const createChatbotSession = async (): Promise<string> => {
 };
 
 // 질문 생성 요청
-export const generateQuestion = async (sessionId: string, answer: string | null = null): Promise<QuestionResponse> => {
+export const generateQuestion = async (answer: string | null = null): Promise<QuestionResponse> => {
     try {
-        const response = await fetch("/api/v2/groups/recommendations/questions", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                answer,
-                sessionId
-            }),
-        });
-
+        const response = await post("/api/v2/groups/recommendations/questions", { answer });
         const data: ChatbotQuestionResponse = await response.json();
-        console.log('질문 생성 응답 데이터:', data);
 
         if (data.code !== 200) {
-            console.error('질문 생성 실패:', data);
             throw new Error(data.message || "질문 생성에 실패했습니다.");
         }
 
         return {
             question: data.data.question,
-            answer: data.data.answer,
+            answer: data.data.options,
         };
     } catch (error) {
         console.error('질문 생성 오류:', error);
@@ -81,19 +59,12 @@ export const generateQuestion = async (sessionId: string, answer: string | null 
 };
 
 // 모임 추천 요청
-export const getRecommendation = async (sessionId: string): Promise<RecommendationResponse> => {
+export const getRecommendation = async (): Promise<RecommendationResponse> => {
     try {
-        const response = await fetch(`/api/v2/groups/recommendations?sessionId=${sessionId}`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
-
+        const response = await get("/api/v2/groups/chatbot/recommendations");
         const data: ChatbotRecommendationResponse = await response.json();
 
         if (data.code !== 200) {
-            console.error('추천 실패:', data);
             throw new Error(data.message || "추천 요청에 실패했습니다.");
         }
 
