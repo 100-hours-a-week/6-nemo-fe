@@ -1,7 +1,6 @@
 
-import { errorToast, successToast } from "@/shared/lib";
+import { del, errorToast, successToast } from "@/shared/lib";
 import { useMutation } from "@tanstack/react-query";
-import { del } from "../../login/model/auth-client";
 
 export const useLogout = () => {
     return useMutation({
