@@ -21,6 +21,11 @@ export const useChatbot = () => {
         mutationFn: createChatbotSession,
         onSuccess: () => {
             generateQuestionMutation.mutate(null);
+
+            addMessage({
+                role: 'ai',
+                text: "안녕하세요! 👋 당신에게 딱 맞는 모임을 추천해드릴게요. 몇가지 질문에만 답해주시면 금방 찾을 수 있어요 😊",
+            });
         },
         onError: (error) => {
             errorToast("세션 생성 실패", error.message);
@@ -60,7 +65,7 @@ export const useChatbot = () => {
             setLoading(true);
             addMessage({
                 role: 'ai',
-                text: "입력해주신 정보를 바탕으로 맞춤 모임을 찾아드리고 있어요! 잠시만 기다려주세요... 🔍",
+                text: "딱 맞는 모임을 추천해드리기 위해 탱글이가 열심히 알아보고 있어요.. 잠시만 기다려주세요! 🤖",
             });
         },
         onSuccess: (data) => {
