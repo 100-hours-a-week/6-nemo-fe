@@ -61,7 +61,7 @@ export const generateQuestion = async (answer: string | null = null): Promise<Qu
 // 모임 추천 요청
 export const getRecommendation = async (): Promise<RecommendationResponse> => {
     try {
-        const response = await get("/api/v2/groups/chatbot/recommendations");
+        const response = await get("/api/v2/groups/recommendations");
         const data: ChatbotRecommendationResponse = await response.json();
 
         if (data.code !== 200) {
