@@ -65,14 +65,6 @@ export const useChatbot = () => {
         },
         onSuccess: (data) => {
             setRecommendation(data.group, data.reason);
-
-            const recommendationMessage = `🎉 맞춤 모임을 찾았어요!\n\n**${data.group.name}**\n📍 ${data.group.location}\n👥 ${data.group.currentUserCount}/${data.group.maxUserCount}명\n\n${data.group.summary}\n\n**추천 이유:** ${data.reason}`;
-
-            addMessage({
-                role: 'ai',
-                text: recommendationMessage,
-            });
-
             setCurrentQuestion(null);
             setLoading(false);
         },

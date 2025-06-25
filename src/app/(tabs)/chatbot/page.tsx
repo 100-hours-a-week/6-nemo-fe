@@ -2,7 +2,14 @@
 
 import { useChatbot } from "@/entities/chatbot/api/use-chatobt";
 import { GroupCard } from "@/entities/group";
-import { reload, send, sparkle } from "@/shared/assets/images";
+import {
+  location_icon,
+  party,
+  reload,
+  send,
+  sparkle,
+  users_icon,
+} from "@/shared/assets/images";
 import { cn } from "lib/utils";
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
@@ -159,11 +166,64 @@ const ChatbotPage = () => {
               </div>
 
               <div className="mb-3 rounded-2xl border border-gray-200 bg-white px-4 py-3">
-                <div className="text-label-1 leading-relaxed text-gray-800">
-                  🎉 맞춤 모임을 찾았어요!
+                <div className="flex items-center gap-2">
+                  <Image src={party} alt="party icon" width={32} height={32} />
+                  <h3 className="text-headline-1 text-primary font-bold">
+                    추천 모임을 찾았어요!
+                  </h3>
                 </div>
               </div>
 
+              <div className="mb-3 space-y-2 rounded-2xl border border-gray-200 bg-white px-4 py-4">
+                {/* 메인 헤드라인 */}
+
+                <h3 className="text-body-2 text-label-normal font-bold">
+                  * 추천 모임 *
+                </h3>
+
+                <div className="text-heading-2 text-label-assistive font-bold">
+                  {session.recommendedGroup.name}
+                </div>
+
+                {/* 모임 정보 */}
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <Image
+                      src={location_icon}
+                      alt="location icon"
+                      width={16}
+                      height={16}
+                    />
+                    <span className="text-body-2 text-label-normal font-medium">
+                      위치:
+                    </span>{" "}
+                    {session.recommendedGroup.location}
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <Image
+                      src={users_icon}
+                      alt="users icon"
+                      width={16}
+                      height={16}
+                    />
+                    <span className="text-body-2 text-label-normal font-medium">
+                      인원:
+                    </span>{" "}
+                    {session.recommendedGroup.currentUserCount}/
+                    {session.recommendedGroup.maxUserCount}명
+                  </div>
+                </div>
+
+                {/* 모임 요약 */}
+                {session.recommendedGroup.summary && (
+                  <div className="mt-3 border-t border-gray-100 pt-3">
+                    <div className="text-body-2 leading-relaxed text-gray-600">
+                      {session.recommendedGroup.summary}
+                    </div>
+                  </div>
+                )}
+              </div>
               <GroupCard
                 group={{
                   groupId: session.recommendedGroup.groupId,
@@ -279,7 +339,7 @@ const ChatbotPage = () => {
         <div className="border-t border-gray-200 bg-white p-4">
           <button
             onClick={startNewChat}
-            className="bg-primary-strong flex w-full items-center justify-center gap-2 rounded-full px-4 py-3 font-medium text-white transition-colors hover:bg-green-600"
+            className="flex w-full items-center justify-center gap-2 rounded-full bg-blue-400 px-4 py-3 font-medium text-white transition-colors hover:bg-blue-500"
           >
             <Image src={reload} width={20} height={20} alt="reload icon" />
             새로운 추천 받기
