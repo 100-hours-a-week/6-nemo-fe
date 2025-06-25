@@ -83,8 +83,14 @@ const ChatbotPage = () => {
         </div>
         <button
           onClick={startNewChat}
-          className="flex h-8 w-8 items-center justify-center rounded-full transition hover:scale-110 hover:animate-spin"
-          title="새로운 대화"
+          disabled={isLoading}
+          className={cn(
+            "flex h-8 w-8 items-center justify-center rounded-full transition hover:scale-110",
+            isLoading
+              ? "cursor-not-allowed opacity-50" // 로딩 중
+              : "hover:animate-spin"
+          )}
+          title={isLoading ? "잠시만 기다려주세요..." : "새로운 대화"}
         >
           <Image src={reload} width={20} height={20} alt="reload icon" />
         </button>
