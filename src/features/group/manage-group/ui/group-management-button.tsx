@@ -26,7 +26,7 @@ export const GroupManagementButton = ({ groupId, groupName, role }: Props) => {
     <>
       <button
         onClick={() => setIsBottomSheetOpen(true)}
-        className="flex h-8 w-8 items-center justify-center rounded-full transition hover:scale-110 hover:opacity-50"
+        className="bg-common-100 flex h-8 w-8 items-center justify-center rounded-full opacity-40 transition hover:scale-105 hover:opacity-100"
       >
         <Image src={more_icon} alt="더보기" width={20} height={20} />
       </button>
