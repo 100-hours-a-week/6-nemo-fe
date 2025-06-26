@@ -1,5 +1,5 @@
-import { get } from "@/features/auth/login";
 import { BASE_URL } from "@/shared/constants";
+import { get } from "@/shared/lib";
 
 export const getSchedules = async ({
     groupId,
