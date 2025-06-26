@@ -12,37 +12,43 @@ export default function VersionHistoryPage() {
       </header>
 
       <div className="space-y-4 p-4">
-        {versionHistory.map((version) => (
-          <div
-            key={version.version}
-            className="rounded-lg bg-white p-4 shadow-sm"
-          >
-            <div className="mb-3 flex items-center justify-between">
-              <h2 className="text-heading-2 text-primary font-bold">
-                v{version.version}
-              </h2>
-              <span className="text-caption-1 text-label-normal">
-                {version.date}
-              </span>
-            </div>
-            <div className="space-y-2">
-              {version.changes.map((change, index) => (
-                <div key={index} className="text-body-2 flex items-start gap-2">
-                  <span
-                    className={`text-caption-1 flex-shrink-0 rounded px-2 py-0.5 font-medium ${
-                      change.type === "추가"
-                        ? "bg-green-100 text-green-700"
-                        : "bg-blue-100 text-blue-700"
-                    }`}
+        {versionHistory
+          .slice()
+          .reverse()
+          .map((version) => (
+            <div
+              key={version.version}
+              className="rounded-lg bg-white p-4 shadow-sm"
+            >
+              <div className="mb-3 flex items-center justify-between">
+                <h2 className="text-heading-2 text-primary font-bold">
+                  v{version.version}
+                </h2>
+                <span className="text-caption-1 text-label-normal">
+                  {version.date}
+                </span>
+              </div>
+              <div className="space-y-2">
+                {version.changes.map((change, index) => (
+                  <div
+                    key={index}
+                    className="text-body-2 flex items-start gap-2"
                   >
-                    {change.type}
-                  </span>
-                  <span className="text-label-normal">{change.content}</span>
-                </div>
-              ))}
+                    <span
+                      className={`text-caption-1 flex-shrink-0 rounded px-2 py-0.5 font-medium ${
+                        change.type === "추가"
+                          ? "bg-green-100 text-green-700"
+                          : "bg-blue-100 text-blue-700"
+                      }`}
+                    >
+                      {change.type}
+                    </span>
+                    <span className="text-label-normal">{change.content}</span>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
 
       {/* 하단 여백 */}
