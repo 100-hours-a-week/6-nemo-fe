@@ -1,10 +1,9 @@
+import { BASE_URL } from '@/shared/constants';
 import { NextRequest, NextResponse } from 'next/server';
 
-const BASE_URL = process.env.NEXT_PUBLIC_DEV_API_URL;
+const PROTECTED_PATHS = ['/home', '/my-nemo', '/my-profile', '/chatbot', '/groups'];
 
-const PROTECTED_PATHS = ['/home', '/my-nemo', '/my-profile', '/chatbot'];
-
-const PUBLIC_PATHS = ['/login', '/groups', '/notifications', '/'];
+const PUBLIC_PATHS = ['/login', '/notifications', '/'];
 
 // 로그인이 필요한 경로인지 확인
 function isProtectedPath(pathname: string): boolean {
@@ -19,7 +18,7 @@ function isPublicPath(pathname: string): boolean {
     });
 }
 
-// 토큰 갱신 시도 - 백엔드에서 HttpOnly 쿠키로 새 토큰 발급
+// 토큰 갱신 시도 - 백엔드에서 쿠키(HttpOnly)로 새 토큰 발급
 async function refreshAccessToken(request: NextRequest): Promise<boolean> {
     try {
         const response = await fetch(`${BASE_URL}/api/v1/auth/token/refresh`, {
@@ -51,7 +50,7 @@ export async function middleware(request: NextRequest) {
     }
 
     const response = NextResponse.next();
-    const accessToken = request.cookies.get('access-token')?.value;
+    const accessToken = request.cookies.get('ACCESS_TOKEN')?.value;
     const refreshToken = request.cookies.get('refresh-token')?.value;
 
     // 공개 경로는 토큰 없이도 접근 허용
@@ -61,8 +60,9 @@ export async function middleware(request: NextRequest) {
 
     // 보호된 경로 접근 시 인증 체크
     if (isProtectedPath(pathname)) {
+        // 인증 토큰이 없을 시
         if (!accessToken) {
-            // 리프레시 토큰이 있다면 갱신 시도
+            // 리프레시 토큰이 있을 시 갱신 시도
             if (refreshToken) {
                 const refreshSuccess = await refreshAccessToken(request);
                 if (refreshSuccess) {
@@ -70,7 +70,7 @@ export async function middleware(request: NextRequest) {
                 }
             }
 
-            // 액세스 토큰도 없고 갱신도 실패한 경우 로그인 페이지로
+            // 리프레시 토큰이 없을 시
             const loginUrl = new URL('/login', request.url);
             loginUrl.searchParams.set('redirect', pathname);
             const redirectResponse = NextResponse.redirect(loginUrl);

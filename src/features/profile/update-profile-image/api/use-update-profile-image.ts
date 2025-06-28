@@ -2,7 +2,6 @@
 import { profileQuery } from "@/entities/profile";
 import { BASE_URL } from "@/shared/constants";
 import { errorToast, successToast } from "@/shared/lib";
-import { useAuthStore } from "@/shared/store/auth-store";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useUpdateProfileImage = () => {
@@ -13,12 +12,9 @@ export const useUpdateProfileImage = () => {
             const formData = new FormData();
             formData.append("profileImage", file);
 
-            const token = useAuthStore.getState().token;
-
             const response = await fetch(`${BASE_URL}/api/v2/users/me/profile-image`, {
                 method: "PATCH",
                 headers: {
-                    Authorization: `Bearer ${token}`,
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({

@@ -2,28 +2,19 @@
 
 import LoginButton from "@/features/auth/login/ui/login-button";
 import { bg_post } from "@/shared/assets/images";
-import { useAuthStore } from "@/shared/store/auth-store";
 import Image from "next/image";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect } from "react";
 
-// useSearchParams를 사용하는 컴포넌트 임시 분리
 function LoginContent() {
-  const router = useRouter();
   const searchParams = useSearchParams();
-  const accessToken = searchParams.get("token");
-  const { login, isLoggedIn } = useAuthStore();
+  const redirect = searchParams.get("redirect");
 
   useEffect(() => {
-    if (accessToken) {
-      login(accessToken);
-      router.replace("/");
+    if (redirect) {
+      sessionStorage.setItem("loginRedirect", redirect);
     }
-
-    if (isLoggedIn) {
-      router.replace("/");
-    }
-  }, [accessToken, router, login, isLoggedIn]);
+  }, [redirect]);
 
   return (
     <div className="p-ctn-lg flex min-h-screen flex-col items-center justify-center">
