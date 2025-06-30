@@ -5,11 +5,7 @@ import { KAKAO_AUTH_URL } from "@/shared/constants";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-type LoginButtonProps = {
-  platform: "kakao";
-};
-
-const LoginButton = ({ platform }: LoginButtonProps) => {
+const LoginButton = () => {
   const router = useRouter();
 
   const handleLogin = () => {

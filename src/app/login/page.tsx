@@ -32,7 +32,7 @@ function LoginContent() {
         height={318}
         className="mt-10 ml-15"
       />
-      <LoginButton platform="kakao" />
+      <LoginButton />
     </div>
   );
 }
