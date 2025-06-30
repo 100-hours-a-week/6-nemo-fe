@@ -1,8 +1,7 @@
 import { CreateGroupInfoRequest, CreateGroupInfoResponse } from "@/entities/group/model/types";
-import { errorToast } from "@/shared/lib";
+import { errorToast, post } from "@/shared/lib";
 import { useMutation } from "@tanstack/react-query";
 import { CREATE_GROUP_INFO_MESSAGES } from "../model/constants";
-import { post } from "@/features/auth/login";
 
 export const useCreateGroupInfo = () => {
     return useMutation({

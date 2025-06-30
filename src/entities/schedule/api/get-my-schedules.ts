@@ -1,4 +1,5 @@
-import { get } from "@/features/auth/login";
+
+import { get } from "@/shared/lib";
 import { MySchedulesResponse } from "../model/types";
 
 export const getMySchedules = async (): Promise<MySchedulesResponse> => {

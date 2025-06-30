@@ -1,5 +1,5 @@
 
-import { get } from "@/features/auth/login/model/auth-client";
+import { get } from "@/shared/lib";
 import { UserProfile } from "../model/types";
 
 export const getUserProfile = async (): Promise<UserProfile> => {
