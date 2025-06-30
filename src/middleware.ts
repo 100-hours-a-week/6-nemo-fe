@@ -23,10 +23,9 @@ async function refreshAccessToken(request: NextRequest): Promise<boolean> {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Cookie': request.headers.get('cookie') || '',
             },
-            credentials: 'include',
         });
-
         return response.ok;
     } catch (error) {
         console.error('Token refresh error:', error);
@@ -72,8 +71,8 @@ export async function middleware(request: NextRequest) {
             loginUrl.searchParams.set('redirect', pathname);
             const redirectResponse = NextResponse.redirect(loginUrl);
 
-            redirectResponse.cookies.delete('access-token');
-            redirectResponse.cookies.delete('refresh-token');
+            redirectResponse.cookies.delete('access_token');
+            redirectResponse.cookies.delete('refresh_token');
 
             return redirectResponse;
         }
