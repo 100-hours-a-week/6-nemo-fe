@@ -3,14 +3,12 @@ import { NextRequest, NextResponse } from 'next/server';
 
 const PROTECTED_PATHS = ['/home', '/my-nemo', '/my-profile', '/chatbot', '/groups'];
 
-const PUBLIC_PATHS = ['/login', '/notifications', '/'];
+const PUBLIC_PATHS = ['/login', '/login/success', '/notifications', '/'];
 
-// 로그인이 필요한 경로인지 확인
 function isProtectedPath(pathname: string): boolean {
     return PROTECTED_PATHS.some(path => pathname.startsWith(path));
 }
 
-// 공개 경로인지 확인
 function isPublicPath(pathname: string): boolean {
     return PUBLIC_PATHS.some(path => {
         if (path === '/') return pathname === '/';
@@ -28,7 +26,6 @@ async function refreshAccessToken(request: NextRequest): Promise<boolean> {
             },
             credentials: 'include',
         });
-        console.log("미들웨어에서 토큰 갱신 처리됨")
 
         return response.ok;
     } catch (error) {
@@ -50,8 +47,8 @@ export async function middleware(request: NextRequest) {
     }
 
     const response = NextResponse.next();
-    const accessToken = request.cookies.get('ACCESS_TOKEN')?.value;
-    const refreshToken = request.cookies.get('refresh-token')?.value;
+    const accessToken = request.cookies.get('access_token')?.value;
+    const refreshToken = request.cookies.get('refresh_token')?.value;
 
     // 공개 경로는 토큰 없이도 접근 허용
     if (isPublicPath(pathname)) {
@@ -81,7 +78,6 @@ export async function middleware(request: NextRequest) {
             return redirectResponse;
         }
 
-        // 액세스 토큰이 있는 경우는 일단 통과
         // 실제 유효성은 API 호출 시 백엔드에서 검증하고, 401 에러 나면 클라이언트에서 갱신 처리
     }
 
