@@ -9,7 +9,7 @@ const LoginButton = () => {
   const router = useRouter();
 
   const handleLogin = () => {
-    router.push(KAKAO_AUTH_URL);
+    window.location.href = KAKAO_AUTH_URL;
   };
 
   return (
