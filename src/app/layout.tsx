@@ -1,4 +1,6 @@
+import { GA_TRACKING_ID } from "@/shared/constants";
 import { Toaster } from "@/shared/ui";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { QueryProvider } from "./_providers";
@@ -31,6 +33,7 @@ export default function RootLayout({
           <div id="modal-root"></div>
         </QueryProvider>
       </body>
+      <GoogleAnalytics gaId={`G-${GA_TRACKING_ID}`} />
     </html>
   );
 }
