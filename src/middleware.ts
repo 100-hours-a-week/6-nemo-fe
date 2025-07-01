@@ -16,16 +16,19 @@ function isPublicPath(pathname: string): boolean {
     });
 }
 
-// 토큰 갱신 시도 - 백엔드에서 쿠키(HttpOnly)로 새 토큰 발급
 async function refreshAccessToken(request: NextRequest): Promise<boolean> {
     try {
+        console.log('토큰 갱신 시도 중...');
+
         const response = await fetch(`${BASE_URL}/api/v1/auth/token/refresh`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Cookie': request.headers.get('cookie') || '',
+                'Cookie': request.headers.get('cookie') || '', // 🔧 수정
             },
         });
+
+        console.log('갱신 응답 상태:', response.status);
         return response.ok;
     } catch (error) {
         console.error('Token refresh error:', error);
