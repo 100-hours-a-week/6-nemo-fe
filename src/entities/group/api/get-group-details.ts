@@ -1,12 +1,19 @@
 "use server"
 
 import { BASE_URL } from "@/shared/constants";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { GroupDetailsResponse } from "../model/types";
 
 export const getGroupDetails = async (groupId: number | string): Promise<GroupDetailsResponse> => {
+    const cookieStore = await cookies();
+    const cookieHeader = cookieStore.toString();
+
     const response = await fetch(`${BASE_URL}/api/v1/groups/${groupId}`, {
-        credentials: "include"
+        headers: {
+            'Cookie': cookieHeader,
+            'Content-Type': 'application/json',
+        },
     });
     const data = await response.json();
 
