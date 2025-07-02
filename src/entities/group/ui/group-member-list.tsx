@@ -30,8 +30,8 @@ export const GroupMemberList = ({ members }: { members: Member[] }) => {
                 <Image
                   src={member.profileImageUrl}
                   alt={member.nickname}
-                  width={40}
-                  height={40}
+                  sizes="40px"
+                  fill
                   className="object-cover"
                 />
               ) : (

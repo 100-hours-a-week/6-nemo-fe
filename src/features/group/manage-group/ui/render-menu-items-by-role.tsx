@@ -38,11 +38,14 @@ export const RenderMenuItemsByRole = ({
 
   if (role === USER_ROLE_IN_GROUP.MEMBER) {
     return (
-      <LeaveGroupButton
-        groupId={groupId}
-        groupName={groupName}
-        onSuccess={onSuccess}
-      />
+      <>
+        <UpdateGroupImageButton groupId={groupId} onSuccess={onSuccess} />
+        <LeaveGroupButton
+          groupId={groupId}
+          groupName={groupName}
+          onSuccess={onSuccess}
+        />
+      </>
     );
   }
 

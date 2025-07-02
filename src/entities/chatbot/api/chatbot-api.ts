@@ -1,4 +1,4 @@
-import { get, post } from "@/features/auth/login";
+import { get, post } from "@/shared/lib";
 import { ChatbotQuestionResponse, ChatbotRecommendationResponse } from "../model/types";
 
 export type QuestionResponse = {

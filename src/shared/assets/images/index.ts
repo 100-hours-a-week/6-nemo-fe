@@ -31,6 +31,7 @@ export { default as message } from "./message.svg";
 export { default as more_icon } from "./more_icon.svg";
 export { default as party } from "./party.svg";
 export { default as reload } from "./reload.svg";
+export { default as reload_white } from "./reload_white.svg";
 export { default as right } from "./right.svg";
 export { default as send } from "./send.svg";
 export { default as sorry } from "./sorry.svg";

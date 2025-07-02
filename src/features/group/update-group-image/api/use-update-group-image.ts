@@ -1,6 +1,5 @@
 import { groupQuery } from "@/entities/group/api/group.query";
-import { patch } from "@/features/auth/login";
-import { errorToast, successToast } from "@/shared/lib";
+import { errorToast, patch, successToast } from "@/shared/lib";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useUpdateGroupImage = (groupId: string) => {

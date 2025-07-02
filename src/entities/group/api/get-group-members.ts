@@ -1,4 +1,4 @@
-import { get } from "@/features/auth/login";
+import { get } from "@/shared/lib";
 
 export const getGroupMembers = async (groupId: string | number) => {
     const response = await get(`/api/v1/groups/${groupId}/participants`);

@@ -1,6 +1,5 @@
 import { groupQuery } from "@/entities/group/api/group.query";
-import { del } from "@/features/auth/login";
-import { errorToast, successToast } from "@/shared/lib";
+import { del, errorToast, successToast } from "@/shared/lib";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useLeaveGroup = (groupId: string) => {

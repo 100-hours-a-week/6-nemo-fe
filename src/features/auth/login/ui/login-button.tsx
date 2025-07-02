@@ -5,25 +5,17 @@ import { KAKAO_AUTH_URL } from "@/shared/constants";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-type Loginbutton = {
-  platform: "kakao"; // 추후 다른 소셜 로그인 추가
-};
-
-const LoginButton = ({ platform }: Loginbutton) => {
+const LoginButton = () => {
   const router = useRouter();
 
-  const LoginURL = () => {
-    switch (platform) {
-      case "kakao":
-        return KAKAO_AUTH_URL;
-      // 추후 다른 소셜 로그인 추가
-    }
+  const handleLogin = () => {
+    window.location.href = KAKAO_AUTH_URL;
   };
 
   return (
     <button
-      className="bg-kakao flex w-full items-center rounded-xl px-7 py-4 text-[30px]"
-      onClick={() => router.push(LoginURL() as string)}
+      className="bg-kakao flex w-full items-center rounded-xl px-7 py-4"
+      onClick={handleLogin}
     >
       <Image src={kakao_logo} alt="kakao logo" width={24} height={24} />
       <span className="text-common-0 mx-auto text-[18px] font-semibold">

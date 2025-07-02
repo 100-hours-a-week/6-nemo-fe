@@ -1,4 +1,3 @@
-import AuthInterceptor from "@/features/auth/login/model/auth-interceptor";
 import { Toaster } from "@/shared/ui";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
@@ -25,7 +24,6 @@ export default function RootLayout({
     <html lang="ko" className={pretendard.variable}>
       <body>
         <QueryProvider>
-          <AuthInterceptor />
           <div className="mobile-container">
             {children}
             <Toaster position="top-center" />
