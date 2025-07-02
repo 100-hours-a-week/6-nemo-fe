@@ -1,6 +1,5 @@
 "use client";
 
-import { useConfetti } from "@/shared/lib";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -23,16 +22,6 @@ export function JoinGroupButton({ groupId, groupName, role }: Props) {
   const router = useRouter();
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const { mutate: JoinGroupMutate, isPending } = useJoinGroup(groupId);
-  const confetti = useConfetti();
-
-  const handleJoinGroup = () => {
-    JoinGroupMutate(undefined, {
-      onSuccess: () => {
-        router.refresh();
-        confetti();
-      },
-    });
-  };
 
   // 모임장
   if (role === "LEADER" || !role) {
@@ -58,7 +47,7 @@ export function JoinGroupButton({ groupId, groupName, role }: Props) {
         <DynamicModal
           isOpen={showConfirmDialog}
           onClose={() => setShowConfirmDialog(false)}
-          onConfirm={() => handleJoinGroup()}
+          onConfirm={() => JoinGroupMutate()}
           title="모임 신청"
           description={`'${groupName}' 모임에 가입 신청하시겠습니까?`}
           confirmLabel="신청"
