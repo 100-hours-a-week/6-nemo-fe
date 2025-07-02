@@ -21,7 +21,6 @@ export const useChatbot = () => {
         mutationFn: createChatbotSession,
         onSuccess: () => {
             generateQuestionMutation.mutate(null);
-
             addMessage({
                 role: 'ai',
                 text: "안녕하세요! 👋 당신에게 딱 맞는 모임을 추천해드릴게요. 몇가지 질문에만 답해주시면 금방 찾을 수 있어요 😊",
