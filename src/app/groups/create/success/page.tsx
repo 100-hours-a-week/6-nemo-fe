@@ -65,7 +65,7 @@ function SuccessContent() {
   );
 }
 
-export default function Page() {
+export default function CreateSuccessPage() {
   return (
     <Suspense
       fallback={
