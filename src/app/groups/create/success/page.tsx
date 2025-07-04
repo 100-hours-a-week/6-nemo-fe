@@ -34,9 +34,9 @@ function SuccessContent() {
 
   const handleGoToGroup = () => {
     if (groupId) {
-      router.push(`/groups/${groupId}`);
+      router.replace(`/groups/${groupId}`);
     } else {
-      router.push("/groups");
+      router.replace("/groups");
     }
   };
 
