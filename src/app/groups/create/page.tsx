@@ -656,7 +656,7 @@ export default function GroupCreatePage() {
         </p>
         <Button
           onClick={() => {
-            setCurrentStep(1);
+            handleCreateGroupInfo();
           }}
           className="bg-primary text-common-100 rounded-full px-6 py-2"
         >
