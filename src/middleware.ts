@@ -97,6 +97,7 @@ export async function middleware(request: NextRequest) {
             return redirectResponse;
             // 실제 유효성은 API 호출 시 백엔드에서 검증하고, 401 에러 나면 클라이언트에서 갱신 처리
         }
+        console.log("미들웨어에서 쿠키가 인식됩니다.", accessToken, refreshToken)
 
         return response;
     }
