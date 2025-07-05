@@ -52,9 +52,11 @@ jobs:
           TIME_TAG="${{ env.ENVIRONMENT }}-$(TZ=Asia/Seoul date +'%Y%m%d-%H%M')"
           echo "TIME_TAG=$TIME_TAG" >> $GITHUB_ENV
 
-          VERSION_TAG="prod-${{ github.event.inputs.version }}"
-          echo "VERSION_TAG=$VERSION_TAG" >> $GITHUB_ENV
-
+          if [ -n "${{ github.event.inputs.version }}" ]; then
+            VERSION_TAG="prod-${{ github.event.inputs.version }}"
+          else
+            VERSION_TAG=""
+          fi
           IMAGE_URI="${{ env.REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID_PROD }}/${{ env.REPOSITORY }}/${{ env.SERVICE }}"
           echo "IMAGE_URI=$IMAGE_URI" >> $GITHUB_ENV
 
@@ -86,6 +88,11 @@ jobs:
 
       - name: Create Instance Template & Start MIG Rolling Update
         run: |
+          if [ -n "${{ github.event.inputs.version }}" ]; then
+            VERSION_TAG="prod-${{ github.event.inputs.version }}"
+          else
+            VERSION_TAG=""
+          fi
           TEMPLATE_NAME="${{ env.SERVICE }}-${{ env.ENVIRONMENT }}-template-${{ env.TIME_TAG }}"
           if [ -n "$VERSION_TAG" ]; then
             TEMPLATE_NAME="${TEMPLATE_NAME}-${VERSION_TAG}"
