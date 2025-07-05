@@ -21,8 +21,8 @@ jobs:
       SERVICE: frontend
       ENVIRONMENT: prod
       MACHINE_TYPE: e2-standard-2
-      IMAGE_NAME: nemo-v2-prod-image
-      BOOT_DISK_SIZE: 80GB
+      IMAGE_NAME: prod-base-250704
+      BOOT_DISK_SIZE: 20GB
       BOOT_DISK_TYPE: pd-balanced
       NETWORK: v2-nemo-prod
       SUBNET: prod-frontend
@@ -30,7 +30,7 @@ jobs:
       STARTUP_SCRIPT_PATH: /home/ubuntu/nemo/cloud/v2/scripts/startup.sh
       SHUTDOWN_SCRIPT_PATH: /home/ubuntu/nemo/cloud/v2/scripts/shutdown.sh
       MIG_NAME: frontend-instance-group
-      ROLLING_MINIMAL_ACTION: restart
+      ROLLING_MINIMAL_ACTION: replace
       ROLLING_MAX_SURGE: 2
       ROLLING_MAX_UNAVAILABLE: 2
 
@@ -77,10 +77,6 @@ jobs:
 
       - name: Build and Push Docker Image
         run: |
-          echo Checking pushed image: ${IMAGE_URI}:${TIME_TAG}
-          echo Checking pushed image: ${IMAGE_URI}:${VERSION_TAG}
-          echo Checking pushed image: ${IMAGE_URI}:${{ env.ENVIRONMENT }}-latest
-
           docker buildx build \
             --platform linux/amd64 \
             -t "${IMAGE_URI}:${TIME_TAG}" \
@@ -90,7 +86,7 @@ jobs:
 
       - name: Create Instance Template & Start MIG Rolling Update
         run: |
-          TEMPLATE_NAME="${{ env.SERVICE }}-${{ env.ENVIRONMENT }}-template-${{ env.TIME_TAG }}"
+          TEMPLATE_NAME="${{ env.SERVICE }}-${{ env.ENVIRONMENT }}-template-${{ env.TIME_TAG }}-${{ env.VERSION_TAG }}"
           echo "🔧 템플릿 이름: $TEMPLATE_NAME"
 
           STARTUP_SCRIPT="#!/bin/bash
