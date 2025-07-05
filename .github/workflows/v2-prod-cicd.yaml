@@ -91,13 +91,12 @@ jobs:
           echo "🔧 템플릿 이름: $TEMPLATE_NAME"
 
           STARTUP_SCRIPT="#!/bin/bash
-          sleep 30
           chmod +x ${{ env.STARTUP_SCRIPT_PATH }}
-          su - ubuntu -c \"bash ${{ env.STARTUP_SCRIPT_PATH }} ${{ env.SERVICE }} ${{ env.ENVIRONMENT }}\""
+          runuser -l ubuntu -c 'bash ${{ env.STARTUP_SCRIPT_PATH }} ${{ env.SERVICE }} ${{ env.ENVIRONMENT }}'"
 
           SHUTDOWN_SCRIPT="#!/bin/bash
           chmod +x ${{ env.SHUTDOWN_SCRIPT_PATH }}
-          su - ubuntu -c \"bash ${{ env.SHUTDOWN_SCRIPT_PATH }} ${{ env.SERVICE }} ${{ env.ENVIRONMENT }}\""
+          runuser -l ubuntu -c 'bash ${{ env.SHUTDOWN_SCRIPT_PATH }} ${{ env.SERVICE }} ${{ env.ENVIRONMENT }}'"
 
           gcloud compute instance-templates create "$TEMPLATE_NAME" \
             --region="${{ env.REGION }}" \
