@@ -86,7 +86,10 @@ jobs:
 
       - name: Create Instance Template & Start MIG Rolling Update
         run: |
-          TEMPLATE_NAME="${{ env.SERVICE }}-${{ env.ENVIRONMENT }}-template-${{ env.TIME_TAG }}-${{ env.VERSION_TAG }}"
+          TEMPLATE_NAME="${{ env.SERVICE }}-${{ env.ENVIRONMENT }}-template-${{ env.TIME_TAG }}"
+          if [ -n "$VERSION_TAG" ]; then
+            TEMPLATE_NAME="${TEMPLATE_NAME}-${VERSION_TAG}"
+          fi
           echo "🔧 템플릿 이름: $TEMPLATE_NAME"
 
           STARTUP_SCRIPT="#!/bin/bash
