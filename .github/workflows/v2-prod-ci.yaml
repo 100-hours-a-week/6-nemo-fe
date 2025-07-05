@@ -102,12 +102,12 @@ jobs:
           git reset --hard origin/develop
 
           chmod +x v2/scripts/startup.sh
-          su - ubuntu -c "bash v2/scripts/startup.sh '"$SERVICE"' '"$ENVIRONMENT"'"
+          su - ubuntu -c "bash v2/scripts/startup.sh frontend prod"
           '
 
           SHUTDOWN_SCRIPT='#!/bin/bash
-          chmod +x '"${{ env.SHUTDOWN_SCRIPT_PATH }}"'
-          su - ubuntu -c "bash '"${{ env.SHUTDOWN_SCRIPT_PATH }}"' '"$SERVICE"' '"$ENVIRONMENT"'"'
+          chmod +x /home/ubuntu/nemo/cloud/v2/scripts/shutdown.sh
+          su - ubuntu -c "bash /home/ubuntu/nemo/cloud/v2/scripts/shutdown.sh frontend prod"'
 
           gcloud compute instance-templates create "$TEMPLATE_NAME" \
             --region="${{ env.REGION }}" \
