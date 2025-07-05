@@ -52,11 +52,9 @@ jobs:
           TIME_TAG="${{ env.ENVIRONMENT }}-$(TZ=Asia/Seoul date +'%Y%m%d-%H%M')"
           echo "TIME_TAG=$TIME_TAG" >> $GITHUB_ENV
 
-          if [ -n "${{ github.event.inputs.version }}" ]; then
-            VERSION_TAG="prod-${{ github.event.inputs.version }}"
-          else
-            VERSION_TAG=""
-          fi
+          VERSION_TAG="prod-${{ github.event.inputs.version }}"
+          echo "VERSION_TAG=$VERSION_TAG" >> $GITHUB_ENV
+
           IMAGE_URI="${{ env.REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID_PROD }}/${{ env.REPOSITORY }}/${{ env.SERVICE }}"
           echo "IMAGE_URI=$IMAGE_URI" >> $GITHUB_ENV
 
@@ -79,22 +77,16 @@ jobs:
 
       - name: Build and Push Docker Image
         run: |
-          docker buildx build \
-            --platform linux/amd64 \
-            -t "${IMAGE_URI}:${TIME_TAG}" \
-            -t "${IMAGE_URI}:${VERSION_TAG}" \
-            -t "${IMAGE_URI}:${{ env.ENVIRONMENT }}-latest" \
-            --push .
+          TAGS="-t $IMAGE_URI:$TIME_TAG -t $IMAGE_URI:${ENVIRONMENT}-latest"
+          if [ "$VERSION_TAG" != "prod-" ]; then
+            TAGS="$TAGS -t $IMAGE_URI:$VERSION_TAG"
+          fi
+          docker buildx build --platform linux/amd64 $TAGS --push .
 
       - name: Create Instance Template & Start MIG Rolling Update
         run: |
-          if [ -n "${{ github.event.inputs.version }}" ]; then
-            VERSION_TAG="prod-${{ github.event.inputs.version }}"
-          else
-            VERSION_TAG=""
-          fi
           TEMPLATE_NAME="${{ env.SERVICE }}-${{ env.ENVIRONMENT }}-template-${{ env.TIME_TAG }}"
-          if [ -n "$VERSION_TAG" ]; then
+          if [ "$VERSION_TAG" != "prod-" ]; then
             TEMPLATE_NAME="${TEMPLATE_NAME}-${VERSION_TAG}"
           fi
           echo "🔧 템플릿 이름: $TEMPLATE_NAME"
