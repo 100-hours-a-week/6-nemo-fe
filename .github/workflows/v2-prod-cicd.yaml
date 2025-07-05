@@ -21,7 +21,7 @@ jobs:
       SERVICE: frontend
       ENVIRONMENT: prod
       MACHINE_TYPE: e2-standard-2
-      IMAGE_NAME: prod-base-250704
+      IMAGE_NAME: v2-prod-base-image
       BOOT_DISK_SIZE: 20GB
       BOOT_DISK_TYPE: pd-balanced
       NETWORK: v2-nemo-prod
