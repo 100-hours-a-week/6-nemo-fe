@@ -91,23 +91,20 @@ jobs:
           fi
           echo "🔧 템플릿 이름: $TEMPLATE_NAME"
 
-          SERVICE="${{ env.SERVICE }}"
-          ENVIRONMENT="${{ env.ENVIRONMENT }}"
-          
-          STARTUP_SCRIPT='#!/bin/bash
-          set -e
-          cd /home/ubuntu/nemo/cloud
+          STARTUP_SCRIPT: |
+            #!/bin/bash
+            set -e
+            cd /home/ubuntu/nemo/cloud
 
-          git fetch origin
-          git reset --hard origin/develop
+            git fetch origin
+            git reset --hard origin/develop
 
-          chmod +x v2/scripts/startup.sh
-          su - ubuntu -c "bash v2/scripts/startup.sh '"$SERVICE"' '"$ENVIRONMENT"'"
-          '
+            chmod +x v2/scripts/startup.sh
+            su - ubuntu -c "bash v2/scripts/startup.sh ${{ env.SERVICE }} ${{ env.ENVIRONMENT }}"
 
-          SHUTDOWN_SCRIPT='#!/bin/bash
-          chmod +x '"${{ env.SHUTDOWN_SCRIPT_PATH }}"'
-          su - ubuntu -c "bash '"${{ env.SHUTDOWN_SCRIPT_PATH }}"' '"$SERVICE"' '"$ENVIRONMENT"'"'
+          SHUTDOWN_SCRIPT="#!/bin/bash
+          chmod +x ${{ env.SHUTDOWN_SCRIPT_PATH }}
+          su - ubuntu -c \"bash ${{ env.SHUTDOWN_SCRIPT_PATH }} ${{ env.SERVICE }} ${{ env.ENVIRONMENT }}\""
 
           gcloud compute instance-templates create "$TEMPLATE_NAME" \
             --region="${{ env.REGION }}" \
