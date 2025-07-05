@@ -77,34 +77,26 @@ jobs:
 
       - name: Build and Push Docker Image
         run: |
-          TAGS="-t $IMAGE_URI:$TIME_TAG -t $IMAGE_URI:${ENVIRONMENT}-latest"
-          if [ "$VERSION_TAG" != "prod-" ]; then
-            TAGS="$TAGS -t $IMAGE_URI:$VERSION_TAG"
-          fi
-          docker buildx build --platform linux/amd64 $TAGS --push .
+          docker buildx build \
+            --no-cache \
+            --platform linux/amd64 \
+            -t "${IMAGE_URI}:${TIME_TAG}" \
+            -t "${IMAGE_URI}:${{ env.ENVIRONMENT }}-latest" \
+            -t "${IMAGE_URI}:${VERSION_TAG}" \
+            --push .
 
       - name: Create Instance Template & Start MIG Rolling Update
         run: |
           TEMPLATE_NAME="${{ env.SERVICE }}-${{ env.ENVIRONMENT }}-template-${{ env.TIME_TAG }}"
-          if [ "$VERSION_TAG" != "prod-" ]; then
-            TEMPLATE_NAME="${TEMPLATE_NAME}-${VERSION_TAG}"
-          fi
           echo "🔧 템플릿 이름: $TEMPLATE_NAME"
-      
-          STARTUP_SCRIPT='#!/bin/bash
-          set -e
-          cd /home/ubuntu/nemo/cloud
 
-          git fetch origin
-          git reset --hard origin/develop
+          STARTUP_SCRIPT="#!/bin/bash
+          chmod +x ${{ env.STARTUP_SCRIPT_PATH }}
+          su - ubuntu -c \"bash ${{ env.STARTUP_SCRIPT_PATH }} ${{ env.SERVICE }} ${{ env.ENVIRONMENT }}\""
 
-          chmod +x v2/scripts/startup.sh
-          su - ubuntu -c "bash v2/scripts/startup.sh '${{ env.SERVICE }}' '${{ env.ENVIRONMENT }}'"
-          '
-
-          SHUTDOWN_SCRIPT='#!/bin/bash
-          chmod +x /home/ubuntu/nemo/cloud/v2/scripts/shutdown.sh
-          su - ubuntu -c "bash /home/ubuntu/nemo/cloud/v2/scripts/shutdown.sh '${{ env.SERVICE }}' '${{ env.ENVIRONMENT }}'"'
+          SHUTDOWN_SCRIPT="#!/bin/bash
+          chmod +x ${{ env.SHUTDOWN_SCRIPT_PATH }}
+          su - ubuntu -c \"bash ${{ env.SHUTDOWN_SCRIPT_PATH }} ${{ env.SERVICE }} ${{ env.ENVIRONMENT }}\""
 
           gcloud compute instance-templates create "$TEMPLATE_NAME" \
             --region="${{ env.REGION }}" \
