@@ -9,6 +9,7 @@ import {
   send,
   sparkle,
 } from "@/shared/assets/images";
+import { PageTimeTracker } from "@/shared/lib";
 import { cn } from "lib/utils";
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
@@ -67,6 +68,7 @@ const ChatbotPage = () => {
 
   return (
     <div className="flex h-[calc(100vh-58px-64px)] flex-col bg-gray-50">
+      <PageTimeTracker pagename="chabot" />
       {/* Header */}
       <div className="p-ctn-md flex items-center gap-3 border-b border-gray-200 bg-white">
         <div className="from-primary to-primary-heavy flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-r">
