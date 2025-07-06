@@ -1,5 +1,5 @@
 // src/features/chatbot/hooks/use-chatbot.ts
-import { errorToast } from "@/shared/lib";
+import { errorToast, GAerrorTracking } from "@/shared/lib";
 import { useChatbotStore } from "@/shared/store/chatbot-store";
 import { useMutation } from "@tanstack/react-query";
 import { createChatbotSession, generateQuestion, getRecommendation } from "../api/chatbot-api";
@@ -27,6 +27,7 @@ export const useChatbot = () => {
             });
         },
         onError: (error) => {
+            GAerrorTracking('api_error', error, 'chabot_session_creation');
             errorToast("세션 생성 실패", error.message);
         },
     });
@@ -52,6 +53,7 @@ export const useChatbot = () => {
             setLoading(false);
         },
         onError: (error) => {
+            GAerrorTracking('api_error', error, 'chabot_question_creation');
             setLoading(false);
             errorToast("질문 생성 실패", error.message);
         },
@@ -73,6 +75,7 @@ export const useChatbot = () => {
             setLoading(false);
         },
         onError: (error) => {
+            GAerrorTracking('api_error', error, 'chabot_recommendation');
             setLoading(false);
             errorToast("추천 요청 실패", error.message);
         },

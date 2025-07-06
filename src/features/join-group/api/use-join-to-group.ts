@@ -1,5 +1,5 @@
 import { groupQuery } from "@/entities/group/api/group.query";
-import { errorToast, GAbuttonClick, GAgroupAction, post, successToast, useConfetti } from "@/shared/lib";
+import { errorToast, GAbuttonClick, GAerrorTracking, GAgroupAction, post, successToast, useConfetti } from "@/shared/lib";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { JOIN_GROUP_MESSAGES } from "../model/constants";
@@ -34,6 +34,7 @@ export const useJoinGroup = (groupId: number | string) => {
             GAgroupAction("join_attempt", groupId);
         },
         onError: (error) => {
+            GAerrorTracking('api_error', error, 'group_join');
             errorToast(JOIN_GROUP_MESSAGES.ERROR, error.message);
         }
     });

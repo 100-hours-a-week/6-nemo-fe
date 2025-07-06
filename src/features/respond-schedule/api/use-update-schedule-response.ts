@@ -44,9 +44,7 @@ export const useUpdateScheduleResponse = (scheduleId: number) => {
         },
         onError: (error) => {
             errorToast(RESPOND_SCHEDULE_MESSAGES.ERROR, error.message);
-
-            GAerrorTracking('schedule_response_failed', error);
-
+            GAerrorTracking('api_error', error, 'schedule_response');
         }
     });
 };

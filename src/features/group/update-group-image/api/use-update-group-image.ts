@@ -1,5 +1,5 @@
 import { groupQuery } from "@/entities/group/api/group.query";
-import { errorToast, patch, successToast } from "@/shared/lib";
+import { errorToast, GAerrorTracking, patch, successToast } from "@/shared/lib";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useUpdateGroupImage = (groupId: string) => {
@@ -27,6 +27,7 @@ export const useUpdateGroupImage = (groupId: string) => {
             successToast("모임 대표 사진이 변경되었습니다.");
         },
         onError: (error) => {
+            GAerrorTracking('api_error', error, 'group_image_update');
             errorToast("모임 대표 사진 변경에 실패했습니다.", error.message)
         }
     });
