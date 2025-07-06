@@ -1,6 +1,6 @@
 import { groupQuery } from "@/entities/group/api/group.query";
 import { CreateGroupRequest, CreateGroupResponse } from "@/entities/group/model/types";
-import { errorToast, post, successToast } from "@/shared/lib";
+import { errorToast, GAerrorTracking, post, successToast } from "@/shared/lib";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CREATE_GROUP_MESSAGES } from "../model/constants";
 
@@ -26,6 +26,7 @@ export const useCreateGroup = () => {
             successToast(CREATE_GROUP_MESSAGES.SUCCESS);
         },
         onError: (error) => {
+            GAerrorTracking('api_error', error, 'group_creation');
             errorToast(CREATE_GROUP_MESSAGES.ERROR, error.message);
         }
     });

@@ -5,6 +5,7 @@ import { LogoutButton } from "@/features/auth/logout";
 import { NicknameEditor } from "@/features/profile/update-nickname";
 import { ProfileImageEditor } from "@/features/profile/update-profile-image";
 import { info, message, right } from "@/shared/assets/images";
+import { PageTracker } from "@/shared/lib";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
@@ -43,6 +44,7 @@ export default function ProfilePage() {
 
   return (
     <div className="p-ctn-lg min-h-[calc(100vh-58px)]">
+      <PageTracker pagename="profile" />
       {/* 프로필 섹션 */}
       <div className="pt-8 pb-6">
         <ProfileImageEditor userProfile={userProfile} />

@@ -9,7 +9,13 @@ import {
 } from "@/features/create-group-info";
 import { AddressData } from "@/features/schedule/model/types";
 import { AddressSearch } from "@/features/schedule/ui/address-search";
-import { createImageHandler } from "@/shared/lib";
+import {
+  createImageHandler,
+  GAbuttonClick,
+  GAerrorTracking,
+  GAgroupAction,
+  GAuserAction,
+} from "@/shared/lib";
 import { BackButton } from "@/shared/ui";
 import { Button } from "@/shared/ui/button";
 import { ProgressBar } from "@/shared/ui/progress-bar";
@@ -79,15 +85,28 @@ export default function GroupCreatePage() {
 
   // 다음 단계로 이동
   const handleNextStep = () => {
+    GAbuttonClick(`create_group_step_${currentStep}_next`, "group_create");
+    GAuserAction(
+      "group_create_progress",
+      `step_${currentStep}_to_${currentStep + 1}`
+    );
+
     if (currentStep < 7) {
       setCurrentStep(currentStep + 1);
     } else if (currentStep === 7) {
+      GAuserAction("group_create_form_complete");
       handleCreateGroupInfo();
     }
   };
 
   // 이전 단계로 이동
   const handlePrevStep = () => {
+    GAbuttonClick(`create_group_step_${currentStep}_back`, "group_create");
+    GAuserAction(
+      "group_create_step_back",
+      `step_${currentStep}_to_${currentStep - 1}`
+    );
+
     if (currentStep > 1) {
       setCurrentStep(currentStep - 1);
     }
@@ -95,6 +114,9 @@ export default function GroupCreatePage() {
 
   // 모임 정보 생성 요청
   const handleCreateGroupInfo = async () => {
+    // AI 계획 생성 여부 추적
+    GAuserAction("ai_plan_feature", isIncludePlan ? "enabled" : "disabled");
+
     const groupData = {
       name: name,
       goal: goal,
@@ -106,6 +128,7 @@ export default function GroupCreatePage() {
     };
 
     const groupInfo = await createGroupInfoMutation.mutateAsync(groupData);
+    GAuserAction("group_info_generated_success");
 
     setGeneratedGroup(groupInfo);
     setEditedGroupData(groupInfo);
@@ -113,6 +136,8 @@ export default function GroupCreatePage() {
 
   // 최종 모임 생성
   const handleCreateGroup = async () => {
+    GAuserAction("group_create_final_attempt");
+
     if (editedGroupData) {
       const requestData = {
         name: editedGroupData.name,
@@ -126,9 +151,15 @@ export default function GroupCreatePage() {
         plan: editedGroupData?.plan || null,
       };
 
-      const result = await createGroupMutation.mutateAsync(requestData);
+      try {
+        const result = await createGroupMutation.mutateAsync(requestData);
+        GAuserAction("group_create_success", result.groupId.toString());
+        GAgroupAction("create_success", result.groupId);
 
-      router.push(`/groups/create/success?groupId=${result.groupId}`);
+        router.push(`/groups/create/success?groupId=${result.groupId}`);
+      } catch (error) {
+        GAerrorTracking("group_create_failed", error as Error);
+      }
     }
   };
 

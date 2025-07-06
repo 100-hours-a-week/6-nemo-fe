@@ -1,7 +1,7 @@
 import { groupQuery } from "@/entities/group";
 import { profileQuery } from "@/entities/profile";
 import { scheduleQuery } from "@/entities/schedule";
-import { errorToast, patch, successToast } from "@/shared/lib";
+import { errorToast, GAerrorTracking, patch, successToast } from "@/shared/lib";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useUpdateNickname = () => {
@@ -29,6 +29,7 @@ export const useUpdateNickname = () => {
             successToast("닉네임이 변경되었습니다.");
         },
         onError: (error) => {
+            GAerrorTracking('api_error', error, 'nickname_update');
             errorToast("닉네임 변경 실패", error.message);
         },
     });

@@ -10,6 +10,7 @@ import {
   user,
   users_icon,
 } from "@/shared/assets/images";
+import { SchedulePageTracker } from "@/shared/lib";
 import { BackButton } from "@/shared/ui";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
@@ -26,13 +27,7 @@ export default function ScheduleDetailPage() {
     isLoading,
     error,
   } = useQuery(scheduleQuery.detail(scheduleId));
-
   const { mutate, isPending } = useUpdateScheduleResponse(scheduleId);
-
-  // 참여 상태 변경 핸들러
-  const handleParticipation = (status: "ACCEPTED" | "REJECTED") => {
-    mutate(status);
-  };
 
   if (isLoading) {
     return (
@@ -91,6 +86,7 @@ export default function ScheduleDetailPage() {
 
   return (
     <div className="relative min-h-screen pb-24">
+      <SchedulePageTracker scheduleId={scheduleId} />
       {/* 상단 헤더 */}
       <header className="relative flex h-14 items-center justify-between border-gray-200 px-4">
         <BackButton />
@@ -334,14 +330,14 @@ export default function ScheduleDetailPage() {
         <div className="flex w-full gap-3">
           <button
             className="bg-primary text-common-100 rounded-ctn-sm flex-1 py-3 font-medium"
-            onClick={() => handleParticipation("ACCEPTED")}
+            onClick={() => mutate("ACCEPTED")}
             disabled={isPending}
           >
             {isPending ? "처리 중..." : "참여"}
           </button>
           <button
             className="rounded-ctn-sm flex-1 bg-gray-200 py-3 font-medium text-gray-600"
-            onClick={() => handleParticipation("REJECTED")}
+            onClick={() => mutate("REJECTED")}
             disabled={isPending}
           >
             {isPending ? "처리 중..." : "불참"}

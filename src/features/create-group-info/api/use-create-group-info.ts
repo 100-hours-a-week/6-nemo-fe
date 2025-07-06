@@ -1,5 +1,5 @@
 import { CreateGroupInfoRequest, CreateGroupInfoResponse } from "@/entities/group/model/types";
-import { errorToast, post } from "@/shared/lib";
+import { errorToast, GAerrorTracking, post } from "@/shared/lib";
 import { useMutation } from "@tanstack/react-query";
 import { CREATE_GROUP_INFO_MESSAGES } from "../model/constants";
 
@@ -16,6 +16,7 @@ export const useCreateGroupInfo = () => {
             return result.data;
         },
         onError: (error) => {
+            GAerrorTracking('api_error', error, 'group_info_creation');
             errorToast(CREATE_GROUP_INFO_MESSAGES.ERROR, error.message);
         }
     });

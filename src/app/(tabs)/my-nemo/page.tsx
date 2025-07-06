@@ -1,4 +1,5 @@
 import { MY_NEMO_TAB_ITEMS } from "@/shared/constants";
+import { PageTracker } from "@/shared/lib";
 import { SubTab } from "@/shared/ui";
 import { MyGroupList } from "@/widgets/my-group-list";
 import { MyScheduleList } from "@/widgets/my-schedule-list";
@@ -15,6 +16,7 @@ export default async function MyNemoPage({ searchParams }: Props) {
 
   return (
     <>
+      <PageTracker pagename="my-nemo" />
       <SubTab tabs={MY_NEMO_TAB_ITEMS} activeTab={activeTab} />
       <main className="bg-common-100 min-h-screen p-4">
         {activeTab === "group" ? <MyGroupList /> : <MyScheduleList />}

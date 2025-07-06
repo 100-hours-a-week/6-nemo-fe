@@ -1,7 +1,7 @@
 
 import { profileQuery } from "@/entities/profile";
 import { BASE_URL } from "@/shared/constants";
-import { errorToast, successToast } from "@/shared/lib";
+import { errorToast, GAerrorTracking, successToast } from "@/shared/lib";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useUpdateProfileImage = () => {
@@ -34,6 +34,7 @@ export const useUpdateProfileImage = () => {
             successToast("프로필 이미지가 변경되었습니다.");
         },
         onError: (error) => {
+            GAerrorTracking('api_error', error, 'profile_image_update');
             errorToast("프로필 이미지 변경 실패", error.message);
         },
     });
