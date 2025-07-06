@@ -13,8 +13,25 @@ const pretendard = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Nemo",
+  title: {
+    default: "네모 - NE:MO",
+    template: "%s | 네모",
+  },
   description: "네가 찾는 모임, 네모",
+  icons: {
+    icon: "/nemo_logo.svg",
+  },
+  openGraph: {
+    title: "네모 - NE:MO",
+    description: "네가 찾는 모임, 네모",
+    images: ["/nemo_logo.svg"],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "네모 - NE:MO",
+    description: "네가 찾는 모임, 네모",
+    images: ["/nemo_logo.svg"],
+  },
 };
 
 export default function RootLayout({

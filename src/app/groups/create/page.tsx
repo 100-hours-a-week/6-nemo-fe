@@ -18,7 +18,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export default function Page() {
+export default function GroupCreatePage() {
   const router = useRouter();
   const createGroupMutation = useCreateGroup();
   const createGroupInfoMutation = useCreateGroupInfo();
@@ -656,7 +656,7 @@ export default function Page() {
         </p>
         <Button
           onClick={() => {
-            setCurrentStep(1);
+            handleCreateGroupInfo();
           }}
           className="bg-primary text-common-100 rounded-full px-6 py-2"
         >

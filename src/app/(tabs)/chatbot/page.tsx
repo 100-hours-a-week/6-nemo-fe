@@ -177,7 +177,6 @@ const ChatbotPage = () => {
                   잘 어울릴 것 같아요! 한번 확인해보세요 😄
                 </div>
               </div>
-
               <GroupCard
                 group={{
                   groupId: session.recommendedGroup.groupId,

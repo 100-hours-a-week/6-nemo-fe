@@ -43,7 +43,7 @@ export const apiClient = async (url: string, config: RequestInit = {}): Promise<
         const response = await fetch(fullUrl, requestConfig);
 
         // 401 토큰 만료
-        if (response.status === 401) {
+        if (response.status === 401 || response.status === 403) {
             const originalRequest = {
                 url,
                 ...requestConfig,

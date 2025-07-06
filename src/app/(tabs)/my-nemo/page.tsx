@@ -9,7 +9,7 @@ type Props = {
   }>;
 };
 
-export default async function Page({ searchParams }: Props) {
+export default async function MyNemoPage({ searchParams }: Props) {
   const { tab } = await searchParams;
   const activeTab = tab ?? "group";
 
