@@ -16,23 +16,30 @@ function isPublicPath(pathname: string): boolean {
     });
 }
 
-async function refreshAccessToken(request: NextRequest): Promise<boolean> {
+async function refreshAccessToken(request: NextRequest): Promise<{
+    success: boolean;
+    setCookieHeaders: string[];
+}> {
     try {
-        console.log('토큰 갱신 시도 중...');
-
         const response = await fetch(`${BASE_URL}/api/v1/auth/token/refresh`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Cookie': request.headers.get('cookie') || '', // 🔧 수정
+                'Cookie': request.headers.get('cookie') || '',
             },
         });
 
-        console.log('갱신 응답 상태:', response.status);
-        return response.ok;
+        const setCookieHeaders = response.headers.getSetCookie() || [];
+
+        console.log('토큰 갱신 - 받은 Set-Cookie:', setCookieHeaders);
+
+        return {
+            success: response.ok,
+            setCookieHeaders: response.ok ? setCookieHeaders : []
+        };
     } catch (error) {
         console.error('Token refresh error:', error);
-        return false;
+        return { success: false, setCookieHeaders: [] };
     }
 }
 
@@ -63,13 +70,23 @@ export async function middleware(request: NextRequest) {
         if (!accessToken) {
             // 리프레시 토큰이 있을 시 갱신 시도
             if (refreshToken) {
-                const refreshSuccess = await refreshAccessToken(request);
-                if (refreshSuccess) {
+                console.log('토큰 갱신 시도 중...');
+                const { success, setCookieHeaders } = await refreshAccessToken(request);
+
+                if (success && setCookieHeaders.length > 0) {
+                    console.log('토큰 갱신 성공, 쿠키 전달 중...');
+
+                    const response = NextResponse.next();
+
+                    setCookieHeaders.forEach(cookieHeader => {
+                        response.headers.append('Set-Cookie', cookieHeader);
+                    });
+
                     return response;
                 }
-            }
 
-            // 리프레시 토큰이 없을 시
+                console.log('토큰 갱신 실패');
+            }
             const loginUrl = new URL('/login', request.url);
             loginUrl.searchParams.set('redirect', pathname);
             const redirectResponse = NextResponse.redirect(loginUrl);
@@ -78,12 +95,12 @@ export async function middleware(request: NextRequest) {
             redirectResponse.cookies.delete('refresh_token');
 
             return redirectResponse;
+            // 실제 유효성은 API 호출 시 백엔드에서 검증하고, 401 에러 나면 클라이언트에서 갱신 처리
         }
+        console.log("미들웨어에서 쿠키가 인식됩니다.", accessToken, refreshToken)
 
-        // 실제 유효성은 API 호출 시 백엔드에서 검증하고, 401 에러 나면 클라이언트에서 갱신 처리
+        return response;
     }
-
-    return response;
 }
 
 export const config = {

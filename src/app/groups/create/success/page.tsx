@@ -34,9 +34,9 @@ function SuccessContent() {
 
   const handleGoToGroup = () => {
     if (groupId) {
-      router.push(`/groups/${groupId}`);
+      router.replace(`/groups/${groupId}`);
     } else {
-      router.push("/groups");
+      router.replace("/groups");
     }
   };
 
@@ -65,7 +65,7 @@ function SuccessContent() {
   );
 }
 
-export default function Page() {
+export default function CreateSuccessPage() {
   return (
     <Suspense
       fallback={
