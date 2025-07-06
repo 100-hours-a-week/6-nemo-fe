@@ -7,6 +7,7 @@ import {
 import { GroupManagementButton } from "@/features/group/manage-group";
 import { JoinGroupButton } from "@/features/join-group/ui/join-group-button";
 import { GROUP_DETAILS_TAB_ITEMS } from "@/shared/constants";
+import { GroupPageTracker } from "@/shared/lib";
 import { BackButton, SubTab } from "@/shared/ui";
 import { GroupInfo } from "@/widgets/group-details";
 import { ScheduleList } from "@/widgets/schedule-list";
@@ -32,6 +33,7 @@ export default async function GroupDetailsPage({
 
   return (
     <div className="bg-common-100 relative flex min-h-screen flex-col pb-24">
+      <GroupPageTracker groupId={groupId} />
       <div className="absolute top-4 right-4 left-4 z-10 flex items-center justify-between">
         <BackButton fill={true} className="opacity-75" />
         <GroupManagementButton
