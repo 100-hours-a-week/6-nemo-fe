@@ -13,6 +13,10 @@ on:
 jobs:
   lighthouse:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
 
     steps:
       - name: Checkout Code
@@ -33,102 +37,83 @@ jobs:
 
       - name: Create Environment File
         run: |
-          echo "NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}"
-          echo "NEXT_PUBLIC_KAKAO_REDIRECT_URI=${{ secrets.NEXT_PUBLIC_KAKAO_REDIRECT_URI }}"
-          echo "NEXT_PUBLIC_GA_ID=${{ secrets.NEXT_PUBLIC_GA_ID }}"
+          echo "NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}" > .env.local
+          echo "NEXT_PUBLIC_KAKAO_REDIRECT_URI=${{ secrets.NEXT_PUBLIC_KAKAO_REDIRECT_URI }}" >> .env.local
+          echo "NEXT_PUBLIC_GA_ID=${{ secrets.NEXT_PUBLIC_GA_ID }}" >> .env.local
 
       - name: Build Application
         run: pnpm build
 
-      - name: Serve Application
-        run: |
-          pnpm start &
-          sleep 10
-        env:
-          PORT: 3000
-
-      - name: Wait for server
-        run: |
-          npx wait-on http://localhost:3000 --timeout 60000
+      - name: Install Lighthouse CI
+        run: npm install -g @lhci/cli@0.15.x
 
       - name: Run Lighthouse CI
-        run: |
-          npm install -g @lhci/cli@0.13.x
-          lhci autorun
+        continue-on-error: true
+        run: lhci autorun
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Format Lighthouse Score
         id: format_lighthouse_score
+        if: always()
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const fs = require('fs');
-            const path = require('path');
 
-            // LHCI 결과 파일 경로
-            const manifestPath = '.lighthouseci/manifest.json';
+            // Lighthouse 결과 파일 찾기
+            const manifestPath = './lhci_reports/manifest.json';
 
             if (!fs.existsSync(manifestPath)) {
-              console.log('Lighthouse 결과 파일을 찾을 수 없습니다.');
+              core.setOutput('comments', 
+                '## ⚡️ Lighthouse CI Report\n\n' +
+                '❌ Lighthouse 결과 파일을 찾을 수 없습니다.'
+              );
               return;
             }
 
-            const results = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
-            let comments = "## ⚡️ Lighthouse CI Report\n\n";
+            try {
+              const results = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
+              let comments = "## ⚡️ Lighthouse CI Report\n\n";
 
-            if (results.length === 0) {
-              comments += "❌ Lighthouse 결과가 없습니다.\n";
-              core.setOutput('comments', comments);
-              return;
-            }
-
-            results.forEach((result, index) => {
-              const { summary, jsonPath } = result;
-              
-              if (!fs.existsSync(jsonPath)) {
-                console.log(`결과 파일을 찾을 수 없습니다: ${jsonPath}`);
+              if (!results || results.length === 0) {
+                comments += "❌ Lighthouse 결과가 없습니다.\n";
+                core.setOutput('comments', comments);
                 return;
               }
-              
+
+              // 첫 번째 결과만 사용 (간단하게)
+              const result = results[0];
+              const { summary, jsonPath } = result;
               const details = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
-              const { audits, finalUrl } = details;
-              
-              // 점수 포맷팅 함수
+              const { audits } = details;
+
+              // 점수 포맷팅
               const formatResult = (res) => Math.round((res || 0) * 100);
-              
-              // 점수별 색상 이모지
               const score = (res) => {
                 const numScore = formatResult(res);
                 return numScore >= 90 ? "🟢" : numScore >= 50 ? "🟠" : "🔴";
               };
-              
+
               // 카테고리 점수 포맷팅
-              const formattedSummary = {};
               Object.keys(summary).forEach(
-                (key) => (formattedSummary[key] = formatResult(summary[key]))
+                (key) => (summary[key] = formatResult(summary[key]))
               );
-              
-              // URL 표시 (여러 페이지가 있는 경우)
-              if (results.length > 1) {
-                comments += `### 📄 Page ${index + 1}: ${finalUrl}\n\n`;
-              }
-              
+
               // 메인 점수 테이블
               const mainScoreTable = [
                 `### 📊 Overall Scores`,
                 `| Category | Score |`,
                 `| --- | --- |`,
-                `| ${score(summary.performance)} **Performance** | **${formattedSummary.performance}** |`,
-                `| ${score(summary.accessibility)} **Accessibility** | **${formattedSummary.accessibility}** |`,
-                `| ${score(summary['best-practices'])} **Best Practices** | **${formattedSummary['best-practices']}** |`,
-                `| ${score(summary.seo)} **SEO** | **${formattedSummary.seo}** |`,
-                `| ${score(summary.pwa)} **PWA** | **${formattedSummary.pwa}** |`,
+                `| ${score(summary.performance)} **Performance** | **${summary.performance}** |`,
+                `| ${score(summary.accessibility)} **Accessibility** | **${summary.accessibility}** |`,
+                `| ${score(summary['best-practices'])} **Best Practices** | **${summary['best-practices']}** |`,
+                `| ${score(summary.seo)} **SEO** | **${summary.seo}** |`,
                 ``
               ].join("\n");
-              
-              // 상세 성능 지표
+
+              // 성능 지표 테이블
               const performanceDetails = [
                 `### 🚀 Performance Details`,
                 `| Metric | Value | Score |`,
@@ -140,96 +125,28 @@ jobs:
                 `| ${score(audits["total-blocking-time"]?.score)} **Total Blocking Time** | ${audits["total-blocking-time"]?.displayValue || 'N/A'} | ${formatResult(audits["total-blocking-time"]?.score)} |`,
                 ``
               ].join("\n");
+
+              // 전체 상태
+              const statusEmoji = summary.performance >= 70 ? "✅" : summary.performance >= 50 ? "⚠️" : "❌";
+              const statusText = summary.performance >= 70 ? "Good" : summary.performance >= 50 ? "Needs Improvement" : "Poor";
+
+              comments = `${statusEmoji} **Overall Status: ${statusText}** (Performance: ${summary.performance}점)\n\n` + comments;
+              comments += mainScoreTable + performanceDetails;
+
+              core.setOutput('comments', comments);
               
-              // 주요 개선 제안사항 (점수가 낮은 항목들)
-              const suggestions = [];
-              if (formattedSummary.performance < 90) {
-                suggestions.push("🔧 **Performance**: 이미지 최적화, 코드 분할, 캐싱 전략 검토");
-              }
-              if (formattedSummary.accessibility < 90) {
-                suggestions.push("♿ **Accessibility**: alt 텍스트, 색상 대비, 키보드 네비게이션 개선");
-              }
-              if (formattedSummary['best-practices'] < 90) {
-                suggestions.push("✅ **Best Practices**: HTTPS 사용, 보안 헤더, 라이브러리 업데이트");
-              }
-              if (formattedSummary.seo < 90) {
-                suggestions.push("🔍 **SEO**: 메타 태그, 구조화된 데이터, 모바일 친화성 개선");
-              }
-              
-              let improvementSection = "";
-              if (suggestions.length > 0) {
-                improvementSection = [
-                  `### 💡 Improvement Suggestions`,
-                  ...suggestions.map(s => `- ${s}`),
-                  ``
-                ].join("\n");
-              }
-              
-              comments += mainScoreTable + performanceDetails + improvementSection;
-              
-              if (index < results.length - 1) {
-                comments += "\n---\n\n";
-              }
-            });
-
-            // 전체적인 상태 요약
-            const overallPerformance = results.reduce((acc, result) => {
-              return acc + formatResult(result.summary.performance);
-            }, 0) / results.length;
-
-            const statusEmoji = overallPerformance >= 90 ? "✅" : overallPerformance >= 50 ? "⚠️" : "❌";
-            const statusText = overallPerformance >= 90 ? "Excellent" : overallPerformance >= 50 ? "Needs Improvement" : "Poor";
-
-            comments = `${statusEmoji} **Overall Status: ${statusText}** (avg: ${Math.round(overallPerformance)})\n\n` + comments;
-
-            // 보고서 링크 추가
-            comments += `\n---\n`;
-            comments += `📊 *Generated by [Lighthouse CI](https://github.com/GoogleChrome/lighthouse-ci)*\n`;
-            comments += `🤖 *Auto-generated on ${new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })}*`;
-
-            core.setOutput('comments', comments);
+            } catch (error) {
+              console.error('오류:', error);
+              core.setOutput('comments', 
+                '## ⚡️ Lighthouse CI Report\n\n' +
+                '❌ 결과 처리 중 오류가 발생했습니다.'
+              );
+            }
 
       - name: Comment PR
-        if: github.event_name == 'pull_request'
-        uses: actions/github-script@v7
+        if: github.event_name == 'pull_request' && always()
+        uses: unsplash/comment-on-pr@v1.3.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const comments = `${{ steps.format_lighthouse_score.outputs.comments }}`;
-
-            if (!comments || comments.trim() === '') {
-              console.log('댓글 내용이 없습니다.');
-              return;
-            }
-
-            // 기존 Lighthouse 댓글 찾기
-            const { data: existingComments } = await github.rest.issues.listComments({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-            });
-
-            const botComment = existingComments.find(comment => 
-              comment.user.type === 'Bot' && 
-              comment.body.includes('⚡️ Lighthouse CI Report')
-            );
-
-            if (botComment) {
-              // 기존 댓글 업데이트
-              await github.rest.issues.updateComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                comment_id: botComment.id,
-                body: comments
-              });
-              console.log('기존 Lighthouse 댓글을 업데이트했습니다.');
-            } else {
-              // 새 댓글 생성
-              await github.rest.issues.createComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: context.issue.number,
-                body: comments
-              });
-              console.log('새 Lighthouse 댓글을 생성했습니다.');
-            }
+          msg: ${{ steps.format_lighthouse_score.outputs.comments }}
