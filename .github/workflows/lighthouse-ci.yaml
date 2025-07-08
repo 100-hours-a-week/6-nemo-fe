@@ -67,7 +67,7 @@ jobs:
 
             if (!fs.existsSync(manifestPath)) {
               core.setOutput('comments', 
-                '## ⚡️ Lighthouse CI Report\n\n' +
+                '## ⚡️ Lighthouse Report\n\n' +
                 '❌ Lighthouse 결과 파일을 찾을 수 없습니다.'
               );
               return;
@@ -75,7 +75,7 @@ jobs:
 
             try {
               const results = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
-              let comments = "## ⚡️ Lighthouse CI Report\n\n";
+              let comments = "## ⚡️ Lighthouse Report\n\n";
 
               if (!results || results.length === 0) {
                 comments += "❌ Lighthouse 결과가 없습니다.\n";
@@ -126,11 +126,6 @@ jobs:
                 ``
               ].join("\n");
 
-              // 전체 상태
-              const statusEmoji = summary.performance >= 70 ? "✅" : summary.performance >= 50 ? "⚠️" : "❌";
-              const statusText = summary.performance >= 70 ? "Good" : summary.performance >= 50 ? "Needs Improvement" : "Poor";
-
-              comments = `${statusEmoji} **Overall Status: ${statusText}** (Performance: ${summary.performance}점)\n\n` + comments;
               comments += mainScoreTable + performanceDetails;
 
               core.setOutput('comments', comments);
@@ -138,7 +133,7 @@ jobs:
             } catch (error) {
               console.error('오류:', error);
               core.setOutput('comments', 
-                '## ⚡️ Lighthouse CI Report\n\n' +
+                '## Lighthouse Report\n\n' +
                 '❌ 결과 처리 중 오류가 발생했습니다.'
               );
             }
