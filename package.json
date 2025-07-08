@@ -1,6 +1,6 @@
 {
   "name": "6-nemo-fe",
-  "version": "0.1.0",
+  "version": "2.3.5",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
