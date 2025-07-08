@@ -1,0 +1,147 @@
+name: Lighthouse CI
+
+on:
+  pull_request:
+    branches: [main, dev]
+    paths:
+      - "src/**"
+      - "public/**"
+      - "package.json"
+      - "next.config.ts"
+      - "tailwind.config.js"
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install Dependencies
+        run: |
+          corepack prepare pnpm@10.10.0 --activate
+          pnpm install --frozen-lockfile
+
+      - name: Create Environment File
+        run: |
+          echo "NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}" > .env.local
+          echo "NEXT_PUBLIC_KAKAO_REDIRECT_URI=${{ secrets.NEXT_PUBLIC_KAKAO_REDIRECT_URI }}" >> .env.local
+          echo "NEXT_PUBLIC_GA_ID=${{ secrets.NEXT_PUBLIC_GA_ID }}" >> .env.local
+
+      - name: Build Application
+        run: pnpm build
+
+      - name: Install Lighthouse CI
+        run: npm install -g @lhci/cli@0.15.x
+
+      - name: Run Lighthouse CI
+        continue-on-error: true
+        run: lhci autorun
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Format Lighthouse Score
+        id: format_lighthouse_score
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+
+            // Lighthouse 결과 파일 찾기
+            const manifestPath = './lhci_reports/manifest.json';
+
+            if (!fs.existsSync(manifestPath)) {
+              core.setOutput('comments', 
+                '## ⚡️ Lighthouse Report\n\n' +
+                '❌ Lighthouse 결과 파일을 찾을 수 없습니다.'
+              );
+              return;
+            }
+
+            try {
+              const results = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
+              let comments = "## ⚡️ Lighthouse Report\n\n";
+
+              if (!results || results.length === 0) {
+                comments += "❌ Lighthouse 결과가 없습니다.\n";
+                core.setOutput('comments', comments);
+                return;
+              }
+
+              // 첫 번째 결과만 사용 (간단하게)
+              const result = results[0];
+              const { summary, jsonPath } = result;
+              const details = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
+              const { audits } = details;
+
+              // 점수 포맷팅
+              const formatResult = (res) => Math.round((res || 0) * 100);
+              const score = (res) => {
+                const numScore = formatResult(res);
+                return numScore >= 90 ? "🟢" : numScore >= 50 ? "🟠" : "🔴";
+              };
+
+              // 카테고리 점수 포맷팅
+              Object.keys(summary).forEach(
+                (key) => (summary[key] = formatResult(summary[key]))
+              );
+
+              // 메인 점수 테이블
+              const mainScoreTable = [
+                `### 📊 Overall Scores`,
+                `| Category | Score |`,
+                `| --- | --- |`,
+                `| ${score(summary.performance)} **Performance** | **${summary.performance}** |`,
+                `| ${score(summary.accessibility)} **Accessibility** | **${summary.accessibility}** |`,
+                `| ${score(summary['best-practices'])} **Best Practices** | **${summary['best-practices']}** |`,
+                `| ${score(summary.seo)} **SEO** | **${summary.seo}** |`,
+                ``
+              ].join("\n");
+
+              // 성능 지표 테이블
+              const performanceDetails = [
+                `### 🚀 Performance Details`,
+                `| Metric | Value | Score |`,
+                `| --- | --- | --- |`,
+                `| ${score(audits["first-contentful-paint"]?.score)} **First Contentful Paint** | ${audits["first-contentful-paint"]?.displayValue || 'N/A'} | ${formatResult(audits["first-contentful-paint"]?.score)} |`,
+                `| ${score(audits["largest-contentful-paint"]?.score)} **Largest Contentful Paint** | ${audits["largest-contentful-paint"]?.displayValue || 'N/A'} | ${formatResult(audits["largest-contentful-paint"]?.score)} |`,
+                `| ${score(audits["speed-index"]?.score)} **Speed Index** | ${audits["speed-index"]?.displayValue || 'N/A'} | ${formatResult(audits["speed-index"]?.score)} |`,
+                `| ${score(audits["cumulative-layout-shift"]?.score)} **Cumulative Layout Shift** | ${audits["cumulative-layout-shift"]?.displayValue || 'N/A'} | ${formatResult(audits["cumulative-layout-shift"]?.score)} |`,
+                `| ${score(audits["total-blocking-time"]?.score)} **Total Blocking Time** | ${audits["total-blocking-time"]?.displayValue || 'N/A'} | ${formatResult(audits["total-blocking-time"]?.score)} |`,
+                ``
+              ].join("\n");
+
+              comments += mainScoreTable + performanceDetails;
+
+              core.setOutput('comments', comments);
+              
+            } catch (error) {
+              console.error('오류:', error);
+              core.setOutput('comments', 
+                '## Lighthouse Report\n\n' +
+                '❌ 결과 처리 중 오류가 발생했습니다.'
+              );
+            }
+
+      - name: Comment PR
+        if: github.event_name == 'pull_request' && always()
+        uses: unsplash/comment-on-pr@v1.3.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          msg: ${{ steps.format_lighthouse_score.outputs.comments }}

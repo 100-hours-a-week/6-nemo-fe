@@ -23,14 +23,18 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "네모 - NE:MO",
-    description: "네가 찾는 모임, 네모",
-    images: ["/nemo_logo.svg"],
+    description: `모임을 관리하는 일이 스트레스였다면, 
+                내가 원하는 모임을 어디에서 찾아야 할지 고민이었다면, 
+                네가 찾는 모임, 네모`,
+    images: ["/nemo_logo.png"],
   },
   twitter: {
     card: "summary_large_image",
     title: "네모 - NE:MO",
-    description: "네가 찾는 모임, 네모",
-    images: ["/nemo_logo.svg"],
+    description: `모임을 관리하는 일이 스트레스였다면, 
+                내가 원하는 모임을 어디에서 찾아야 할지 고민이었다면, 
+                네가 찾는 모임, 네모`,
+    images: ["/nemo_logo.png"],
   },
 };
 
