@@ -1,4 +1,5 @@
 import { FlatCompat } from "@eslint/eslintrc";
+import boundariesPlugin from "eslint-plugin-boundaries";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 
@@ -13,7 +14,10 @@ const eslintConfig = [
   ...compat.extends("next/core-web-vitals", "next/typescript", "prettier"),
 
   {
-    plugins: ["boundaries"],
+    plugins: {
+      boundaries: boundariesPlugin,
+    },
+
 
     settings: {
       // FSD 아키텍처의 각 레이어 정의
@@ -162,7 +166,7 @@ const eslintConfig = [
         },
       ],
       "@typescript-eslint/no-explicit-any": "warn",
-      "@typescript-eslint/prefer-const": "error",
+      "prefer-const": "error",
 
       // React 관련
       "react/jsx-curly-brace-presence": [

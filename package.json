@@ -8,10 +8,22 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "lint:fix": "next lint --fix",
+    "type-check": "tsc --noEmit",
     "analyze": "ANALYZE=true next build",
     "lighthouse": "lhci autorun",
     "lighthouse:collect": "lhci collect",
-    "lighthouse:assert": "lhci assert"
+    "lighthouse:assert": "lhci assert",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,css,md}": [
+      "prettier --write"
+    ]
   },
   "dependencies": {
     "@next/third-parties": "^15.3.4",
