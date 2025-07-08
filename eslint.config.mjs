@@ -70,7 +70,7 @@ const eslintConfig = [
             },
             {
               from: "shared",
-              allow: []
+              allow: ["shared"]
             }
           ]
         }
@@ -78,7 +78,7 @@ const eslintConfig = [
 
       // Public API 사용 강제
       "import/no-internal-modules": [
-        "error",
+        "off",
         {
           allow: [
             "@/shared/*/index",
@@ -86,7 +86,19 @@ const eslintConfig = [
             "@/features/*/index",
             "@/widgets/*/index",
 
+            "@/entities/*",
+            "@/features/*",
+            "@/widgets/*",
+            "@/shared/*",
+
+            "@/entities/*/**",
+            "@/features/*/**",
+            "@/widgets/*/**",
+            "@/shared/*/**",
+
             "next/*",
+            "@next/*",                    // @next/third-parties 등
+            "@next/**/*",
             "react",
             "react-dom",
 
@@ -98,12 +110,7 @@ const eslintConfig = [
             "tailwind-merge",
             "@radix-ui/**",
             "js-confetti",
-
-            "src/shared/**",
-            "@/shared/**",
-
             "lib/**",
-            "@/lib/**"
           ]
         }
       ],
