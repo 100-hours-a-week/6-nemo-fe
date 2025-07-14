@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+import React, { useEffect, useRef, useState } from "react";
 import { useChatbot } from "@/entities/chatbot/api/use-chatobt";
 import { GroupCard } from "@/entities/group";
 import {
@@ -11,8 +13,6 @@ import {
 } from "@/shared/assets/images";
 import { PageTimeTracker } from "@/shared/lib";
 import { cn } from "lib/utils";
-import Image from "next/image";
-import React, { useEffect, useRef, useState } from "react";
 
 const ChatbotPage = () => {
   const [inputValue, setInputValue] = useState("");
@@ -26,6 +26,9 @@ const ChatbotPage = () => {
     isHydrated,
   } = useChatbot();
 
+  // 챗봇 세션이 시작됐는지 여부 (메시지가 하나라도 있으면 시작된 것)
+  const isChatStarted = session.messages.length > 0;
+
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -33,12 +36,6 @@ const ChatbotPage = () => {
   useEffect(() => {
     scrollToBottom();
   }, [session.messages]);
-
-  useEffect(() => {
-    if (isHydrated) {
-      initializeChatbot();
-    }
-  }, [isHydrated]);
 
   const handleSendMessage = () => {
     if (!inputValue.trim() || isLoading) return;
@@ -66,10 +63,29 @@ const ChatbotPage = () => {
     );
   }
 
+  // 챗봇 세션이 시작되지 않은 경우: 추천 시작 버튼만 노출
+  if (!isChatStarted) {
+    return (
+      <div className="flex h-[calc(100vh-58px-64px)] flex-col items-center justify-center bg-gray-50">
+        <div className="from-primary to-primary-heavy mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-r">
+          <Image src={sparkle} width={40} height={40} alt="ai icon" />
+        </div>
+        <h1 className="mb-2 text-2xl font-bold">네모 AI 추천 챗봇</h1>
+        <p className="mb-8 text-gray-500">맞춤 모임 추천을 시작해보세요!</p>
+        <button
+          onClick={startNewChat}
+          className="bg-primary hover:bg-primary-strong rounded-full px-8 py-3 text-lg font-semibold text-white shadow transition"
+        >
+          추천 시작
+        </button>
+      </div>
+    );
+  }
+
+  // 챗봇 세션이 시작된 경우: 기존 챗봇 UI 노출
   return (
     <div className="flex h-[calc(100vh-58px-64px)] flex-col bg-gray-50">
       <PageTimeTracker pagename="chabot" />
-      {/* Header */}
       <div className="p-ctn-md flex items-center gap-3 border-b border-gray-200 bg-white">
         <div className="from-primary to-primary-heavy flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-r">
           <Image src={sparkle} width={24} height={24} alt="ai icon" />
@@ -79,7 +95,14 @@ const ChatbotPage = () => {
             <h1 className="text-label-assistive text-lg font-semibold">
               탱글이
             </h1>
-            <div className="bg-primary h-2 w-2 animate-pulse rounded-full"></div>
+            <div
+              className={cn(
+                "h-2 w-2 rounded-full",
+                session.isSSEConnected
+                  ? "animate-pulse bg-green-500"
+                  : "animate-pulse bg-red-500"
+              )}
+            />
           </div>
           <p className="text-sm text-gray-500">네모 AI</p>
         </div>
@@ -111,7 +134,7 @@ const ChatbotPage = () => {
               {message.role === "ai" && (
                 <div className="mb-1 flex items-center gap-2">
                   <div className="from-primary to-primary-heavy flex h-6 w-6 items-center justify-center rounded-full bg-gradient-to-r">
-                    <Image src={sparkle} width={14} height={14} alt="ai icon" />
+                    <Image src={sparkle} width={16} height={16} alt="ai icon" />
                   </div>
                   <span className="text-sm text-gray-500">탱글이</span>
                 </div>
@@ -126,6 +149,9 @@ const ChatbotPage = () => {
               >
                 <div className="text-label-1 leading-relaxed whitespace-pre-line">
                   {message.text}
+                  {message.isStreaming && (
+                    <span className="bg-primary ml-1 inline-block h-4 w-1 animate-pulse" />
+                  )}
                 </div>
               </div>
 
@@ -148,7 +174,7 @@ const ChatbotPage = () => {
                         <button
                           key={index}
                           onClick={() => handleOptionClick(option)}
-                          disabled={isLoading}
+                          disabled={isLoading || message.isStreaming}
                           className={`rounded-xl border border-gray-200 p-3 text-center opacity-90 transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-50 ${colorClass}`}
                         >
                           <div className="text-sm font-medium">{option}</div>
@@ -210,7 +236,7 @@ const ChatbotPage = () => {
         )}
 
         {/* 로딩 인디케이터 */}
-        {isLoading && (
+        {isLoading && !session.currentStreamingMessageId && (
           <div className="flex justify-start">
             <div className="max-w-[80%]">
               <div className="mb-1 flex items-center gap-2">
@@ -222,15 +248,15 @@ const ChatbotPage = () => {
               <div className="rounded-2xl border border-gray-200 bg-white px-4 py-3">
                 <div className="flex items-center gap-1">
                   <div className="flex space-x-1">
-                    <div className="bg-primary h-1.5 w-1.5 animate-bounce rounded-full"></div>
+                    <div className="bg-primary h-1.5 w-1.5 animate-bounce rounded-full" />
                     <div
                       className="bg-primary h-1.5 w-1.5 animate-bounce rounded-full"
                       style={{ animationDelay: "0.1s" }}
-                    ></div>
+                    />
                     <div
                       className="bg-primary h-1.5 w-1.5 animate-bounce rounded-full"
                       style={{ animationDelay: "0.2s" }}
-                    ></div>
+                    />
                   </div>
                   <span className="text-label-1 ml-2 text-gray-500">
                     답변을 준비하고 있어요...
