@@ -1,7 +1,5 @@
 "use client";
 
-import Image from "next/image";
-import React, { useEffect, useRef, useState } from "react";
 import { useChatbot } from "@/entities/chatbot/api/use-chatobt";
 import { GroupCard } from "@/entities/group";
 import {
@@ -13,6 +11,8 @@ import {
 } from "@/shared/assets/images";
 import { PageTimeTracker } from "@/shared/lib";
 import { cn } from "lib/utils";
+import Image from "next/image";
+import React, { useEffect, useRef, useState } from "react";
 
 const ChatbotPage = () => {
   const [inputValue, setInputValue] = useState("");
@@ -236,36 +236,38 @@ const ChatbotPage = () => {
         )}
 
         {/* 로딩 인디케이터 */}
-        {isLoading && !session.currentStreamingMessageId && (
-          <div className="flex justify-start">
-            <div className="max-w-[80%]">
-              <div className="mb-1 flex items-center gap-2">
-                <div className="from-primary to-primary-heavy flex h-6 w-6 items-center justify-center rounded-full bg-gradient-to-r">
-                  <Image src={sparkle} width={16} height={16} alt="ai icon" />
-                </div>
-                <span className="text-sm text-gray-500">탱글이</span>
-              </div>
-              <div className="rounded-2xl border border-gray-200 bg-white px-4 py-3">
-                <div className="flex items-center gap-1">
-                  <div className="flex space-x-1">
-                    <div className="bg-primary h-1.5 w-1.5 animate-bounce rounded-full" />
-                    <div
-                      className="bg-primary h-1.5 w-1.5 animate-bounce rounded-full"
-                      style={{ animationDelay: "0.1s" }}
-                    />
-                    <div
-                      className="bg-primary h-1.5 w-1.5 animate-bounce rounded-full"
-                      style={{ animationDelay: "0.2s" }}
-                    />
+        {isLoading &&
+          !session.currentStreamingMessageId &&
+          !session.recommendationReason && (
+            <div className="flex justify-start">
+              <div className="max-w-[80%]">
+                <div className="mb-1 flex items-center gap-2">
+                  <div className="from-primary to-primary-heavy flex h-6 w-6 items-center justify-center rounded-full bg-gradient-to-r">
+                    <Image src={sparkle} width={16} height={16} alt="ai icon" />
                   </div>
-                  <span className="text-label-1 ml-2 text-gray-500">
-                    답변을 준비하고 있어요...
-                  </span>
+                  <span className="text-sm text-gray-500">탱글이</span>
+                </div>
+                <div className="rounded-2xl border border-gray-200 bg-white px-4 py-3">
+                  <div className="flex items-center gap-1">
+                    <div className="flex space-x-1">
+                      <div className="bg-primary h-1.5 w-1.5 animate-bounce rounded-full" />
+                      <div
+                        className="bg-primary h-1.5 w-1.5 animate-bounce rounded-full"
+                        style={{ animationDelay: "0.1s" }}
+                      />
+                      <div
+                        className="bg-primary h-1.5 w-1.5 animate-bounce rounded-full"
+                        style={{ animationDelay: "0.2s" }}
+                      />
+                    </div>
+                    <span className="text-label-1 ml-2 text-gray-500">
+                      답변을 준비하고 있어요...
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
 
         <div ref={messagesEndRef} />
       </div>

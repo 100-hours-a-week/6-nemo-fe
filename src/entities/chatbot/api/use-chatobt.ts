@@ -1,7 +1,7 @@
-import { useMutation } from "@tanstack/react-query";
-import { useEffect, useRef } from "react";
 import { errorToast, GAerrorTracking } from "@/shared/lib";
 import { useChatbotStore } from "@/shared/store/chatbot-store";
+import { useMutation } from "@tanstack/react-query";
+import { useEffect, useRef } from "react";
 import {
   createChatbotSession,
   createSSEConnection,
@@ -23,6 +23,7 @@ export const useChatbot = () => {
     isHydrated,
     setSSEConnected,
     setCurrentStreamingMessageId,
+    setRecommendationReason, // 추가
   } = useChatbotStore();
 
   const eventSourceRef = useRef<EventSource | null>(null);
@@ -112,6 +113,7 @@ export const useChatbot = () => {
               text: currentRecommendTextRef.current,
               isStreaming: true,
             });
+            setRecommendationReason(currentRecommendTextRef.current);
           } else {
             const newMessageId = Date.now().toString();
             currentRecommendTextRef.current = message.payload.reason;
@@ -121,6 +123,7 @@ export const useChatbot = () => {
               isStreaming: true,
             });
             currentRecommendMessageIdRef.current = newMessageId;
+            setRecommendationReason(currentRecommendTextRef.current);
           }
         }
         break;

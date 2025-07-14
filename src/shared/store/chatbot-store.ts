@@ -56,6 +56,7 @@ type ChatbotState = {
   hasMessages: () => boolean;
   setSSEConnected: (connected: boolean) => void;
   setCurrentStreamingMessageId: (messageId: string | null) => void;
+  setRecommendationReason: (reason: string) => void;
 };
 
 const initialSession: ChatbotSession = {
@@ -126,6 +127,15 @@ export const useChatbotStore = create<ChatbotState>()(
             recommendedGroup: group,
             recommendationReason: reason,
             isRecommendationComplete: true,
+          },
+        }));
+      },
+
+      setRecommendationReason: (reason: string) => {
+        set((state) => ({
+          session: {
+            ...state.session,
+            recommendationReason: reason,
           },
         }));
       },
