@@ -8,7 +8,6 @@ import { useUpdateScheduleResponse } from "@/features/respond-schedule/api/use-u
 import { ScheduleParticipant, scheduleQuery } from "@/entities/schedule";
 import {
   location_icon,
-  more_icon,
   profile_icon,
   time_icon,
   user,
@@ -99,7 +98,7 @@ export default function ScheduleDetailPage() {
           className="flex h-8 w-8 items-center justify-center"
           onClick={() => toast("일정 수정 기능을 구현 중 입니다.")}
         >
-          <Image src={more_icon} alt="더보기" width={20} height={20} />
+          {/* <Image src={more_icon} alt="더보기" width={20} height={20} /> */}
         </button>
       </header>
 
