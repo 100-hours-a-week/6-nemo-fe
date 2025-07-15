@@ -1,14 +1,14 @@
 "use client";
 
-import { profileQuery } from "@/entities/profile";
-import { LogoutButton } from "@/features/auth/logout";
-import { NicknameEditor } from "@/features/profile/update-nickname";
-import { ProfileImageEditor } from "@/features/profile/update-profile-image";
-import { info, message, right } from "@/shared/assets/images";
-import { PageTracker } from "@/shared/lib";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
+import { LogoutButton } from "@/features/auth/logout";
+import { NicknameEditor } from "@/features/profile/update-nickname";
+import { ProfileImageEditor } from "@/features/profile/update-profile-image";
+import { profileQuery } from "@/entities/profile";
+import { info, message, right } from "@/shared/assets/images";
+import { PageTracker } from "@/shared/lib";
 
 export default function ProfilePage() {
   // const userProfile = await getUserProfile(); // 추후 미들웨어로 전환 시
@@ -58,7 +58,7 @@ export default function ProfilePage() {
         {/* 제보 및 문의하기 */}
         <a
           href="https://docs.google.com/forms/d/e/1FAIpQLSfmb-hLo508p3tpaHvJg56bJoI4KQIkm1QXh7c0GKlyhnwDLw/viewform?usp=header"
-          className="flex w-full items-center justify-between rounded-lg p-4 transition-colors hover:bg-gray-50"
+          className="hover:bg-background-normal flex w-full items-center justify-between rounded-lg p-4 transition-colors"
         >
           <div className="flex items-center gap-3">
             <Image src={message} alt="message icon" width={16} height={16} />
@@ -70,7 +70,7 @@ export default function ProfilePage() {
         {/* 앱 버전 */}
         <Link
           href="/my-profile/version"
-          className="flex w-full items-center justify-between rounded-lg p-4 transition-colors hover:bg-gray-50"
+          className="hover:bg-background-normal flex w-full items-center justify-between rounded-lg p-4 transition-colors"
         >
           <div className="flex items-center gap-3">
             <Image src={info} alt="message icon" width={16} height={16} />

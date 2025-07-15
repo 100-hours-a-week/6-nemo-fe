@@ -1,9 +1,9 @@
 "use client";
 
-import { Role } from "@/entities/group";
-import { more_icon } from "@/shared/assets/images";
 import Image from "next/image";
 import { useState } from "react";
+import { Role } from "@/entities/group";
+import { more_icon } from "@/shared/assets/images";
 import { RenderMenuItemsByRole } from "./render-menu-items-by-role";
 
 type Props = {
@@ -46,7 +46,7 @@ export const GroupManagementButton = ({ groupId, groupName, role }: Props) => {
           >
             <div className="bg-common-100 rounded-t-2xl px-4 py-6 shadow-lg">
               {/* 메뉴 아이템들 */}
-              <div className="rounded-ctn-md mb-4 space-y-1 bg-gray-50">
+              <div className="rounded-ctn-md bg-background-normal mb-4 space-y-1">
                 <RenderMenuItemsByRole
                   groupId={groupId}
                   groupName={groupName}
@@ -56,7 +56,7 @@ export const GroupManagementButton = ({ groupId, groupName, role }: Props) => {
               </div>
 
               {/* 닫기 버튼 */}
-              <div className="rounded-ctn-md bg-gray-50">
+              <div className="rounded-ctn-md bg-background-normal">
                 <button
                   onClick={handleCloseBottomSheet}
                   className="flex w-full items-center justify-center rounded-lg py-3 text-center transition-colors hover:bg-gray-100 active:bg-gray-200"
