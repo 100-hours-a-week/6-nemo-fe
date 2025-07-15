@@ -1,7 +1,11 @@
 "use client";
 
-import { ScheduleParticipant, scheduleQuery } from "@/entities/schedule";
+import { useQuery } from "@tanstack/react-query";
+import Image from "next/image";
+import { useParams, useRouter } from "next/navigation";
+import { toast } from "sonner";
 import { useUpdateScheduleResponse } from "@/features/respond-schedule/api/use-update-schedule-response";
+import { ScheduleParticipant, scheduleQuery } from "@/entities/schedule";
 import {
   location_icon,
   more_icon,
@@ -12,10 +16,6 @@ import {
 } from "@/shared/assets/images";
 import { SchedulePageTracker } from "@/shared/lib";
 import { BackButton } from "@/shared/ui";
-import { useQuery } from "@tanstack/react-query";
-import Image from "next/image";
-import { useParams, useRouter } from "next/navigation";
-import { toast } from "sonner";
 
 export default function ScheduleDetailPage() {
   const params = useParams();
@@ -89,7 +89,9 @@ export default function ScheduleDetailPage() {
       <SchedulePageTracker scheduleId={scheduleId} />
       {/* 상단 헤더 */}
       <header className="relative flex h-14 items-center justify-between border-gray-200 px-4">
-        <BackButton />
+        <BackButton
+          href={`/groups/${schedule.group.groupId}?tab=schedule-list`}
+        />
         <h1 className="text-headline-1 font-semibold">
           {schedule.group?.name}
         </h1>
