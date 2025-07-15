@@ -1,7 +1,5 @@
 "use client";
 
-import Image from "next/image";
-import React, { useEffect, useRef, useState } from "react";
 import { useChatbot } from "@/entities/chatbot/api/use-chatobt";
 import { GroupCard } from "@/entities/group";
 import {
@@ -13,6 +11,8 @@ import {
 } from "@/shared/assets/images";
 import { PageTimeTracker } from "@/shared/lib";
 import { cn } from "lib/utils";
+import Image from "next/image";
+import React, { useEffect, useRef, useState } from "react";
 
 const ChatbotPage = () => {
   const [inputValue, setInputValue] = useState("");
@@ -64,13 +64,15 @@ const ChatbotPage = () => {
         <div className="from-primary to-primary-heavy mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-r">
           <Image src={sparkle} width={40} height={40} alt="ai icon" />
         </div>
-        <h1 className="mb-2 text-2xl font-bold">네모 AI 추천 챗봇</h1>
-        <p className="mb-8 text-gray-500">맞춤 모임 추천을 시작해보세요!</p>
+        <h1 className="mb-2 text-2xl font-bold">탱글이</h1>
+        <p className="mb-8 text-gray-500">
+          AI 챗봇 '탱글이'를 통해 모임 추천을 받아보세요!
+        </p>
         <button
           onClick={startNewChat}
-          className="bg-primary hover:bg-primary-strong rounded-full px-8 py-3 text-lg font-semibold text-white shadow transition"
+          className="bg-primary hover:bg-primary-strong absolute bottom-24 w-[calc(100%-2rem)] rounded-full py-3 text-lg font-semibold text-white shadow transition"
         >
-          추천 시작
+          대화 시작
         </button>
       </div>
     );
