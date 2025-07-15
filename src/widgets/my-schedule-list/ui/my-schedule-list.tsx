@@ -1,8 +1,8 @@
 "use client";
 
-import { MyScheduleCard, scheduleQuery } from "@/entities/schedule";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import { MyScheduleCard, scheduleQuery } from "@/entities/schedule";
 
 export const MyScheduleList = () => {
   const router = useRouter();
@@ -16,7 +16,7 @@ export const MyScheduleList = () => {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-10">
-        <div className="border-primary h-6 w-6 animate-spin rounded-full border-2 border-t-transparent"></div>
+        <div className="border-primary h-6 w-6 animate-spin rounded-full border-2 border-t-transparent" />
       </div>
     );
   }
@@ -73,14 +73,14 @@ export const MyScheduleList = () => {
 
   return (
     <div className="space-y-6">
-      {/* 응답 대기 일정 */}
+      {/* 대기 중인 일정 */}
       {mySchedules.notResponded && mySchedules.notResponded.length > 0 && (
-        <div className="space-y-4">
+        <div className="space-y-2">
           <div className="flex items-center gap-2">
-            <h3 className="text-heading-2 font-semibold text-yellow-700">
-              응답 대기 중
+            <h3 className="text-heading-2 text-label-assistive animate-pulse font-medium">
+              대기 중인 <span className="font-light">일정</span>
             </h3>
-            <span className="text-caption-1 rounded-full bg-yellow-100 px-2 py-1 font-medium text-yellow-700">
+            <span className="text-caption-1 bg-yello-50 text-yello-400 rounded-full px-3 py-1 font-medium">
               {mySchedules.notResponded.length}
             </span>
           </div>
@@ -98,17 +98,40 @@ export const MyScheduleList = () => {
       {/* 참여 중인 일정 */}
       {mySchedules.respondedOngoing &&
         mySchedules.respondedOngoing.length > 0 && (
-          <div className="space-y-4">
+          <div className="space-y-2">
             <div className="flex items-center gap-2">
-              <h3 className="text-heading-2 text-primary font-semibold">
-                참여 중인 일정
+              <h3 className="text-heading-2 text-label-assistive font-medium">
+                참여 중인 <span className="font-light">일정</span>
               </h3>
-              <span className="bg-primary-light text-primary text-caption-1 rounded-full px-2 py-1 font-medium">
+              <span className="text-caption-1 rounded-full bg-blue-100 px-3 py-1 font-medium text-blue-400">
                 {mySchedules.respondedOngoing.length}
               </span>
             </div>
             <div className="space-y-3">
               {mySchedules.respondedOngoing.map((item) => (
+                <MyScheduleCard
+                  key={`responded-ongoing-${item.schedule.scheduleId}`}
+                  schedule={item.schedule}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+
+      {/* 거절한 일정 */}
+      {mySchedules.respondedRejected &&
+        mySchedules.respondedRejected.length > 0 && (
+          <div className="space-y-2">
+            <div className="flex items-center gap-2">
+              <h3 className="text-heading-2 text-label-assistive font-medium">
+                거절한 <span className="font-light">일정</span>
+              </h3>
+              <span className="text-caption-1 rounded-full bg-yellow-100 px-3 py-1 font-medium text-yellow-600">
+                {mySchedules.respondedRejected.length}
+              </span>
+            </div>
+            <div className="space-y-3">
+              {mySchedules.respondedRejected.map((item) => (
                 <MyScheduleCard
                   key={`responded-ongoing-${item.schedule.scheduleId}`}
                   schedule={item.schedule}
