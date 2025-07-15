@@ -195,7 +195,7 @@ export default function GroupCreatePage() {
         return (
           <div className="mt-6 space-y-6">
             <h2 className="text-heading-1 font-semibold">
-              모임의 목표는 무엇인가요?
+              모임의 목적은 무엇인가요?
             </h2>
             <p className="text-body-2 text-label-normal">
               이 모임을 통해 이루고자 하는 목표를 알려주세요. (최대 256자)
