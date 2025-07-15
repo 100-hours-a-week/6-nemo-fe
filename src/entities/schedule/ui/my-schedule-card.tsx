@@ -98,7 +98,7 @@ export const MyScheduleCard = ({ schedule }: { schedule: MyScheduleItem }) => {
           </div>
         </div>
 
-        <div className="text-body-2 line-clamp-2 rounded-md border border-gray-100 bg-gray-50 p-1 text-gray-600">
+        <div className="text-body-2 line-clamp-2 rounded-md border border-gray-100 p-1 text-gray-400">
           {schedule.description}
         </div>
 

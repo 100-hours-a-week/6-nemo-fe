@@ -1,4 +1,4 @@
-import { del, errorToast, successToast } from "@/shared/lib";
+import { del, errorToast, GAerrorTracking, successToast } from "@/shared/lib";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 
@@ -18,6 +18,7 @@ export const useLogout = () => {
             router.push('/login')
         },
         onError: (error) => {
+            GAerrorTracking('api_error', error, 'logout');
             errorToast("로그아웃 실패", error.message);
         },
     });

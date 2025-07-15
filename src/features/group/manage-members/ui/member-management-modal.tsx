@@ -1,14 +1,14 @@
 "use client";
 
-import { groupQuery, Member } from "@/entities/group";
-import { crown_yello, user } from "@/shared/assets/images";
-import { Modal } from "@/shared/ui";
 import { useQuery } from "@tanstack/react-query";
-import { cn } from "lib/utils";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { createPortal } from "react-dom";
+import { groupQuery, Member } from "@/entities/group";
+import { crown_yello, user } from "@/shared/assets/images";
+import { Modal } from "@/shared/ui";
+import { cn } from "lib/utils";
 import { useKickMember } from "../api/use-kick-member";
 
 type Props = {
@@ -105,7 +105,7 @@ export const MemberManagementModal = ({
           <div className="max-h-96 overflow-y-auto px-6 py-4">
             {isLoading && (
               <div className="flex items-center justify-center py-8">
-                <div className="border-primary h-6 w-6 animate-spin rounded-full border-2 border-t-transparent"></div>
+                <div className="border-primary h-6 w-6 animate-spin rounded-full border-2 border-t-transparent" />
               </div>
             )}
 
@@ -131,7 +131,7 @@ export const MemberManagementModal = ({
                       "flex items-center justify-between rounded-lg p-3 transition-colors",
                       member.role === "LEADER"
                         ? "cursor-not-allowed opacity-60"
-                        : "cursor-pointer hover:bg-gray-50 active:bg-gray-100"
+                        : "hover:bg-background-normal cursor-pointer active:bg-gray-100"
                     )}
                   >
                     <div className="flex items-center gap-3">
@@ -190,7 +190,7 @@ export const MemberManagementModal = ({
           <div className="border-t border-gray-200 px-6 py-4">
             <button
               onClick={onClose}
-              className="w-full rounded-md border border-gray-200 bg-white px-4 py-2 font-medium transition hover:bg-gray-50 active:bg-gray-300"
+              className="hover:bg-background-normal w-full rounded-md border border-gray-200 bg-white px-4 py-2 font-medium transition active:bg-gray-300"
             >
               닫기
             </button>

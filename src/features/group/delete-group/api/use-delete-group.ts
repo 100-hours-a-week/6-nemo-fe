@@ -1,5 +1,5 @@
 import { groupQuery } from "@/entities/group/api/group.query";
-import { del, errorToast, successToast } from "@/shared/lib";
+import { del, errorToast, GAerrorTracking, successToast } from "@/shared/lib";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useDeleteGroup = (groupId: string) => {
@@ -28,6 +28,7 @@ export const useDeleteGroup = (groupId: string) => {
             successToast("모임이 삭제되었습니다");
         },
         onError: (error) => {
+            GAerrorTracking('api_error', error, 'group_delete');
             errorToast("모임 삭제에 실패했습니다", error.message);
         }
     });

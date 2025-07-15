@@ -1,8 +1,8 @@
 "use client";
 
-import { cn } from "lib/utils";
 import React, { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { cn } from "lib/utils";
 
 export const Modal = ({
   isOpen,
@@ -95,7 +95,7 @@ export const Modal = ({
             {confirmLabel}
           </button>
           <button
-            className="text-body-2 rounded-md border border-gray-200 bg-white px-4 py-2 font-medium hover:bg-gray-50"
+            className="text-body-2 hover:bg-background-normal rounded-md border border-gray-200 bg-white px-4 py-2 font-medium"
             onClick={onClose}
           >
             {cancelLabel}

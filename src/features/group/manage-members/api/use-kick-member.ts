@@ -1,5 +1,5 @@
 import { groupQuery } from "@/entities/group/api/group.query";
-import { del, errorToast, successToast } from "@/shared/lib";
+import { del, errorToast, GAerrorTracking, successToast } from "@/shared/lib";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useKickMember = (groupId: string) => {
@@ -21,6 +21,7 @@ export const useKickMember = (groupId: string) => {
             successToast("모임원이 추방되었습니다.");
         },
         onError: (error) => {
+            GAerrorTracking('api_error', error, 'member_kick');
             errorToast("모임원 추방에 실패했습니다.", error.message);
         }
     });

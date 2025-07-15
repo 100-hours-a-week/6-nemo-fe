@@ -1,5 +1,5 @@
 import { groupQuery } from "@/entities/group/api/group.query";
-import { del, errorToast, successToast } from "@/shared/lib";
+import { del, errorToast, GAerrorTracking, successToast } from "@/shared/lib";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useLeaveGroup = (groupId: string) => {
@@ -25,6 +25,7 @@ export const useLeaveGroup = (groupId: string) => {
             successToast("모임에서 탈퇴되었습니다.");
         },
         onError: (error) => {
+            GAerrorTracking('api_error', error, 'group_leave');
             errorToast("모임 탈퇴에 실패했습니다.", error.message);
         }
     });

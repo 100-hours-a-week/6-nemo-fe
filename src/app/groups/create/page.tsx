@@ -1,6 +1,8 @@
 "use client";
 
-import { CreateGroupInfoResponse } from "@/entities/group";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { CATEGORIES } from "@/features/category/category-filter/model/constants";
 import { useCreateGroup } from "@/features/create-group";
 import {
@@ -9,16 +11,20 @@ import {
 } from "@/features/create-group-info";
 import { AddressData } from "@/features/schedule/model/types";
 import { AddressSearch } from "@/features/schedule/ui/address-search";
-import { createImageHandler } from "@/shared/lib";
+import { CreateGroupInfoResponse } from "@/entities/group";
+import {
+  createImageHandler,
+  GAbuttonClick,
+  GAerrorTracking,
+  GAgroupAction,
+  GAuserAction,
+} from "@/shared/lib";
 import { BackButton } from "@/shared/ui";
 import { Button } from "@/shared/ui/button";
 import { ProgressBar } from "@/shared/ui/progress-bar";
 import { cn } from "lib/utils";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 
-export default function Page() {
+export default function GroupCreatePage() {
   const router = useRouter();
   const createGroupMutation = useCreateGroup();
   const createGroupInfoMutation = useCreateGroupInfo();
@@ -79,15 +85,28 @@ export default function Page() {
 
   // 다음 단계로 이동
   const handleNextStep = () => {
+    GAbuttonClick(`create_group_step_${currentStep}_next`, "group_create");
+    GAuserAction(
+      "group_create_progress",
+      `step_${currentStep}_to_${currentStep + 1}`
+    );
+
     if (currentStep < 7) {
       setCurrentStep(currentStep + 1);
     } else if (currentStep === 7) {
+      GAuserAction("group_create_form_complete");
       handleCreateGroupInfo();
     }
   };
 
   // 이전 단계로 이동
   const handlePrevStep = () => {
+    GAbuttonClick(`create_group_step_${currentStep}_back`, "group_create");
+    GAuserAction(
+      "group_create_step_back",
+      `step_${currentStep}_to_${currentStep - 1}`
+    );
+
     if (currentStep > 1) {
       setCurrentStep(currentStep - 1);
     }
@@ -95,6 +114,9 @@ export default function Page() {
 
   // 모임 정보 생성 요청
   const handleCreateGroupInfo = async () => {
+    // AI 계획 생성 여부 추적
+    GAuserAction("ai_plan_feature", isIncludePlan ? "enabled" : "disabled");
+
     const groupData = {
       name: name,
       goal: goal,
@@ -106,6 +128,7 @@ export default function Page() {
     };
 
     const groupInfo = await createGroupInfoMutation.mutateAsync(groupData);
+    GAuserAction("group_info_generated_success");
 
     setGeneratedGroup(groupInfo);
     setEditedGroupData(groupInfo);
@@ -113,6 +136,8 @@ export default function Page() {
 
   // 최종 모임 생성
   const handleCreateGroup = async () => {
+    GAuserAction("group_create_final_attempt");
+
     if (editedGroupData) {
       const requestData = {
         name: editedGroupData.name,
@@ -126,9 +151,15 @@ export default function Page() {
         plan: editedGroupData?.plan || null,
       };
 
-      const result = await createGroupMutation.mutateAsync(requestData);
+      try {
+        const result = await createGroupMutation.mutateAsync(requestData);
+        GAuserAction("group_create_success", result.groupId.toString());
+        GAgroupAction("create_success", result.groupId);
 
-      router.push(`/groups/create/success?groupId=${result.groupId}`);
+        router.push(`/groups/create/success?groupId=${result.groupId}`);
+      } catch (error) {
+        GAerrorTracking("group_create_failed", error as Error);
+      }
     }
   };
 
@@ -164,7 +195,7 @@ export default function Page() {
         return (
           <div className="mt-6 space-y-6">
             <h2 className="text-heading-1 font-semibold">
-              모임의 목표는 무엇인가요?
+              모임의 목적은 무엇인가요?
             </h2>
             <p className="text-body-2 text-label-normal">
               이 모임을 통해 이루고자 하는 목표를 알려주세요. (최대 256자)
@@ -175,7 +206,7 @@ export default function Page() {
                 onChange={(e) => setGoal(e.target.value)}
                 maxLength={256}
                 placeholder="모임의 목표를 입력해주세요"
-                className="focus:border-primary h-40 w-full resize-none rounded-md bg-gray-50 p-4 outline-none"
+                className="focus:border-primary bg-background-normal h-40 w-full resize-none rounded-md p-4 outline-none"
               />
               <p className="text-caption-1 mt-2 text-right text-gray-500">
                 {goal.length}/256
@@ -202,7 +233,7 @@ export default function Page() {
                     "rounded-ctn-sm flex flex-col items-center justify-center p-4 transition-all",
                     category === cat.label
                       ? "bg-primary-light text-primary shadow-sm"
-                      : "bg-gray-50 text-gray-600 hover:bg-gray-100"
+                      : "bg-background-normal text-gray-600 hover:bg-gray-100"
                   )}
                 >
                   <Image
@@ -252,7 +283,7 @@ export default function Page() {
                     "rounded-lg border p-4 text-left transition-all",
                     period === option.label
                       ? "border-primary bg-primary-light"
-                      : "border-gray-200 hover:bg-gray-50"
+                      : "hover:bg-background-normal border-gray-200"
                   )}
                 >
                   <span
@@ -349,7 +380,7 @@ export default function Page() {
                   "rounded-lg border p-4 text-left transition-all",
                   isIncludePlan === true
                     ? "border-primary bg-primary-light"
-                    : "border-gray-200 hover:bg-gray-50"
+                    : "hover:bg-background-normal border-gray-200"
                 )}
               >
                 <span
@@ -366,7 +397,7 @@ export default function Page() {
                   "rounded-lg border p-4 text-left transition-all",
                   isIncludePlan === false
                     ? "border-primary bg-primary-light"
-                    : "border-gray-200 hover:bg-gray-50"
+                    : "hover:bg-background-normal border-gray-200"
                 )}
               >
                 <span
@@ -411,8 +442,8 @@ export default function Page() {
           <input
             type="text"
             value={editedGroupData.name}
-            disabled={true}
-            className="text-body-1 w-full rounded-md border border-gray-300 bg-gray-50 p-2 outline-none"
+            disabled
+            className="text-body-1 bg-background-normal w-full rounded-md border border-gray-300 p-2 outline-none"
           />
         </div>
 
@@ -423,8 +454,8 @@ export default function Page() {
           <input
             type="text"
             value={editedGroupData.category}
-            disabled={true}
-            className="text-body-1 w-full rounded-md border border-gray-300 bg-gray-50 p-2 outline-none"
+            disabled
+            className="text-body-1 bg-background-normal w-full rounded-md border border-gray-300 p-2 outline-none"
           />
         </div>
 
@@ -435,8 +466,8 @@ export default function Page() {
           <input
             type="text"
             value={editedGroupData.location}
-            disabled={true}
-            className="text-body-1 w-full rounded-md border border-gray-300 bg-gray-50 p-2 outline-none"
+            disabled
+            className="text-body-1 bg-background-normal w-full rounded-md border border-gray-300 p-2 outline-none"
           />
         </div>
 
@@ -447,8 +478,8 @@ export default function Page() {
           <input
             type="number"
             value={editedGroupData.maxUserCount}
-            disabled={true}
-            className="text-body-1 w-full rounded-md border border-gray-300 bg-gray-50 p-2 outline-none"
+            disabled
+            className="text-body-1 bg-background-normal w-full rounded-md border border-gray-300 p-2 outline-none"
           />
         </div>
 
@@ -491,16 +522,9 @@ export default function Page() {
                       strokeLinecap="round"
                       strokeLinejoin="round"
                     >
-                      <rect
-                        x="3"
-                        y="3"
-                        width="18"
-                        height="18"
-                        rx="2"
-                        ry="2"
-                      ></rect>
-                      <circle cx="8.5" cy="8.5" r="1.5"></circle>
-                      <polyline points="21 15 16 10 5 21"></polyline>
+                      <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                      <circle cx="8.5" cy="8.5" r="1.5" />
+                      <polyline points="21 15 16 10 5 21" />
                     </svg>
                     <p className="text-body-2 mt-2">이미지를 업로드해주세요</p>
                   </div>
@@ -636,7 +660,7 @@ export default function Page() {
   if (createGroupInfoMutation.isPending) {
     return (
       <div className="flex h-screen flex-col items-center justify-center">
-        <div className="border-primary h-12 w-12 animate-spin rounded-full border-4 border-t-transparent"></div>
+        <div className="border-primary h-12 w-12 animate-spin rounded-full border-4 border-t-transparent" />
         <h1 className="text-body-1 mt-4 mb-2 font-bold text-gray-800">
           모임 정보를 생성 중...
         </h1>
@@ -656,7 +680,7 @@ export default function Page() {
         </p>
         <Button
           onClick={() => {
-            setCurrentStep(1);
+            handleCreateGroupInfo();
           }}
           className="bg-primary text-common-100 rounded-full px-6 py-2"
         >
@@ -674,7 +698,7 @@ export default function Page() {
         <header className="bg-common-100 sticky top-0 z-10 flex h-14 items-center justify-between border-b border-gray-200 px-4">
           <BackButton />
           <h1 className="text-headline-1 font-semibold">모임 정보 확인</h1>
-          <div className="w-8"></div>
+          <div className="w-8" />
         </header>
 
         {renderGeneratedGroup()}
@@ -689,7 +713,7 @@ export default function Page() {
       <header className="bg-common-100 sticky top-0 z-10 flex h-14 items-center justify-between border-b border-gray-200 px-4">
         <BackButton />
         <h1 className="text-headline-1 font-semibold">모임 만들기</h1>
-        <div className="w-8"></div>
+        <div className="w-8" />
       </header>
 
       {/* 진행 상태 표시 */}

@@ -1,9 +1,9 @@
 // src/shared/ui/bottom-sheet.tsx
 "use client";
 
-import { cn } from "lib/utils";
 import { useRef } from "react";
 import { createPortal } from "react-dom";
+import { cn } from "lib/utils";
 
 type BottomSheetItem = {
   id: string;
@@ -40,7 +40,7 @@ export const BottomSheet = ({ isOpen, onClose, items }: Props) => {
         <div className="bg-common-100 rounded-t-2xl px-4 py-6 shadow-lg">
           {/* 메뉴 아이템들 */}
           {items && items.length > 0 && (
-            <div className="rounded-ctn-md mb-4 space-y-1 bg-gray-50">
+            <div className="rounded-ctn-md bg-background-normal mb-4 space-y-1">
               {items.map((item, index) => (
                 <button
                   key={`${index}-${item.id}`}
@@ -62,7 +62,7 @@ export const BottomSheet = ({ isOpen, onClose, items }: Props) => {
             </div>
           )}
 
-          <div className="rounded-ctn-md bg-gray-50">
+          <div className="rounded-ctn-md bg-background-normal">
             <button
               onClick={onClose}
               className="flex w-full items-center justify-center rounded-lg py-3 text-center transition-colors hover:bg-gray-100 active:bg-gray-200"
