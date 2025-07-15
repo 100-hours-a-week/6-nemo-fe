@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+import React, { useEffect, useRef, useState } from "react";
 import { useChatbot } from "@/entities/chatbot/api/use-chatobt";
 import { GroupCard } from "@/entities/group";
 import {
@@ -11,8 +13,6 @@ import {
 } from "@/shared/assets/images";
 import { PageTimeTracker } from "@/shared/lib";
 import { cn } from "lib/utils";
-import Image from "next/image";
-import React, { useEffect, useRef, useState } from "react";
 
 const ChatbotPage = () => {
   const [inputValue, setInputValue] = useState("");
@@ -66,7 +66,7 @@ const ChatbotPage = () => {
         </div>
         <h1 className="mb-2 text-2xl font-bold">탱글이</h1>
         <p className="mb-8 text-gray-500">
-          AI 챗봇 '탱글이'를 통해 모임 추천을 받아보세요!
+          AI 챗봇 &apos;탱글이&apos;를 통해 모임 추천을 받아보세요!
         </p>
         <button
           onClick={startNewChat}
