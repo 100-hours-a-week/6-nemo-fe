@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+import React, { useEffect, useRef, useState } from "react";
 import { useChatbot } from "@/entities/chatbot/api/use-chatobt";
 import { GroupCard } from "@/entities/group";
 import {
@@ -11,8 +13,6 @@ import {
 } from "@/shared/assets/images";
 import { PageTimeTracker } from "@/shared/lib";
 import { cn } from "lib/utils";
-import Image from "next/image";
-import React, { useEffect, useRef, useState } from "react";
 
 const ChatbotPage = () => {
   const [inputValue, setInputValue] = useState("");
@@ -219,8 +219,6 @@ const ChatbotPage = () => {
                 }}
                 className="shadow-sm transition-shadow hover:shadow-md"
               />
-
-              {/* 추천 이유 메시지 */}
               {session.recommendationReason && (
                 <div className="mt-3 rounded-2xl border border-gray-200 bg-white px-4 py-3">
                   <div className="text-headline-2 mb-1 font-semibold text-gray-700">

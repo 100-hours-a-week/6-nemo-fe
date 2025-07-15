@@ -1,7 +1,7 @@
-import { errorToast, GAerrorTracking } from "@/shared/lib";
-import { useChatbotStore } from "@/shared/store/chatbot-store";
 import { useMutation } from "@tanstack/react-query";
 import { useEffect, useRef } from "react";
+import { errorToast, GAerrorTracking } from "@/shared/lib";
+import { useChatbotStore } from "@/shared/store/chatbot-store";
 import {
   createChatbotSession,
   createSSEConnection,
@@ -109,19 +109,10 @@ export const useChatbot = () => {
           const currentRecommendId = currentRecommendMessageIdRef.current;
           if (currentRecommendId) {
             currentRecommendTextRef.current += message.payload.reason;
-            updateMessage(currentRecommendId, {
-              text: currentRecommendTextRef.current,
-              isStreaming: true,
-            });
             setRecommendationReason(currentRecommendTextRef.current);
           } else {
             const newMessageId = Date.now().toString();
             currentRecommendTextRef.current = message.payload.reason;
-            addMessage({
-              role: "ai",
-              text: message.payload.reason,
-              isStreaming: true,
-            });
             currentRecommendMessageIdRef.current = newMessageId;
             setRecommendationReason(currentRecommendTextRef.current);
           }
