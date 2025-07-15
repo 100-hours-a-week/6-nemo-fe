@@ -17,14 +17,8 @@ import { cn } from "lib/utils";
 const ChatbotPage = () => {
   const [inputValue, setInputValue] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const {
-    session,
-    isLoading,
-    sendAnswer,
-    startNewChat,
-    initializeChatbot,
-    isHydrated,
-  } = useChatbot();
+  const { session, isLoading, sendAnswer, startNewChat, isHydrated } =
+    useChatbot();
 
   // 챗봇 세션이 시작됐는지 여부 (메시지가 하나라도 있으면 시작된 것)
   const isChatStarted = session.messages.length > 0;

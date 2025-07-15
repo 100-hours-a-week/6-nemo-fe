@@ -5,8 +5,8 @@ import { useChatbotStore } from "@/shared/store/chatbot-store";
 import {
   createChatbotSession,
   createSSEConnection,
-  generateQuestionSSE,
-  getRecommendationSSE,
+  generateQuestion,
+  getRecommendation,
 } from "../api/chatbot-api";
 import { SSEMessage } from "../model/types";
 
@@ -15,15 +15,13 @@ export const useChatbot = () => {
     session,
     addMessage,
     updateMessage,
-    setCurrentQuestion,
     setLoading,
     setRecommendation,
     clearSession,
-    hasMessages,
     isHydrated,
     setSSEConnected,
     setCurrentStreamingMessageId,
-    setRecommendationReason, // 추가
+    setRecommendationReason,
   } = useChatbotStore();
 
   const eventSourceRef = useRef<EventSource | null>(null);
@@ -171,6 +169,7 @@ export const useChatbot = () => {
       if (eventSourceRef.current) {
         eventSourceRef.current.close();
       }
+      setLoading(false);
     };
   }, []);
 
@@ -183,13 +182,8 @@ export const useChatbot = () => {
         text: "안녕하세요! 👋 당신에게 딱 맞는 모임을 추천해드릴게요. 몇가지 질문에만 답해주시면 금방 찾을 수 있어요 😊",
       });
       // 세션 생성 후 SSE 연결 설정
-      setTimeout(() => {
-        setupSSEConnection();
-        // SSE 연결 후 질문 생성 요청
-        setTimeout(() => {
-          generateQuestionSSEMutation.mutate(null);
-        }, 2000);
-      }, 1000);
+      setupSSEConnection();
+      generateQuestionMutation.mutate(null);
     },
     onError: (error) => {
       GAerrorTracking("api_error", error, "chabot_session_creation");
@@ -198,8 +192,8 @@ export const useChatbot = () => {
   });
 
   // 질문 생성 뮤테이션 (SSE용)
-  const generateQuestionSSEMutation = useMutation({
-    mutationFn: (answer: string | null) => generateQuestionSSE(answer),
+  const generateQuestionMutation = useMutation({
+    mutationFn: (answer: string | null) => generateQuestion(answer),
     onMutate: () => {
       setLoading(true);
     },
@@ -211,8 +205,8 @@ export const useChatbot = () => {
   });
 
   // 추천 요청 뮤테이션 (SSE용)
-  const getRecommendationSSEMutation = useMutation({
-    mutationFn: () => getRecommendationSSE(),
+  const getRecommendationMutation = useMutation({
+    mutationFn: () => getRecommendation(),
     onMutate: () => {
       setLoading(true);
       addMessage({
@@ -240,10 +234,9 @@ export const useChatbot = () => {
     ).length;
 
     if (questionCount >= 3) {
-      // 3번째 질문 완료 후 추천 요청
-      getRecommendationSSEMutation.mutate();
+      getRecommendationMutation.mutate();
     } else {
-      generateQuestionSSEMutation.mutate(answer);
+      generateQuestionMutation.mutate(answer);
     }
   };
 
@@ -252,23 +245,10 @@ export const useChatbot = () => {
     if (eventSourceRef.current) {
       eventSourceRef.current.close();
     }
-    currentStreamingMessageIdRef.current = null; // 로컬 ref 초기화
-    currentStreamingTextRef.current = ""; // 텍스트 초기화
+    currentStreamingMessageIdRef.current = null;
+    currentStreamingTextRef.current = "";
     clearSession();
     createSessionMutation.mutate();
-  };
-
-  // 초기화 (페이지 첫 진입 시)
-  const initializeChatbot = () => {
-    if (!isHydrated) return;
-
-    if (!hasMessages()) {
-      // 기존 대화가 없으면 새 세션 시작
-      createSessionMutation.mutate();
-    } else {
-      // 기존 대화가 있으면 SSE 연결만 설정
-      setupSSEConnection();
-    }
   };
 
   return {
@@ -276,7 +256,6 @@ export const useChatbot = () => {
     isLoading: session.isLoading || createSessionMutation.isPending,
     sendAnswer,
     startNewChat,
-    initializeChatbot,
     isHydrated,
   };
 };

@@ -1,4 +1,3 @@
-// src/shared/store/chatbot-store.ts
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
@@ -14,10 +13,6 @@ export type ChatMessage = {
 export type ChatbotSession = {
   messages: ChatMessage[];
   isLoading: boolean;
-  currentQuestion: {
-    question: string;
-    options: string[];
-  } | null;
   recommendedGroup: {
     groupId: number;
     name: string;
@@ -33,7 +28,7 @@ export type ChatbotSession = {
   recommendationReason: string | null;
   isRecommendationComplete: boolean;
   isSSEConnected: boolean; // SSE 연결 상태
-  currentStreamingMessageId: string | null; // 현재 스트리밍 중인 메시지 ID
+  currentStreamingMessageId: string | null; // 스트리밍 중인 메시지의 ID
 };
 
 type ChatbotState = {
@@ -43,9 +38,6 @@ type ChatbotState = {
   // Actions
   addMessage: (message: Omit<ChatMessage, "id" | "timestamp">) => void;
   updateMessage: (messageId: string, updates: Partial<ChatMessage>) => void;
-  setCurrentQuestion: (
-    question: { question: string; options: string[] } | null
-  ) => void;
   setLoading: (loading: boolean) => void;
   setRecommendation: (
     group: ChatbotSession["recommendedGroup"],
@@ -53,7 +45,6 @@ type ChatbotState = {
   ) => void;
   clearSession: () => void;
   setHydrated: (state: boolean) => void;
-  hasMessages: () => boolean;
   setSSEConnected: (connected: boolean) => void;
   setCurrentStreamingMessageId: (messageId: string | null) => void;
   setRecommendationReason: (reason: string) => void;
@@ -62,7 +53,6 @@ type ChatbotState = {
 const initialSession: ChatbotSession = {
   messages: [],
   isLoading: false,
-  currentQuestion: null,
   recommendedGroup: null,
   recommendationReason: null,
   isRecommendationComplete: false,
@@ -98,15 +88,6 @@ export const useChatbotStore = create<ChatbotState>()(
             messages: state.session.messages.map((msg) =>
               msg.id === messageId ? { ...msg, ...updates } : msg
             ),
-          },
-        }));
-      },
-
-      setCurrentQuestion: (question) => {
-        set((state) => ({
-          session: {
-            ...state.session,
-            currentQuestion: question,
           },
         }));
       },
@@ -147,11 +128,6 @@ export const useChatbotStore = create<ChatbotState>()(
       },
 
       setHydrated: (state: boolean) => set({ isHydrated: state }),
-
-      hasMessages: () => {
-        const { session } = get();
-        return session.messages.length > 0;
-      },
 
       setSSEConnected: (connected: boolean) => {
         set((state) => ({
