@@ -61,7 +61,7 @@ const ChatbotPage = () => {
   if (!isChatStarted) {
     return (
       <div className="bg-background-normal flex h-[calc(100vh-58px-64px)] flex-col items-center justify-center">
-        <div className="from-primary to-primary-heavy mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-r">
+        <div className="from-primary to-primary-heavy mb-6 flex h-16 w-16 animate-pulse items-center justify-center rounded-full bg-gradient-to-r">
           <Image src={sparkle} width={40} height={40} alt="ai icon" />
         </div>
         <h1 className="mb-2 text-2xl font-bold">탱글이</h1>
@@ -70,9 +70,9 @@ const ChatbotPage = () => {
         </p>
         <button
           onClick={startNewChat}
-          className="bg-primary hover:bg-primary-strong absolute bottom-24 w-[calc(100%-2rem)] rounded-full py-3 text-lg font-semibold text-white shadow transition"
+          className="bg-primary hover:bg-primary-strong w-[30%] rounded-full py-2 text-lg font-semibold text-white shadow transition"
         >
-          대화 시작
+          추천 시작
         </button>
       </div>
     );
