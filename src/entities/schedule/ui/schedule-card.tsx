@@ -31,41 +31,21 @@ export const ScheduleCard = ({
 }) => {
   const { date, time } = formatDatetime(schedule.startAt);
 
-  // 일정 상태에 따른 태그 스타일
-  const getStatusStyle = () => {
-    switch (schedule.status) {
-      case "RECRUITING":
-        return "bg-primary-light text-primary";
-      case "CLOSED":
-        return "bg-gray-200 text-gray-600";
-      default:
-        return "bg-gray-200 text-gray-600";
-    }
-  };
-
-  // 일정 상태 한글 표시
-  const getStatusText = () => {
-    switch (schedule.status) {
-      case "RECRUITING":
-        return "모집중";
-      case "CLOSED":
-        return "종료";
-      default:
-        return "알 수 없음";
-    }
-  };
-
   return (
     <Link href={href}>
       <div className="bg-common-100 hover:bg-strong mb-3 rounded-lg border border-gray-200 p-4 shadow-sm transition hover:shadow-md">
         <div className="mb-3 flex items-center justify-between">
-          <h3 className="text-headline-1 line-clamp-1 font-semibold">
+          <h3 className="text-headline-1 line-clamp-1 flex-1 font-semibold">
             {schedule.title}
           </h3>
           <span
-            className={`text-caption-1 rounded-full px-2 py-0.5 ${getStatusStyle()}`}
+            className={`text-caption-1 rounded-full px-2 py-0.5 ${
+              schedule.status === "RECRUITING"
+                ? "bg-primary-light text-primary"
+                : "bg-gray-200 text-gray-600"
+            }`}
           >
-            {getStatusText()}
+            {schedule.status === "RECRUITING" ? "모집중" : "종료"}
           </span>
         </div>
 
