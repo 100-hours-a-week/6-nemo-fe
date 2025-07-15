@@ -76,7 +76,7 @@ export default function ProfilePage() {
             <Image src={info} alt="message icon" width={16} height={16} />
             <span className="font-medium text-gray-900">앱 버전</span>
           </div>
-          <span className="text-body-2 text-gray-500">v 2.2.1</span>
+          <span className="text-body-2 text-gray-500">v 2.4.1</span>
         </Link>
       </div>
       <div className="p-4">
