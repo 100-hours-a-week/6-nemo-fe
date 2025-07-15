@@ -3,7 +3,7 @@ import { BackButton } from "@/shared/ui";
 
 export default function VersionHistoryPage() {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="bg-background-normal min-h-screen">
       <header className="sticky top-0 z-10 flex h-14 items-center border-b border-gray-200 bg-white px-4">
         <BackButton href="/my-profile" />
         <h1 className="text-headline-1 flex-1 pr-9 text-center font-semibold">

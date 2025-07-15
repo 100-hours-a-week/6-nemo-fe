@@ -1,10 +1,13 @@
 "use client";
 
-import { ScheduleParticipant, scheduleQuery } from "@/entities/schedule";
+import { useQuery } from "@tanstack/react-query";
+import Image from "next/image";
+import { useParams, useRouter } from "next/navigation";
+import { toast } from "sonner";
 import { useUpdateScheduleResponse } from "@/features/respond-schedule/api/use-update-schedule-response";
+import { ScheduleParticipant, scheduleQuery } from "@/entities/schedule";
 import {
   location_icon,
-  more_icon,
   profile_icon,
   time_icon,
   user,
@@ -12,10 +15,6 @@ import {
 } from "@/shared/assets/images";
 import { SchedulePageTracker } from "@/shared/lib";
 import { BackButton } from "@/shared/ui";
-import { useQuery } from "@tanstack/react-query";
-import Image from "next/image";
-import { useParams, useRouter } from "next/navigation";
-import { toast } from "sonner";
 
 export default function ScheduleDetailPage() {
   const params = useParams();
@@ -89,7 +88,9 @@ export default function ScheduleDetailPage() {
       <SchedulePageTracker scheduleId={scheduleId} />
       {/* 상단 헤더 */}
       <header className="relative flex h-14 items-center justify-between border-gray-200 px-4">
-        <BackButton />
+        <BackButton
+          href={`/groups/${schedule.group.groupId}?tab=schedule-list`}
+        />
         <h1 className="text-headline-1 font-semibold">
           {schedule.group?.name}
         </h1>
@@ -97,7 +98,7 @@ export default function ScheduleDetailPage() {
           className="flex h-8 w-8 items-center justify-center"
           onClick={() => toast("일정 수정 기능을 구현 중 입니다.")}
         >
-          <Image src={more_icon} alt="더보기" width={20} height={20} />
+          {/* <Image src={more_icon} alt="더보기" width={20} height={20} /> */}
         </button>
       </header>
 

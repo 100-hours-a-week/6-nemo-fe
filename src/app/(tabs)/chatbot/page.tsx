@@ -60,8 +60,8 @@ const ChatbotPage = () => {
   // 챗봇 세션이 시작되지 않은 경우: 추천 시작 버튼만 노출
   if (!isChatStarted) {
     return (
-      <div className="flex h-[calc(100vh-58px-64px)] flex-col items-center justify-center bg-gray-50">
-        <div className="from-primary to-primary-heavy mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-r">
+      <div className="bg-background-normal flex h-[calc(100vh-58px-64px)] flex-col items-center justify-center">
+        <div className="from-primary to-primary-heavy mb-6 flex h-16 w-16 animate-pulse items-center justify-center rounded-full bg-gradient-to-r">
           <Image src={sparkle} width={40} height={40} alt="ai icon" />
         </div>
         <h1 className="mb-2 text-2xl font-bold">탱글이</h1>
@@ -70,9 +70,9 @@ const ChatbotPage = () => {
         </p>
         <button
           onClick={startNewChat}
-          className="bg-primary hover:bg-primary-strong absolute bottom-24 w-[calc(100%-2rem)] rounded-full py-3 text-lg font-semibold text-white shadow transition"
+          className="bg-primary hover:bg-primary-strong w-[30%] rounded-full py-2 text-lg font-semibold text-white shadow transition"
         >
-          대화 시작
+          추천 시작
         </button>
       </div>
     );
@@ -80,7 +80,7 @@ const ChatbotPage = () => {
 
   // 챗봇 세션이 시작된 경우: 기존 챗봇 UI 노출
   return (
-    <div className="flex h-[calc(100vh-58px-64px)] flex-col bg-gray-50">
+    <div className="bg-background-normal flex h-[calc(100vh-58px-64px)] flex-col">
       <PageTimeTracker pagename="chabot" />
       <div className="p-ctn-md flex items-center gap-3 border-b border-gray-200 bg-white">
         <div className="from-primary to-primary-heavy flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-r">

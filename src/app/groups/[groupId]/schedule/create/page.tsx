@@ -1,14 +1,14 @@
 "use client";
 
+import Image from "next/image";
+import { useParams, useRouter } from "next/navigation";
+import { useState } from "react";
 import { useCreateSchedule } from "@/features/create-schedule";
 import { AddressData } from "@/features/schedule/model/types";
 import { AddressSearch } from "@/features/schedule/ui/address-search";
 import DateTimePicker from "@/features/schedule/ui/date-time-picker";
 import { calendar_icon, location2_icon } from "@/shared/assets/images";
 import { BackButton } from "@/shared/ui";
-import Image from "next/image";
-import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
 
 export default function CreateSchedulePage() {
   const params = useParams();
@@ -49,7 +49,7 @@ export default function CreateSchedulePage() {
       <header className="bg-common-100 flex h-14 items-center border-b border-gray-200 px-4">
         <BackButton />
         <h1 className="text-headline-1 mx-auto font-semibold">일정 만들기</h1>
-        <div className="w-8"></div>
+        <div className="w-8" />
       </header>
 
       {/* 폼 */}
@@ -102,9 +102,9 @@ export default function CreateSchedulePage() {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="활동에 대한 설명을 추가해주세요."
-              className="focus:border-primary box-border h-48 w-full resize-none rounded-md border border-transparent bg-gray-50 px-4 py-3 placeholder-gray-500 outline-none"
+              className="focus:border-primary bg-background-normal box-border h-48 w-full resize-none rounded-md border border-transparent px-4 py-3 placeholder-gray-500 outline-none"
               required
-            ></textarea>
+            />
           </div>
         </div>
 
