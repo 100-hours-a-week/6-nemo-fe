@@ -2,20 +2,17 @@
 
 import { cn } from "lib/utils";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { left } from "../assets/images";
 
 export const BackButton = ({
-  href,
-  fill = false,
   className,
+  navigateTo,
+  fill = false,
 }: {
-  href?: string;
-  fill?: boolean;
   className?: string;
+  navigateTo: () => void;
+  fill?: boolean;
 }) => {
-  const router = useRouter();
-
   return (
     <div
       className={cn(
@@ -23,7 +20,7 @@ export const BackButton = ({
         fill ? "bg-common-100 shadow-md" : "",
         className
       )}
-      onClick={() => (href ? router.push(href) : router.back())}
+      onClick={navigateTo}
     >
       <Image
         src={left}
