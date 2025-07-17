@@ -77,7 +77,7 @@ export const MyScheduleList = () => {
       {mySchedules.notResponded && mySchedules.notResponded.length > 0 && (
         <div className="space-y-2">
           <div className="flex items-center gap-2">
-            <h3 className="text-heading-2 text-label-assistive animate-pulse font-medium">
+            <h3 className="text-heading-2 text-label-assistive ml-2 animate-pulse font-medium">
               대기 중인 <span className="font-light">일정</span>
             </h3>
             <span className="text-caption-1 bg-yello-50 text-yello-400 rounded-full px-3 py-1 font-medium">
@@ -100,7 +100,7 @@ export const MyScheduleList = () => {
         mySchedules.respondedOngoing.length > 0 && (
           <div className="space-y-2">
             <div className="flex items-center gap-2">
-              <h3 className="text-heading-2 text-label-assistive font-medium">
+              <h3 className="text-heading-2 text-label-assistive ml-2 font-medium">
                 참여 중인 <span className="font-light">일정</span>
               </h3>
               <span className="text-caption-1 rounded-full bg-blue-100 px-3 py-1 font-medium text-blue-400">
@@ -123,10 +123,10 @@ export const MyScheduleList = () => {
         mySchedules.respondedRejected.length > 0 && (
           <div className="space-y-2">
             <div className="flex items-center gap-2">
-              <h3 className="text-heading-2 text-label-assistive font-medium">
+              <h3 className="text-heading-2 text-label-assistive ml-2 font-medium">
                 거절한 <span className="font-light">일정</span>
               </h3>
-              <span className="text-caption-1 rounded-full bg-yellow-100 px-3 py-1 font-medium text-yellow-600">
+              <span className="text-caption-1 rounded-full bg-yellow-200 px-3 py-1 font-medium text-yellow-600">
                 {mySchedules.respondedRejected.length}
               </span>
             </div>
