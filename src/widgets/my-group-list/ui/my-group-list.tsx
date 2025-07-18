@@ -1,10 +1,10 @@
 "use client";
 
+import { useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import { GroupCard } from "@/entities/group";
 import { groupQuery } from "@/entities/group/api/group.query";
 import { FloatingActionButton } from "@/shared/ui";
-import { useQuery } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
 
 export const MyGroupList = () => {
   const router = useRouter();
@@ -14,7 +14,7 @@ export const MyGroupList = () => {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-10">
-        <div className="border-primary h-6 w-6 animate-spin rounded-full border-2 border-t-transparent"></div>
+        <div className="border-primary h-6 w-6 animate-spin rounded-full border-2 border-t-transparent" />
       </div>
     );
   }
@@ -76,7 +76,11 @@ export const MyGroupList = () => {
     <div className="space-y-4">
       <div className="space-y-4">
         {groups.map((group, index) => (
-          <GroupCard key={`my-group-${group.groupId}-${index}`} group={group} />
+          <GroupCard
+            key={`my-group-${group.groupId}-${index}`}
+            group={group}
+            from="my-group"
+          />
         ))}
       </div>
 

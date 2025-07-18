@@ -1,11 +1,11 @@
 "use client";
 
-import { party } from "@/shared/assets/images";
-import { Button } from "@/shared/ui/button";
 import JSConfetti from "js-confetti";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useRef } from "react";
+import { party } from "@/shared/assets/images";
+import { Button } from "@/shared/ui/button";
 
 // useSearchParams를 사용하는 컴포넌트 임시 분리
 function SuccessContent() {
@@ -34,9 +34,9 @@ function SuccessContent() {
 
   const handleGoToGroup = () => {
     if (groupId) {
-      router.replace(`/groups/${groupId}`);
+      router.push(`/groups/${groupId}?from=success`);
     } else {
-      router.replace("/groups");
+      router.push("/groups");
     }
   };
 
@@ -70,7 +70,7 @@ export default function CreateSuccessPage() {
     <Suspense
       fallback={
         <div className="from-primary-light/30 to-common-100 flex min-h-screen flex-col items-center justify-center bg-gradient-to-b p-4">
-          <div className="border-primary h-12 w-12 animate-spin rounded-full border-4 border-t-transparent"></div>
+          <div className="border-primary h-12 w-12 animate-spin rounded-full border-4 border-t-transparent" />
           <p className="text-body-1 mt-4 text-gray-600">로딩 중...</p>
         </div>
       }
