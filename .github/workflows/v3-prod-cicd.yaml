@@ -64,6 +64,20 @@ jobs:
           CI: true
         run: pnpm install --frozen-lockfile
 
+
+
+          # 여기에 새로 추가하는 부분
+      - name: Get secrets from AWS Secret Manager
+        run: |
+          SECRET_JSON=$(aws secretsmanager get-secret-value \
+            --region ${{ env.AWS_REGION }} \
+            --secret-id frontend-env-prod \
+            --query SecretString --output text)
+                 
+          echo "NEXT_PUBLIC_API_URL=$(echo $SECRET_JSON | jq -r '.NEXT_PUBLIC_API_URL')" >> $GITHUB_ENV
+          echo "NEXT_PUBLIC_KAKAO_REDIRECT_URI=$(echo $SECRET_JSON | jq -r '.NEXT_PUBLIC_KAKAO_REDIRECT_URI')" >> $GITHUB_ENV
+          echo "NEXT_PUBLIC_GA_ID=$(echo $SECRET_JSON | jq -r '.NEXT_PUBLIC_GA_ID')" >> $GITHUB_ENV
+
       - name: Build Next.js application
         env:
           CI: true
