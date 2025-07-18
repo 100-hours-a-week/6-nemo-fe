@@ -1,17 +1,18 @@
+import { Suspense } from "react";
+import { GroupInfo } from "@/widgets/group-details";
+import { ScheduleList } from "@/widgets/schedule-list";
+import { GroupManagementButton } from "@/features/group/manage-group";
+import { JoinGroupButton } from "@/features/join-group/ui/join-group-button";
 import {
   getGroupDetails,
   getGroupMembers,
   GroupMemberList,
   GroupPlan,
 } from "@/entities/group";
-import { GroupManagementButton } from "@/features/group/manage-group";
-import { JoinGroupButton } from "@/features/join-group/ui/join-group-button";
+import { GroupBackButton } from "@/entities/group/ui/group-back-button";
 import { GROUP_DETAILS_TAB_ITEMS } from "@/shared/constants";
 import { GroupPageTracker } from "@/shared/lib";
-import { BackButton, SubTab } from "@/shared/ui";
-import { GroupInfo } from "@/widgets/group-details";
-import { ScheduleList } from "@/widgets/schedule-list";
-import { Suspense } from "react";
+import { SubTab } from "@/shared/ui";
 
 type Props = {
   params: Promise<{ groupId: string }>;
@@ -35,7 +36,7 @@ export default async function GroupDetailsPage({
     <div className="bg-common-100 relative flex min-h-screen flex-col pb-24">
       <GroupPageTracker groupId={groupId} />
       <div className="absolute top-4 right-4 left-4 z-10 flex items-center justify-between">
-        <BackButton fill={true} className="opacity-75" />
+        <GroupBackButton />
         <GroupManagementButton
           groupId={groupId}
           groupName={groupDetails.name}
@@ -60,7 +61,7 @@ export default async function GroupDetailsPage({
               <Suspense
                 fallback={
                   <div className="flex h-24 items-center justify-center">
-                    <div className="border-primary h-6 w-6 animate-spin rounded-full border-2 border-t-transparent"></div>
+                    <div className="border-primary h-6 w-6 animate-spin rounded-full border-2 border-t-transparent" />
                   </div>
                 }
               >

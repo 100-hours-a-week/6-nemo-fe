@@ -6,20 +6,20 @@ import { SubTab } from "@/shared/ui";
 
 type Props = {
   searchParams: Promise<{
-    tab?: "group" | "schedule";
+    tab?: "my-group" | "my-schedule";
   }>;
 };
 
 export default async function MyNemoPage({ searchParams }: Props) {
   const { tab } = await searchParams;
-  const activeTab = tab ?? "group";
+  const activeTab = tab ?? "my-group";
 
   return (
     <>
       <PageTracker pagename="my-nemo" />
       <SubTab tabs={MY_NEMO_TAB_ITEMS} activeTab={activeTab} />
       <main className="bg-background-normal min-h-screen p-4">
-        {activeTab === "group" ? <MyGroupList /> : <MyScheduleList />}
+        {activeTab === "my-group" ? <MyGroupList /> : <MyScheduleList />}
       </main>
     </>
   );
