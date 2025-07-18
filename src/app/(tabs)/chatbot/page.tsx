@@ -214,6 +214,7 @@ const ChatbotPage = () => {
                   tags: session.recommendedGroup.tags,
                 }}
                 className="shadow-sm transition-shadow hover:shadow-md"
+                from="chatbot"
               />
               {session.recommendationReason && (
                 <div className="mt-3 rounded-2xl border border-gray-200 bg-white px-4 py-3">

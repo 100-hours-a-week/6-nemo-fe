@@ -1,8 +1,12 @@
 "use client";
 
-import { ScheduleParticipant, scheduleQuery } from "@/entities/schedule";
-import { ScheduleBackButton } from "@/entities/schedule/ui/schedule-backbutton";
+import { useQuery } from "@tanstack/react-query";
+import Image from "next/image";
+import { useParams, useRouter } from "next/navigation";
+import { toast } from "sonner";
 import { useUpdateScheduleResponse } from "@/features/respond-schedule/api/use-update-schedule-response";
+import { ScheduleParticipant, scheduleQuery } from "@/entities/schedule";
+import { ScheduleBackButton } from "@/entities/schedule/ui/schedule-back-button";
 import {
   location_icon,
   profile_icon,
@@ -11,10 +15,6 @@ import {
   users_icon,
 } from "@/shared/assets/images";
 import { SchedulePageTracker } from "@/shared/lib";
-import { useQuery } from "@tanstack/react-query";
-import Image from "next/image";
-import { useParams, useRouter } from "next/navigation";
-import { toast } from "sonner";
 
 export default function ScheduleDetailPage() {
   const params = useParams();
