@@ -1,12 +1,9 @@
 "use client";
 
-import { BackButton } from "@/shared/ui";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useRef } from "react";
-import {
-  MY_NEMO_PAGE,
-  MY_SCHEDULE_PAGE_PARAMS,
-} from "../model/constant";
+import { useEffect, useRef } from "react";
+import { BackButton } from "@/shared/ui";
+import { MY_NEMO_PAGE, MY_SCHEDULE_PAGE } from "../model/constant";
 
 export const ScheduleBackButton = () => {
   const router = useRouter();
@@ -14,9 +11,11 @@ export const ScheduleBackButton = () => {
   const from = searchParams.get("from");
   const preUrl = useRef("");
 
-  if (from === MY_SCHEDULE_PAGE_PARAMS) {
-    preUrl.current = `${MY_NEMO_PAGE}?tab=${MY_SCHEDULE_PAGE_PARAMS}`;
-  }
+  useEffect(() => {
+    if (from === MY_SCHEDULE_PAGE) {
+      preUrl.current = `${MY_NEMO_PAGE}?tab=${MY_SCHEDULE_PAGE}`;
+    }
+  }, []);
 
   const handleNavigateTo = () => {
     if (preUrl.current.length > 0) {

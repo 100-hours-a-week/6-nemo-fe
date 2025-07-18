@@ -1,7 +1,8 @@
 "use client";
 
-import { cn } from "lib/utils";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { cn } from "lib/utils";
 import { left } from "../assets/images";
 
 export const BackButton = ({
@@ -10,9 +11,11 @@ export const BackButton = ({
   fill = false,
 }: {
   className?: string;
-  navigateTo: () => void;
+  navigateTo?: () => void;
   fill?: boolean;
 }) => {
+  const router = useRouter();
+
   return (
     <div
       className={cn(
@@ -20,7 +23,7 @@ export const BackButton = ({
         fill ? "bg-common-100 shadow-md" : "",
         className
       )}
-      onClick={navigateTo}
+      onClick={navigateTo ? navigateTo : () => router.back()}
     >
       <Image
         src={left}
