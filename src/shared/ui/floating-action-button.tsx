@@ -18,8 +18,8 @@ export const FloatingActionButton = ({
       <Link
         href={href}
         className={cn(
-          "bg-primary hover:bg-primary-strong text-common-100 pointer-events-auto absolute right-4 bottom-24 z-10 flex h-14 w-14 items-center justify-center rounded-full leading-none shadow-lg transition-colors",
-          className,
+          "bg-primary hover:bg-primary-strong text-common-100 pointer-events-auto absolute right-4 bottom-24 z-10 flex h-13 w-13 items-center justify-center rounded-full shadow-lg transition-colors",
+          className
         )}
       >
         {children}
