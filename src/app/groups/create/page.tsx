@@ -264,7 +264,7 @@ export default function GroupCreatePage() {
               모임이 주로 이루어지는 지역을 선택해주세요.
             </p>
             <div className="mt-8">
-              <AddressSearch onComplete={setAddressData} />
+              <AddressSearch onComplete={setAddressData} value={addressData} />
             </div>
           </div>
         );

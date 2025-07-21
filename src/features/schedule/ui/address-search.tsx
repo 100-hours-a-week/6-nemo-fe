@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useAddressModal } from "../lib/use-address-modal";
 import { useAddressState } from "../lib/use-address-state";
 import { useDaumScript } from "../lib/use-daum-script";
@@ -9,13 +10,18 @@ import { PostcodeSearchModal } from "./postcode-search-modal";
 
 interface AddressSearchProps {
   onComplete: (data: AddressData) => void;
-  className?: string;
+  value?: AddressData; // 추가
 }
 
-export const AddressSearch = ({
-  onComplete,
-  className,
-}: AddressSearchProps) => {
+export function AddressSearch({ onComplete, value }: AddressSearchProps) {
+  const [address, setAddress] = useState<AddressData>(
+    value || {
+      zonecode: "",
+      address: "",
+      detailAddress: "",
+      extraAddress: "",
+    }
+  );
   const isScriptLoaded = useDaumScript();
   const { isVisible, open, close } = useAddressModal();
   const { addressData, updateAddress, handleDetailAddressChange } =
@@ -31,14 +37,19 @@ export const AddressSearch = ({
     updateAddress(data);
   };
 
+  useEffect(() => {
+    if (value) {
+      setAddress(value);
+    }
+  }, [value]);
+
   return (
     <>
       <AddressInputFields
-        addressData={addressData}
+        addressData={address}
         onDetailAddressChange={handleDetailAddressChange}
         onSearchClick={handleSearchClick}
         isScriptLoaded={isScriptLoaded}
-        className={className}
       />
 
       <PostcodeSearchModal
@@ -48,4 +59,4 @@ export const AddressSearch = ({
       />
     </>
   );
-};
+}
