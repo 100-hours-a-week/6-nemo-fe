@@ -8,7 +8,7 @@ on:
   #       required: true
   push:
     branches:
-      - infra/ci-test  # 임시 브랜치명으로 사용하세요
+      - dev  # 임시 브랜치명으로 사용하세요
 
 jobs:
   build-and-push:
