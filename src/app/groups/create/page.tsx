@@ -45,7 +45,7 @@ export default function GroupCreatePage() {
     extraAddress: "",
   });
   const [period, setPeriod] = useState(""); // 5단계: 기간
-  const [maxUserCount, setMaxUserCount] = useState<number>(10); // 6단계: 최대 인원 수
+  const [maxUserCount, setMaxUserCount] = useState<string>("10"); // 6단계: 최대 인원 수
   const [isIncludePlan, setIsIncludePlan] = useState(false); // 7단계: 계획
 
   // 생성된 모임 데이터와 로딩 상태
@@ -70,7 +70,11 @@ export default function GroupCreatePage() {
       case 5:
         return period.length > 0;
       case 6:
-        return maxUserCount > 0 && maxUserCount <= 100;
+        return (
+          maxUserCount.length > 0 &&
+          Number(maxUserCount) > 0 &&
+          Number(maxUserCount) <= 100
+        );
       case 7:
         return true;
       default:
@@ -123,7 +127,7 @@ export default function GroupCreatePage() {
       category: category,
       location: `${addressData.address} ${addressData.detailAddress}`.trim(),
       period: period,
-      maxUserCount: maxUserCount,
+      maxUserCount: Number(maxUserCount),
       isPlanCreated: isIncludePlan,
     };
 
@@ -145,7 +149,7 @@ export default function GroupCreatePage() {
         description: editedGroupData.description,
         category: editedGroupData.category,
         location: editedGroupData.location,
-        maxUserCount: editedGroupData.maxUserCount,
+        maxUserCount: Number(editedGroupData.maxUserCount),
         imageUrl: editedGroupData?.imageUrl || null,
         tags: editedGroupData?.tags,
         plan: editedGroupData?.plan || null,
@@ -317,7 +321,7 @@ export default function GroupCreatePage() {
                   min="1"
                   max="100"
                   value={maxUserCount}
-                  onChange={(e) => setMaxUserCount(parseInt(e.target.value))}
+                  onChange={(e) => setMaxUserCount(e.target.value)}
                   className="bg-primary h-2 w-full appearance-none rounded-lg"
                   style={{
                     background: `linear-gradient(to right, #55CBB9 0%, #55CBB9 ${maxUserCount}%, #E7E6EB ${maxUserCount}%, #E7E6EB 100%)`,
@@ -341,17 +345,18 @@ export default function GroupCreatePage() {
                     max="100"
                     value={maxUserCount}
                     onChange={(e) => {
-                      const value = parseInt(e.target.value);
-                      if (!isNaN(value) && value >= 1) {
-                        setMaxUserCount(value);
-                      } else if (e.target.value === "") {
-                        setMaxUserCount(10); // 빈 값일 경우 기본값
-                      }
+                      setMaxUserCount(e.target.value); // 빈 문자열도 허용
                     }}
                     onBlur={(e) => {
-                      const value = parseInt(e.target.value);
-                      if (value > 100) {
-                        setMaxUserCount(100); // 100을 초과하면 최대값인 100으로 제한
+                      if (
+                        e.target.value === "" ||
+                        isNaN(Number(e.target.value))
+                      ) {
+                        setMaxUserCount("10"); // 포커스 아웃 시 빈 값이면 10으로
+                      } else if (Number(e.target.value) > 100) {
+                        setMaxUserCount("100");
+                      } else if (Number(e.target.value) < 1) {
+                        setMaxUserCount("1");
                       }
                     }}
                     className="text-body-1 focus:border-primary w-full rounded-md border border-gray-300 p-3 text-center outline-none"
