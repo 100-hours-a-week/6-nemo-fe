@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CATEGORIES } from "@/features/category/category-filter/model/constants";
 import { useCreateGroup } from "@/features/create-group";
 import {
@@ -55,6 +55,8 @@ export default function GroupCreatePage() {
   // 수정 상태
   const [editedGroupData, setEditedGroupData] =
     useState<CreateGroupInfoResponse | null>(null);
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // 입력 유효성 검사
   const isStepValid = () => {
@@ -503,12 +505,15 @@ export default function GroupCreatePage() {
                       className="h-full w-full object-cover"
                     />
                     <button
-                      onClick={() =>
+                      onClick={() => {
                         setEditedGroupData({
                           ...editedGroupData,
                           imageUrl: null,
-                        })
-                      }
+                        });
+                        if (fileInputRef.current) {
+                          fileInputRef.current.value = "";
+                        }
+                      }}
                       className="bg-opacity-50 absolute top-2 right-2 flex h-8 w-8 items-center justify-center rounded-full bg-gray-800 text-white"
                     >
                       ×
@@ -542,6 +547,7 @@ export default function GroupCreatePage() {
                   accept="image/*"
                   className="hidden"
                   onChange={handleImageUpload}
+                  ref={fileInputRef}
                 />
               </label>
               <p className="text-caption-1 text-gray-500">
