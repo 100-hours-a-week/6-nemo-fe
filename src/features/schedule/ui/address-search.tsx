@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { cn } from "lib/utils";
 import { AddressData } from "../model/types";
 
@@ -20,6 +20,7 @@ export const AddressSearch = ({
   const [isScriptLoaded, setIsScriptLoaded] = useState(false);
   const [isLayerVisible, setIsLayerVisible] = useState(false);
   const layerRef = useRef<HTMLDivElement>(null);
+  const overlayRef = useRef<HTMLDivElement>(null);
 
   const [addressData, setAddressData] = useState<AddressData>({
     zonecode: "",
@@ -119,9 +120,16 @@ export const AddressSearch = ({
     setIsLayerVisible(false);
   };
 
+  // 오버레이 클릭 핸들러
+  const handleOverlayClick = (e: React.MouseEvent) => {
+    if (e.target === overlayRef.current) {
+      closeLayer();
+    }
+  };
+
   // 상세주소 변경 핸들러
   const handleDetailAddressChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
+    e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const newAddressData = {
       ...addressData,
@@ -195,37 +203,37 @@ export const AddressSearch = ({
         </div>
       </div>
 
-      {/* 다음 우편번호 레이어 */}
+      {/* 다음 우편번호 레이어 - 오버레이와 함께 */}
       {isScriptLoaded && (
         <div
-          ref={layerRef}
+          ref={overlayRef}
+          onClick={handleOverlayClick}
           style={{
-            display: isLayerVisible ? "block" : "none",
             position: "fixed",
-            overflow: "hidden",
-            zIndex: 100,
-            backgroundColor: "#fff",
-            borderRadius: "8px",
-            WebkitOverflowScrolling: "touch",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            zIndex: 99,
+            display: isLayerVisible ? "flex" : "none",
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
-          <button
-            type="button"
-            onClick={closeLayer}
+          <div
+            ref={layerRef}
             style={{
-              cursor: "pointer",
-              position: "absolute",
-              right: "10px",
-              top: "10px",
-              zIndex: 1,
-              background: "none",
-              border: "none",
-              fontSize: "20px",
-              color: "#666",
+              width: "400px",
+              height: "480px",
+              backgroundColor: "#fff",
+              borderRadius: "8px",
+              boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.3)",
+              overflow: "hidden",
+              WebkitOverflowScrolling: "touch",
             }}
-          >
-            ✕
-          </button>
+            onClick={(e) => e.stopPropagation()} // 레이어 클릭 시 이벤트 전파 중단
+          />
         </div>
       )}
     </div>
