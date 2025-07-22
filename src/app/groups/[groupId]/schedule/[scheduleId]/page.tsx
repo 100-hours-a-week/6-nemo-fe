@@ -1,8 +1,12 @@
 "use client";
 
+import { useQuery } from "@tanstack/react-query";
+import Image from "next/image";
+import { useParams, useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { useUpdateScheduleResponse } from "@/features/respond-schedule/api/use-update-schedule-response";
 import { ScheduleParticipant, scheduleQuery } from "@/entities/schedule";
 import { ScheduleBackButton } from "@/entities/schedule/ui/schedule-backbutton";
-import { useUpdateScheduleResponse } from "@/features/respond-schedule/api/use-update-schedule-response";
 import {
   location_icon,
   profile_icon,
@@ -11,10 +15,6 @@ import {
   users_icon,
 } from "@/shared/assets/images";
 import { SchedulePageTracker } from "@/shared/lib";
-import { useQuery } from "@tanstack/react-query";
-import Image from "next/image";
-import { useParams, useRouter } from "next/navigation";
-import { toast } from "sonner";
 
 export default function ScheduleDetailPage() {
   const params = useParams();
@@ -112,7 +112,7 @@ export default function ScheduleDetailPage() {
               종료
             </span>
           )}
-          <h2 className="text-title-3 text-label-strong-1 font-bold">
+          <h2 className="text-title-3 text-label-strong-1 line-clamp-1 flex-1 font-bold">
             {schedule.title}
           </h2>
         </div>
