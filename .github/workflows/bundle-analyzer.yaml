@@ -1,0 +1,69 @@
+name: Bundle Analyzer
+
+on:
+  pull_request:
+    branches: [main, dev]
+
+jobs:
+  analyze-bundle:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        run: |
+          corepack prepare pnpm@10.10.0 --activate
+          pnpm install --frozen-lockfile
+
+      - name: Create .env.local
+        run: |
+          echo "NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}" > .env.local
+
+      - name: Build with Bundle Analyzer
+        env:
+          ANALYZE: "true"
+        run: pnpm build
+
+      - name: Extract Bundle Report
+        id: bundle_report
+        run: |
+          REPORT=$(find .next/analyze -name "*.html" | head -n 1)
+          if [ -z "$REPORT" ]; then
+            echo "report=Not found" >> $GITHUB_OUTPUT
+          else
+            echo "report=$REPORT" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Comment on PR
+        if: github.event_name == 'pull_request'
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: bundle-analyzer
+          message: |
+            ## 📦 Webpack Bundle Analyzer Report
+
+            🔍 번들 분석 리포트가 생성되었습니다.
+
+            👉 [🔗 리포트 보기 (아래 Artifacts에서 다운로드)]()
+
+            또는 `.next/analyze/client.html` 파일을 확인하세요.
+
+      - name: Upload Bundle Report (artifact)
+        if: steps.bundle_report.outputs.report != 'Not found'
+        uses: actions/upload-artifact@v4
+        with:
+          name: bundle-analyzer-report
+          path: .next/analyze/
