@@ -8,15 +8,13 @@ import {
 import { cn } from "lib/utils";
 import { GroupItem } from "../model/types";
 
-export const GroupCard = ({
-  group,
-  className,
-  from,
-}: {
+type Props = {
   group: GroupItem;
   className?: string;
   from?: string;
-}) => {
+};
+
+export const GroupCard = ({ group, className, from }: Props) => {
   return (
     <Link
       href={`/groups/${group.groupId}?from=${from}`}
