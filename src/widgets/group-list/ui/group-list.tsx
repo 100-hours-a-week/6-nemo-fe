@@ -80,7 +80,7 @@ export const GroupList = ({
       </div>
 
       {!hasNextPage && groups.length > 0 && (
-        <div className="text-caption-1 text-label-normal pt-2 text-center">
+        <div className="text-caption-1 text-error min-h-24 pt-2 text-center">
           모든 모임을 불러왔습니다.
         </div>
       )}

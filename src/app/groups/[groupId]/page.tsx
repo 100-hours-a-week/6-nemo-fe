@@ -95,7 +95,7 @@ export default async function GroupDetailsPage({
 
         {activeTab === "schedule-list" && (
           <div className="py-4">
-            <ScheduleList groupId={Number(groupId)} />
+            <ScheduleList groupId={Number(groupId)} role={groupDetails.role} />
           </div>
         )}
 

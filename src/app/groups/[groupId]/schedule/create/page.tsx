@@ -91,7 +91,10 @@ export default function CreateSchedulePage() {
               </div>
               <div className="ml-2 flex-grow">
                 <p className="text-body-2 mb-1 text-gray-600">모임 장소</p>
-                <AddressSearch onComplete={setAddressData} />
+                <AddressSearch
+                  onComplete={setAddressData}
+                  value={addressData}
+                />
               </div>
             </div>
           </div>

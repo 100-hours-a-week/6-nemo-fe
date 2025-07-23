@@ -8,7 +8,7 @@ on:
   #       required: true
   push:
     branches:
-      - dev  # 임시 브랜치명으로 사용하세요
+      - dev # 임시 브랜치명으로 사용하세요
 
 jobs:
   build-and-push:
@@ -28,7 +28,7 @@ jobs:
         run: |
           TIME_TAG="${{ env.ENVIRONMENT }}-$(TZ=Asia/Seoul date +'%Y%m%d-%H%M')"
           echo "TIME_TAG=$TIME_TAG" >> $GITHUB_ENV
-          
+
           IMAGE_URI="${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.SERVICE }}"
           echo "IMAGE_URI=$IMAGE_URI" >> $GITHUB_ENV
 
@@ -56,27 +56,26 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
-          cache: 'pnpm'
+          node-version: "22"
+          cache: "pnpm"
 
       - name: Install dependencies
         env:
           CI: true
-        run: pnpm install --frozen-lockfile
-
-
+        run:
+          pnpm install --frozen-lockfile
 
           # 여기에 새로 추가하는 부분
       - name: Get secrets from AWS Secret Manager
         run: |
+          # Secrets Manager에서 JSON 형태로 값 가져오기
           SECRET_JSON=$(aws secretsmanager get-secret-value \
             --region ${{ env.AWS_REGION }} \
             --secret-id frontend-env-prod \
             --query SecretString --output text)
-                 
-          echo "NEXT_PUBLIC_API_URL=$(echo $SECRET_JSON | jq -r '.NEXT_PUBLIC_API_URL')" >> $GITHUB_ENV
-          echo "NEXT_PUBLIC_KAKAO_REDIRECT_URI=$(echo $SECRET_JSON | jq -r '.NEXT_PUBLIC_KAKAO_REDIRECT_URI')" >> $GITHUB_ENV
-          echo "NEXT_PUBLIC_GA_ID=$(echo $SECRET_JSON | jq -r '.NEXT_PUBLIC_GA_ID')" >> $GITHUB_ENV
+            
+            # JSON을 환경변수로 변환하여 GITHUB_ENV에 추가
+          echo "$SECRET_JSON" | jq -r 'to_entries[] | "\(.key)=\(.value)"' >> $GITHUB_ENV
 
       - name: Build Next.js application
         env:

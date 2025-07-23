@@ -72,7 +72,7 @@ export const MyScheduleList = () => {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="mb-16 space-y-6">
       {/* 대기 중인 일정 */}
       {mySchedules.notResponded && mySchedules.notResponded.length > 0 && (
         <div className="space-y-2">
