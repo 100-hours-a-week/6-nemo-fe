@@ -34,7 +34,7 @@ export const MyScheduleCard = ({ schedule }: { schedule: MyScheduleItem }) => {
             {schedule.title}
           </h3>
           {/* 모임명 */}
-          <span className="text-headline-3 text-primary font-medium">
+          <span className="text-headline-3 text-primary line-clamp-1 font-medium">
             {schedule.groupName}
           </span>
         </div>

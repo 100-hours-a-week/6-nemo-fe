@@ -5,16 +5,23 @@ import { useRouter } from "next/navigation";
 import { cn } from "lib/utils";
 import { left } from "../assets/images";
 
+type Props = {
+  className?: string;
+  navigateTo?: () => void;
+  pagename?: string;
+  fill?: boolean;
+};
+
 export const BackButton = ({
   className,
   navigateTo,
+  pagename,
   fill = false,
-}: {
-  className?: string;
-  navigateTo?: () => void;
-  fill?: boolean;
-}) => {
+}: Props) => {
   const router = useRouter();
+  if (pagename) {
+    navigateTo = () => router.push(pagename);
+  }
 
   return (
     <div
