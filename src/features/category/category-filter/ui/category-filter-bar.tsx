@@ -1,9 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
-import { useRef, useEffect } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useRef } from "react";
 import { cn } from "lib/utils";
+import { useHorizontalDragScroll } from "../lib/useHorizontalDragScroll";
 import { CATEGORIES } from "../model/constants";
 
 export const CategoryFilterBar = () => {
@@ -12,29 +13,21 @@ export const CategoryFilterBar = () => {
   const searchParams = useSearchParams();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-  // 현재 선택된 카테고리 (기본값은 'ALL')
+  // 드래그 스크롤 훅 사용
+  const { containerRef, onMouseDown, isDragging } = useHorizontalDragScroll();
+
+  // 현재 선택된 카테고리 (기본값은 '전체')
   const currentCategory = searchParams.get("category") || "전체";
 
-  const handleCategoryChange = (categoryId: string) => {
+  const handleCategoryChange = (categoryLabel: string) => {
+    if (isDragging.current) return;
+
     const params = new URLSearchParams(searchParams.toString());
 
-    if (categoryId === "전체") {
+    if (categoryLabel === "전체") {
       params.delete("category");
     } else {
-      params.set("category", categoryId);
-    }
-
-    // 카테고리가 변경되면 페이지 리셋
-    params.delete("page");
-
-    // 정렬은 유지
-    if (!params.has("sort")) {
-      params.set("sort", "createdAt");
-    }
-
-    // 사이즈 설정
-    if (!params.has("size")) {
-      params.set("size", "10");
+      params.set("category", categoryLabel);
     }
 
     const queryString = params.toString();
@@ -45,7 +38,7 @@ export const CategoryFilterBar = () => {
   useEffect(() => {
     if (scrollContainerRef.current) {
       const selectedElement = scrollContainerRef.current.querySelector(
-        `[data-category="${currentCategory}"]`,
+        `[data-category="${currentCategory}"]`
       );
       if (selectedElement) {
         const containerWidth = scrollContainerRef.current.offsetWidth;
@@ -61,9 +54,13 @@ export const CategoryFilterBar = () => {
 
   return (
     <div
-      ref={scrollContainerRef}
-      className="no-scrollbar flex overflow-x-scroll"
-      style={{ scrollBehavior: "smooth" }}
+      ref={containerRef}
+      className={cn("no-scrollbar flex overflow-x-scroll", "cursor-grab")}
+      style={{
+        scrollBehavior: isDragging.current ? "auto" : "smooth",
+        userSelect: isDragging.current ? "none" : "auto",
+      }}
+      onMouseDown={onMouseDown}
     >
       <div className="mt-2 flex gap-4">
         {CATEGORIES.map((category) => (
@@ -74,11 +71,15 @@ export const CategoryFilterBar = () => {
             className={cn(
               "flex flex-col items-center justify-center",
               "opacity-90 transition-transform",
+              "pointer-events-auto" // 버튼 클릭 보장
             )}
+            style={{
+              pointerEvents: isDragging.current ? "none" : "auto",
+            }}
           >
             <div
               className={cn(
-                "relative flex h-12 w-12 items-center justify-center overflow-hidden",
+                "relative flex h-12 w-12 items-center justify-center overflow-hidden"
               )}
             >
               <Image
@@ -94,7 +95,7 @@ export const CategoryFilterBar = () => {
                 "pb-2 text-[0.675rem] whitespace-nowrap",
                 currentCategory === category.label || !currentCategory
                   ? "text-primary text-[0.775rem] font-semibold"
-                  : "text-caption-2 text-label-normal",
+                  : "text-caption-2 text-label-normal"
               )}
             >
               {category.label}

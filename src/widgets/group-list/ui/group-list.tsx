@@ -1,10 +1,10 @@
 "use client";
 
-import { GroupCard } from "@/entities/group";
-import { groupQuery } from "@/entities/group/api/group.query";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useEffect, useMemo } from "react";
 import { useInView } from "react-intersection-observer";
+import { GroupCard } from "@/entities/group";
+import { groupQuery } from "@/entities/group/api/group.query";
 
 export const GroupList = ({
   category,
@@ -40,7 +40,7 @@ export const GroupList = ({
   if (status === "pending") {
     return (
       <div className="flex items-center justify-center py-10">
-        <div className="border-primary h-6 w-6 animate-spin rounded-full border-2 border-t-transparent"></div>
+        <div className="border-primary h-6 w-6 animate-spin rounded-full border-2 border-t-transparent" />
       </div>
     );
   }
@@ -64,19 +64,23 @@ export const GroupList = ({
   return (
     <div className="space-y-4">
       {groups.map((group, index) => (
-        <GroupCard key={`group-${group.groupId}-${index}`} group={group} />
+        <GroupCard
+          key={`group-${group.groupId}-${index}`}
+          group={group}
+          from="home"
+        />
       ))}
 
       <div ref={loadMoreRef} className="h-10 w-full">
         {isFetchingNextPage && (
           <div className="flex items-center justify-center py-2">
-            <div className="border-primary h-5 w-5 animate-spin rounded-full border-2 border-t-transparent"></div>
+            <div className="border-primary h-5 w-5 animate-spin rounded-full border-2 border-t-transparent" />
           </div>
         )}
       </div>
 
       {!hasNextPage && groups.length > 0 && (
-        <div className="text-caption-1 text-label-normal pt-2 text-center">
+        <div className="text-caption-1 text-error min-h-24 pt-2 text-center">
           모든 모임을 불러왔습니다.
         </div>
       )}

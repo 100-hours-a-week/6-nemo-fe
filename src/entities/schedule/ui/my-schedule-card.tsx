@@ -25,14 +25,16 @@ export const MyScheduleCard = ({ schedule }: { schedule: MyScheduleItem }) => {
   const { date, time } = formatDatetime(schedule.startAt);
 
   return (
-    <Link href={`/groups/${schedule.groupId}/schedule/${schedule.scheduleId}`}>
+    <Link
+      href={`/groups/${schedule.groupId}/schedule/${schedule.scheduleId}?from=my-schedule`}
+    >
       <div className="bg-common-100 hover:bg-strong mb-3 rounded-lg border border-gray-200 p-4 shadow-sm transition hover:shadow-md">
         <div className="mb-3 flex items-center justify-between">
           <h3 className="text-headline-1 line-clamp-1 font-semibold">
             {schedule.title}
           </h3>
           {/* 모임명 */}
-          <span className="text-headline-3 text-primary font-medium">
+          <span className="text-headline-3 text-primary line-clamp-1 font-medium">
             {schedule.groupName}
           </span>
         </div>

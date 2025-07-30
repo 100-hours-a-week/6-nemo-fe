@@ -1,11 +1,18 @@
 "use client";
 
-import { ScheduleCard, scheduleQuery } from "@/entities/schedule";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useMemo } from "react";
+import { Role } from "@/entities/group";
+import { USER_ROLE_IN_GROUP } from "@/entities/group/model/constants";
+import { ScheduleCard, scheduleQuery } from "@/entities/schedule";
 
-export const ScheduleList = ({ groupId }: { groupId: number }) => {
+type Props = {
+  groupId: number;
+  role: Role;
+};
+
+export const ScheduleList = ({ groupId, role }: Props) => {
   const router = useRouter();
   const {
     data,
@@ -16,6 +23,9 @@ export const ScheduleList = ({ groupId }: { groupId: number }) => {
     isFetchingNextPage,
   } = useInfiniteQuery(scheduleQuery.list(groupId)); // 해당 모임의 일정 리스트
 
+  const isUserGroupAuth =
+    role === USER_ROLE_IN_GROUP.LEADER || role === USER_ROLE_IN_GROUP.MEMBER;
+
   const { schedules } = useMemo(() => {
     const scheduleArray = data?.pages.flatMap((page) => page.schedules) ?? [];
 
@@ -25,7 +35,7 @@ export const ScheduleList = ({ groupId }: { groupId: number }) => {
   if (isLoading && schedules.length === 0) {
     return (
       <div className="flex h-40 items-center justify-center">
-        <div className="border-primary h-6 w-6 animate-spin rounded-full border-2 border-t-transparent"></div>
+        <div className="border-primary h-6 w-6 animate-spin rounded-full border-2 border-t-transparent" />
       </div>
     );
   }
@@ -44,12 +54,14 @@ export const ScheduleList = ({ groupId }: { groupId: number }) => {
         <p className="text-body-1 text-label-normal mb-4">
           등록된 일정이 없습니다.
         </p>
-        <button
-          className="bg-primary hover:bg-primary-strong text-common-100 rounded-full px-6 py-2"
-          onClick={() => router.push(`/groups/${groupId}/schedule/create`)}
-        >
-          일정 만들기
-        </button>
+        {isUserGroupAuth && (
+          <button
+            className="bg-primary hover:bg-primary-strong text-common-100 rounded-full px-6 py-2"
+            onClick={() => router.push(`/groups/${groupId}/schedule/create`)}
+          >
+            일정 만들기
+          </button>
+        )}
       </div>
     );
   }
@@ -60,12 +72,14 @@ export const ScheduleList = ({ groupId }: { groupId: number }) => {
         <h3 className="text-heading-2 text-label-strong-1 font-semibold">
           일정 목록 ({data?.pages[0]?.totalElements})
         </h3>
-        <button
-          className="bg-primary text-common-100 hover:bg-primary-strong rounded-full px-4 py-1 text-sm transition"
-          onClick={() => router.push(`/groups/${groupId}/schedule/create`)}
-        >
-          + 일정 만들기
-        </button>
+        {isUserGroupAuth && (
+          <button
+            className="bg-primary text-common-100 hover:bg-primary-strong rounded-full px-4 py-1 text-sm transition"
+            onClick={() => router.push(`/groups/${groupId}/schedule/create`)}
+          >
+            + 일정 만들기
+          </button>
+        )}
       </div>
 
       <div className="space-y-4">

@@ -18,9 +18,11 @@ export { default as profile_icon } from "./profile_icon.svg";
 // 아이콘
 export { default as bell_bk_icon } from "./bell_bk_icon.svg";
 export { default as bell_icon } from "./bell_icon.svg";
+export { default as bot_icon } from "./bot.svg";
 export { default as calendar_icon } from "./calendar_icon.svg";
 export { default as close_icon } from "./close_icon.svg";
 export { default as edit } from "./edit.svg";
+export { default as education_icon } from "./education.svg";
 export { default as info } from "./info.svg";
 export { default as left } from "./left.svg";
 export { default as location2_icon } from "./location2_icon.svg";
@@ -34,8 +36,12 @@ export { default as reload } from "./reload.svg";
 export { default as reload_white } from "./reload_white.svg";
 export { default as right } from "./right.svg";
 export { default as send } from "./send.svg";
+export { default as soccer_icon } from "./soccer.svg";
 export { default as sorry } from "./sorry.svg";
 export { default as sparkle } from "./sparkle.svg";
+export { default as talking_icon } from "./talking.svg";
+export { default as team_icon } from "./team.svg";
+export { default as time_management_icon } from "./time-management.svg";
 export { default as time_bk_icon } from "./time_bk_icon.svg";
 export { default as time_icon } from "./time_icon.svg";
 export { default as users_bk_icon } from "./users_bk_icon.svg";
@@ -48,23 +54,22 @@ export { default as leave } from "./leave.svg";
 
 // 이미지
 // export { default as user } from "./user.png"
-export { default as crown } from './crown.png';
-export { default as crown_yello } from './crown_yellow.png';
+export { default as crown } from "./crown.png";
+export { default as crown_yello } from "./crown_yellow.png";
 export { default as user } from "./user.svg";
-export { default as users } from './users.png';
-export { default as users_outline } from './users_outline.svg';
+export { default as users } from "./users.png";
+export { default as users_outline } from "./users_outline.svg";
 // 카테고리
-export { default as all } from './category/all.svg';
-export { default as animals } from './category/animals.svg';
-export { default as art } from './category/art.svg';
-export { default as book } from './category/book.svg';
-export { default as career } from './category/career.svg';
-export { default as etc } from './category/etc.svg';
-export { default as friendship } from './category/friendship.svg';
-export { default as game } from './category/game.svg';
-export { default as it } from './category/it.svg';
-export { default as language } from './category/language.svg';
-export { default as money } from './category/money.svg';
-export { default as music } from './category/music.svg';
-export { default as sports } from './category/sports.svg';
-
+export { default as all } from "./category/all.svg";
+export { default as animals } from "./category/animals.svg";
+export { default as art } from "./category/art.svg";
+export { default as book } from "./category/book.svg";
+export { default as career } from "./category/career.svg";
+export { default as etc } from "./category/etc.svg";
+export { default as friendship } from "./category/friendship.svg";
+export { default as game } from "./category/game.svg";
+export { default as it } from "./category/it.svg";
+export { default as language } from "./category/language.svg";
+export { default as money } from "./category/money.svg";
+export { default as music } from "./category/music.svg";
+export { default as sports } from "./category/sports.svg";

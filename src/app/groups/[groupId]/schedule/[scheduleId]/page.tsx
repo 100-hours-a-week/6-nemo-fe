@@ -6,6 +6,7 @@ import { useParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useUpdateScheduleResponse } from "@/features/respond-schedule/api/use-update-schedule-response";
 import { ScheduleParticipant, scheduleQuery } from "@/entities/schedule";
+import { ScheduleBackButton } from "@/entities/schedule/ui/schedule-backbutton";
 import {
   location_icon,
   profile_icon,
@@ -14,7 +15,6 @@ import {
   users_icon,
 } from "@/shared/assets/images";
 import { SchedulePageTracker } from "@/shared/lib";
-import { BackButton } from "@/shared/ui";
 
 export default function ScheduleDetailPage() {
   const params = useParams();
@@ -88,9 +88,7 @@ export default function ScheduleDetailPage() {
       <SchedulePageTracker scheduleId={scheduleId} />
       {/* 상단 헤더 */}
       <header className="relative flex h-14 items-center justify-between border-gray-200 px-4">
-        <BackButton
-          href={`/groups/${schedule.group.groupId}?tab=schedule-list`}
-        />
+        <ScheduleBackButton />
         <h1 className="text-headline-1 font-semibold">
           {schedule.group?.name}
         </h1>
@@ -114,7 +112,7 @@ export default function ScheduleDetailPage() {
               종료
             </span>
           )}
-          <h2 className="text-title-3 text-label-strong-1 font-bold">
+          <h2 className="text-title-3 text-label-strong-1 line-clamp-1 flex-1 font-bold">
             {schedule.title}
           </h2>
         </div>

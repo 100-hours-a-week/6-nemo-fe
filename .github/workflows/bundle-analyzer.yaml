@@ -1,0 +1,114 @@
+name: Bundle Analyzer
+
+on:
+  pull_request:
+    branches: [main, dev]
+
+jobs:
+  analyze-bundle:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        run: |
+          corepack prepare pnpm@10.10.0 --activate
+          pnpm install --frozen-lockfile
+
+      - name: Create .env.local
+        run: |
+          echo "NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}" > .env.local
+
+      - name: Build with Bundle Analyzer
+        env:
+          ANALYZE: "true"
+        run: pnpm build
+
+      - name: Extract Bundle Report
+        id: bundle_report
+        run: |
+          REPORT=$(find .next/analyze -name "*.html" | head -n 1)
+          if [ -z "$REPORT" ]; then
+            echo "report=Not found" >> $GITHUB_OUTPUT
+          else
+            echo "report=$REPORT" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Analyze Bundle Statistics
+        id: bundle_stats
+        run: |
+          echo "Analyzing bundle statistics..."
+
+          # 전체 통계
+          echo "### 📈 전체 번들 통계" > bundle-summary.md
+          echo "" >> bundle-summary.md
+
+          # 전체 정적 파일 크기
+          if [ -d ".next/static" ]; then
+            total_size=$(du -sh .next/static 2>/dev/null | awk '{print $1}' || echo "N/A")
+            echo "- **전체 정적 파일 크기**: ${total_size}" >> bundle-summary.md
+          fi
+
+          # JavaScript 파일만의 총 크기
+          if [ -d ".next/static" ]; then
+            js_size=$(find .next/static -name "*.js" -type f -exec du -ch {} + 2>/dev/null | tail -1 | awk '{print $1}' || echo "N/A")
+            echo "- **총 JavaScript 크기**: ${js_size}" >> bundle-summary.md
+          fi
+
+          # First Load JS (주요 청크들의 합계)
+          if [ -d ".next/static/chunks" ]; then
+            first_load_js=$(find .next/static/chunks -name "*.js" -type f | grep -E "(framework|main|webpack)" | xargs du -ch 2>/dev/null | tail -1 | awk '{print $1}' || echo "N/A")
+            echo "- **First Load JS (추정)**: ${first_load_js}" >> bundle-summary.md
+          fi
+
+          # GitHub Output으로 결과 전달
+          {
+            echo "bundle_summary<<EOF"
+            cat bundle-summary.md
+            echo "EOF"
+          } >> $GITHUB_OUTPUT
+
+      - name: Create Artifact Links
+        id: create_links
+        run: |
+          # GitHub Actions 실행 URL 생성
+          RUN_ID="${{ github.run_id }}"
+          REPO_URL="https://github.com/${{ github.repository }}"
+          ACTIONS_URL="${REPO_URL}/actions/runs/${RUN_ID}"
+
+          echo "actions_url=${ACTIONS_URL}" >> $GITHUB_OUTPUT
+          echo "artifacts_url=${ACTIONS_URL}#artifacts" >> $GITHUB_OUTPUT
+
+      - name: Comment on PR
+        if: github.event_name == 'pull_request'
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: bundle-analyzer
+          message: |
+            ## 📦 Bundle Analyzer Report
+
+            ${{ steps.bundle_stats.outputs.bundle_summary }}
+
+            ### 📊 번들 분석 리포트:
+            [ Bundle Report Download ](${{ steps.create_links.outputs.artifacts_url }})
+
+      - name: Upload Bundle Report (artifact)
+        if: steps.bundle_report.outputs.report != 'Not found'
+        uses: actions/upload-artifact@v4
+        with:
+          name: bundle-analyzer-report
+          path: .next/analyze/
+          retention-days: 30

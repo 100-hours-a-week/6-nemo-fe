@@ -5,6 +5,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useChatbot } from "@/entities/chatbot/api/use-chatobt";
 import { GroupCard } from "@/entities/group";
 import {
+  bot_icon,
   party,
   reload,
   reload_white,
@@ -61,8 +62,8 @@ const ChatbotPage = () => {
   if (!isChatStarted) {
     return (
       <div className="bg-background-normal flex h-[calc(100vh-58px-64px)] flex-col items-center justify-center">
-        <div className="from-primary to-primary-heavy mb-6 flex h-16 w-16 animate-pulse items-center justify-center rounded-full bg-gradient-to-r">
-          <Image src={sparkle} width={40} height={40} alt="ai icon" />
+        <div className="mb-6 flex items-center justify-center rounded-full bg-gradient-to-r from-gray-50 to-gray-100 p-8">
+          <Image src={bot_icon} width={100} height={100} alt="챗봇 아이콘" />
         </div>
         <h1 className="mb-2 text-2xl font-bold">탱글이</h1>
         <p className="mb-8 text-gray-500">
@@ -70,7 +71,7 @@ const ChatbotPage = () => {
         </p>
         <button
           onClick={startNewChat}
-          className="bg-primary hover:bg-primary-strong w-[30%] rounded-full py-2 text-lg font-semibold text-white shadow transition"
+          className="bg-primary hover:bg-primary-strong text-body-1 w-[30%] rounded-full py-2 font-semibold text-white shadow transition"
         >
           추천 시작
         </button>
@@ -214,6 +215,7 @@ const ChatbotPage = () => {
                   tags: session.recommendedGroup.tags,
                 }}
                 className="shadow-sm transition-shadow hover:shadow-md"
+                from="chatbot"
               />
               {session.recommendationReason && (
                 <div className="mt-3 rounded-2xl border border-gray-200 bg-white px-4 py-3">

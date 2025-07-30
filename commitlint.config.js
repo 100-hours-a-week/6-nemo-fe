@@ -18,6 +18,7 @@ module.exports = {
         "Docs", // 문서 수정
         "Design", // UI 수정
         "Refactor", // 리팩토링
+        "Remove", // 삭제
         "Test", // 테스트 추가/수정
         "Chore", // 기타 작업
         "Setting", // CI 등 설정 작업
