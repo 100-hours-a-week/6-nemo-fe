@@ -422,6 +422,8 @@ gir-flow 전략을 적용하되, release 브랜치는 사용하지 않는다.
 | [린캔버스](https://www.figma.com/design/M9ZoQlE43ENtqYhC1ew9BC/%ED%8C%80-6%EC%A1%B0-%EC%84%9C%EB%B9%84%EC%8A%A4%EA%B8%B0%ED%9A%8D?node-id=11967-508&t=g70q6Zr1PtS2LS3e-1) |
 | [IA](https://www.figma.com/design/M9ZoQlE43ENtqYhC1ew9BC/%ED%8C%80-6%EC%A1%B0-%EC%84%9C%EB%B9%84%EC%8A%A4%EA%B8%B0%ED%9A%8D?node-id=7937-54125&t=g70q6Zr1PtS2LS3e-1) |
 | [화면설계서](https://www.figma.com/design/M9ZoQlE43ENtqYhC1ew9BC/%ED%8C%80-6%EC%A1%B0-%EC%84%9C%EB%B9%84%EC%8A%A4%EA%B8%B0%ED%9A%8D?node-id=7223-21707&t=g70q6Zr1PtS2LS3e-1) |
+| [ERD](https://github.com/100-hours-a-week/6-nemo-wiki/wiki/ERD) |
+| [API 명세서](https://docs.google.com/spreadsheets/d/1M_VFphwh0QZr7blsEwtBvqLFhf6ugvtMzaih_n2fahs/edit?gid=2058590026#gid=2058590026) | 
 
 ## <span id='15'>15. 회고</span>
 <!--
