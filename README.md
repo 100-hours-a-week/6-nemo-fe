@@ -204,8 +204,94 @@ useEffect의 depth 배열에 useParams로 받아온 user 값을 넣어서 user �
 |                                 <img width=250 src='https://user-images.githubusercontent.com/70703716/210488517-05b3ce4b-004a-403e-8c31-9b1f4158c713.gif'>                                 |                                <img width=250 src='https://user-images.githubusercontent.com/70703716/210491754-e77b8eb2-a005-4b45-8be1-c614b6a180ee.gif'>                                |                     <img width=250 src='https://user-images.githubusercontent.com/70703716/210491136-4d216436-bfbe-4776-b012-837e9a1333a3.gif'>                      |
 -->
 ## <span id='10'>10. 폴더 구조</span>
-
-
+```
+│README.md
+│package.json
+│pnpm-lock.yaml
+│tsconfig.json
+│next.config.ts
+│eslint.config.mjs
+│commitlint.config.js
+│components.json
+│postcss.config.mjs
+│lighthouserc.js
+│Dockerfile
+├─🗃️public
+├─🗃️lib
+│  └─📁(utils 등)
+└─🗃️src
+    ├─🗂️app
+    │  ├─📁_providers
+    │  ├─📁(tabs)
+    │  │  ├─📁chatbot
+    │  │  ├─📁groups
+    │  │  ├─📁my-nemo
+    │  │  └─📁my-profile
+    │  ├─📁api
+    │  │  ├─📁healthcheck
+    │  │  └─📁v2
+    │  │     └─📁groups
+    │  │        └─📁recommendations
+    │  │           ├─📁questions
+    │  │           └─📁session
+    │  ├─📁groups
+    │  │  ├─📁[groupId]
+    │  │  │  └─📁schedule
+    │  │  │     ├─📁[scheduleId]
+    │  │  │     └─📁create
+    │  │  ├─📁create
+    │  │  └─📁search
+    │  └─📁login
+    │
+    ├─🗂️entities
+    │  ├─📁chatbot
+    │  ├─📁group
+    │  ├─📁profile
+    │  └─📁schedule
+    │
+    ├─🗂️features
+    │  ├─📁auth
+    │  ├─📁category
+    │  │  └─📁category-filter
+    │  ├─📁create-group
+    │  ├─📁create-group-info
+    │  ├─📁create-schedule
+    │  ├─📁group
+    │  │  ├─📁delete-group
+    │  │  ├─📁leave-group
+    │  │  ├─📁manage-group
+    │  │  ├─📁manage-members
+    │  │  └─📁update-group-image
+    │  ├─📁join-group
+    │  ├─📁navigate-back
+    │  ├─📁profile
+    │  │  ├─📁update-nickname
+    │  │  └─📁update-profile-image
+    │  ├─📁respond-schedule
+    │  ├─📁schedule
+    │  └─📁search
+    │     └─📁search-groups
+    │
+    ├─🗂️shared
+    │  ├─📁assets
+    │  │  ├─📁fonts
+    │  │  └─📁images
+    │  ├─📁config
+    │  │  └─📁sentry
+    │  ├─📁constants
+    │  ├─📁lib
+    │  ├─📁store
+    │  ├─📁styles
+    │  └─📁ui
+    │
+    └─🗂️widgets
+       ├─📁bottom-navigation
+       ├─📁group-details
+       ├─📁group-list
+       ├─📁my-group-list
+       ├─📁my-schedule-list
+       └─📁schedule-list
+```
 ## <span id='11'>11. 코드 특징과 구현 방식</span>
 <!--
 1. **컴포넌트 구조화**  
@@ -265,6 +351,44 @@ useModals 훅을 생성하여 모달을 열고 닫는 함수를 반환할 수 �
 * [코드 컨벤션](https://github.com/20th-lion/camperz/wiki/%EC%BD%94%EB%94%A9-%EC%BB%A8%EB%B2%A4%EC%85%98)
 -->
 
+### 12.1 브랜치 전략
+```
+gir-flow 전략을 적용하되, release 브랜치는 사용하지 않는다. 
+
+케밥케이스를 따른다. (kebab-case)
+
+1. main: 운영 베포용
+2. develop: 개발 통합용
+3. feature/이슈번호-기능명: 새로운 기능 개발
+4. fix/이슈번호-버그명: 개발 중 발견한 버그 수정
+5. hotfix/이슈번호-긴급수정명: 운영 중 긴급 수정
+6. refactor/이슈번호-기능명: 기능에 대한 리팩토링
+
+> e.g. `feature/3-kebab-case`
+> 이외의 브랜치는 팀원들과 상의를 통해 생성한다.
+```
+### 12.2 커밋 컨벤션
+```
+> Feat : 내용 (#이슈번호)
+> e.g. Feat: 아무말 대잔치입니다 (#5)
+
+- `Feat` : 새로운 기능 추가
+- `Design` : CSS 등 사용자 UI 변경
+- `Refactor` : 코드 리팩토링
+- `Fix` : 버그 수정
+- `Comment` : 주석 추가 및 변경만 하는 경우
+- `Remove` : 파일, 폴더 삭제 작업만 하는 경우
+- `Rename` : 파일 혹은 폴더명을 수정하거나 옮기는 작업만 하는 경우
+- `Setting` : 프로젝트 세팅
+- `Docs` : 문서 수정
+- `Chore`: 그 이외의 잡일/ 버전 코드 수정, 패키지 구조 변경, 파일 이동, 파일이름 변경
+```
+
+### 12.3 Issue 컨벤션
+[이슈 템플릿 파일](https://github.com/100-hours-a-week/6-nemo-fe/tree/main/.github/ISSUE_TEMPLATE) <br/>
+
+### 12.4 Pull Request 컨벤션
+[커밋 템플릿 파일](https://github.com/100-hours-a-week/6-nemo-fe/blob/main/.github/pull_request_template.md)
 
 
 ## <span id='13'>13. 협업 방식</span>
@@ -280,18 +404,24 @@ useModals 훅을 생성하여 모달을 열고 닫는 함수를 반환할 수 �
   
 * 무기명 설문과 투표로 의견 취합, 피그잼 브레인스토밍, 페어 프로그래밍
 -->
-
-
+- 2주 단위 스프린트 진행
+- 마일스톤을 활용한 버전 업데이트
+- 작업 추적을 용이하도록 설계한 칸반보드
+- 매일 오전 09:10 ~ 09:30 데일리 스크럼
+- 매일 오후 17:50 ~ 18:00 데일리 회고
+- 디스코드를 통한 비동기 커뮤니케이션
+- 동기 커뮤니케이션 필요 시, 회의실과 타운홀 활용
 
 ## <span id='14'>14. 기타 문서</span>
-- 유저플로우
-- 화면설계서
-- 칸반보드
-- 위키
-- 페르소나, 요구사항명세서, 경쟁사분석 등
 
-(정리 중)
-
+| 문서(링크) |
+|-----------|
+| [유저플로우차트](https://app.diagrams.net/#G1e7nN1oqraX8T1OTXxqUEpWDqd-Y8dBZK#%7B%22pageId%22%3A%22SL2EEUvOC3-JrASh9f2n%22%7D) |
+| [칸반보드](https://github.com/orgs/100-hours-a-week/projects/146) |
+| [프로젝트 Wiki](https://github.com/100-hours-a-week/6-nemo-wiki/wiki) |
+| [린캔버스](https://www.figma.com/design/M9ZoQlE43ENtqYhC1ew9BC/%ED%8C%80-6%EC%A1%B0-%EC%84%9C%EB%B9%84%EC%8A%A4%EA%B8%B0%ED%9A%8D?node-id=11967-508&t=g70q6Zr1PtS2LS3e-1) |
+| [IA](https://www.figma.com/design/M9ZoQlE43ENtqYhC1ew9BC/%ED%8C%80-6%EC%A1%B0-%EC%84%9C%EB%B9%84%EC%8A%A4%EA%B8%B0%ED%9A%8D?node-id=7937-54125&t=g70q6Zr1PtS2LS3e-1) |
+| [화면설계서](https://www.figma.com/design/M9ZoQlE43ENtqYhC1ew9BC/%ED%8C%80-6%EC%A1%B0-%EC%84%9C%EB%B9%84%EC%8A%A4%EA%B8%B0%ED%9A%8D?node-id=7223-21707&t=g70q6Zr1PtS2LS3e-1) |
 
 ## <span id='15'>15. 회고</span>
 <!--
