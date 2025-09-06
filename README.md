@@ -106,7 +106,101 @@ NE:MO는 모임 운영에 필요한 모든 기능을 담은 올인원 모임 관
 (정리 중)
 
 ## <span id='7'>7. 성능 개선</span>
-> 
+### 1. 낙관적 업데이트를 통한 UI 업데이트 최적화
+<div align="center">
+  <img width="156" height="347" alt="image" src="https://github.com/user-attachments/assets/b5b825c3-d530-4689-9240-bf8c0c03f94e" />
+  <img width="357" height="302" alt="image" src="https://github.com/user-attachments/assets/542c21af-596d-4c2a-a35f-87eead2d23ae" />
+  <img width="278" height="301" alt="image" src="https://github.com/user-attachments/assets/47de15ed-d227-4bd1-b586-8c9b005702c4" />
+</div>
+
+#### Situation (상황)
+일정 참여 응답 시 UI 반영까지 최대 2초 이상 소요되는 문제가 있었고,  
+사용자는 액션 결과를 즉시 확인할 수 없었습니다.  
+또한 API 통신 과정에서 불필요하게 3번의 렌더링이 발생해 UX가 저하되고 있었습니다.  
+
+#### Task (과제)
+사용자가 즉각적으로 액션 결과를 확인할 수 있도록 UI 반응 속도를 개선하고,  
+불필요한 렌더링을 줄여 매끄러운 UX를 제공해야 했습니다.  
+
+#### Action (조치)
+- React Query의 낙관적 업데이트 패턴을 구현  
+- 사용자 액션 발생 시 예상 결과를 즉시 UI에 반영  
+- 서버 통신은 백그라운드에서 처리, 실패 시 UI 롤백  
+
+#### Result (성과)
+- UI 반응 시간 2초 → **즉시** (100% 개선)  
+- 렌더링 횟수 3회 → 1회 (67% 감소)  
+- 즉각적인 사용자 피드백 제공 및 매끄러운 UX 구현  
+---
+
+### 2. 번들 다이어트를 통한 렌더링 성능 개선
+<div align="center">
+  <img width="654" height="363" alt="image" src="https://github.com/user-attachments/assets/ae50ba91-2b6e-4d1b-b53a-20c7d0be5c5c" />
+</div>
+
+#### Situation (상황)
+초기 로딩 시 대용량 JavaScript 번들로 인해 로딩 시간이 길어졌고,  
+사용자가 페이지를 빠르게 확인하기 어려웠습니다.  
+
+#### Task (과제)
+번들 크기를 줄이고 초기 로딩 속도를 개선해  
+사용자가 더 빠르게 콘텐츠를 확인할 수 있도록 해야 했습니다.  
+
+#### Action (조치)
+- Next.js Bundle Analyzer로 번들 분석 및 최적화  
+- React Server Components(RSC) 전환으로 클라이언트 번들 경량화  
+- Dynamic Import를 활용한 코드 스플리팅  
+
+#### Result (성과)
+- JavaScript 번들 크기 **24% 감소**  
+- 초기 로딩 시간 **45% 단축**  
+- FCP(First Contentful Paint) **1.2초 개선**  
+---
+
+### 3. 미들웨어 기반 엣지 사이드 인가(Authorization) 처리
+<div align="center">
+  <img width="373" height="205" alt="image" src="https://github.com/user-attachments/assets/fefa2e1d-c65a-46ea-b3c8-2a1e6e9e7ca0" />
+</div>
+
+#### Situation (상황)
+인가 로직이 클라이언트 측에서만 수행되면서,  
+보호된 페이지 접근 시 UI가 잠깐 렌더링된 뒤 인증 실패로 `/login` 리다이렉트가 발생해  
+페이지가 '깜빡이는' 현상이 있었습니다.  
+
+#### Task (과제)
+보호된 페이지 접근 시 불필요한 깜빡임을 제거하고,  
+사용자 경험을 매끄럽게 개선해야 했습니다.  
+
+#### Action (조치)
+- Next.js 미들웨어를 활용해 엣지 사이드 인증 검증  
+- 페이지 로드 전에 인증 상태를 사전 확인 후 접근/리다이렉트 처리  
+
+#### Result (성과)
+- 로그인 완료 시 보호된 페이지 접근에서 **깜빡임 현상 제거**  
+- 안정적이고 매끄러운 UX 제공  
+---
+
+### 4. 큐 기반 토큰 재발급 최적화
+<div align="center">
+  <img width="401" height="130" alt="image" src="https://github.com/user-attachments/assets/349d44e1-8ca3-4824-b7b4-c79451770b05" />
+</div>
+
+#### Situation (상황)
+토큰 만료 시 여러 API가 동시에 각각 토큰 재발급을 요청하면서  
+서버 부하가 증가하는 문제가 있었습니다.  
+
+#### Task (과제)
+토큰 만료 상황에서 중복 재발급 요청을 방지하고,  
+사용자에게 재로그인 요구 없이 안정적인 API 요청 처리를 보장해야 했습니다.  
+
+#### Action (조치)
+- 첫 번째 API 요청만 토큰 재발급을 수행하도록 제한  
+- 동시에 요청된 다른 API들은 큐에 저장하여 대기  
+- 토큰 재발급이 완료되면 큐에 대기 중인 요청들을 일괄 재실행  
+
+#### Result (성과)
+- 불필요한 재발급 요청 제거  
+- 토큰 만료 시 재로그인 플로우 제거로 사용자 경험 개선  
 
 ## <span id='8'>8. 트러블 슈팅</span>
 
