@@ -44,17 +44,18 @@ NE:MO는 모임 운영에 필요한 모든 기능을 담은 올인원 모임 관
    [3. 프로젝트 기간](#3) 💨  
    [4. 아키텍처](#4) 💨  
    [5. 기술 선정](#5) 💨  
-   [6. 테크 스펙](#6) 💨  
-   [7. 성능 개선](#7) 💨  
+   [6. 성능 개선](#7) 💨  
+   [7. 폴더 구조](#10) 💨  
+   [8. 컨벤션](#12) 💨  
+   [9. 협업 방식](#13) 💨  
+   [10. 기타 문서](#14) 💨  
+  <!--
    [8. 트러블 슈팅](#8) 💨  
    [9. 기능 시연](#9) 💨  
-   [10. 폴더 구조](#10) 💨  
    [11. 코드 특징과 구현 방식](#11) 💨  
-   [12. 컨벤션](#12) 💨  
-   [13. 협업 방식](#13) 💨  
-   [14. 기타 문서](#14) 💨  
-   [15. 회고](#14) 💨  
-
+   [6. 테크 스펙](#6) 💨  
+   [15. 회고](#14) 💨
+   -->
 ---
 
 ## <span id='2'>2. 팀원 소개</span>
@@ -81,7 +82,7 @@ NE:MO는 모임 운영에 필요한 모든 기능을 담은 올인원 모임 관
 
 
 ## <span id='5'>5. 기술 선정</span>
-> 저희 서비스의 적합한 기술을 고려하였습니다. **기술 선정 이유**는 [링크](https://www.notion.so/1f187f969ba08077aa30f9447947e35f?source=copy_link)에서 확인하실 수 있습니다.
+> 저희 서비스에 적합한 기술을 고려하였습니다. **기술 선정 이유**는 포트폴리오에서 확인하실 수 있습니다.
 
 | 분류 | 기술 | 버전 |
 | --- | --- | --- |
@@ -98,14 +99,7 @@ NE:MO는 모임 운영에 필요한 모든 기능을 담은 올인원 모임 관
 | 디자인시스템 | Shadcn | 29.7.0 |
 | 기타 | eslint,es-toolkit, prettier, js-conefetti | 9.25.1, 1.36.0, 3.5.3, 0.12.0 |
 
-## <span id='6'>6. 테크 스펙</span>
-> AI 도구의 발전과 함께 개발자의 역할이 점점 모호해지고 있습니다. <br/>
-> 저는 이러한 변화 속에서 개발자의 ‘설계’ 역할이 더욱 중요해지고 있다고 생각합니다. 단순 구현보다 전체적인 구조와 방향을 잡는 과정이 가치 있는 역량으로 자리 잡을 것이기 때문입니다. <br/>
-> 따라서 개발 과정에서 설계 단계를 최소 20% 이상 확보하여, 보다 효율적이고 실용적인 개발을 지향하고자 합니다. 이러한 맥락에서 프로젝트의 일관성과 생산성을 높이기 위해 **테크스펙**을 작성하게 되었습니다. 
-
-(정리 중)
-
-## <span id='7'>7. 성능 개선</span>
+## <span id='6'>6. 성능 개선</span>
 ### 1. 낙관적 업데이트를 통한 UI 업데이트 최적화
 <div align="center">
   <img width="156" height="347" alt="image" src="https://github.com/user-attachments/assets/b5b825c3-d530-4689-9240-bf8c0c03f94e" />
@@ -202,9 +196,9 @@ NE:MO는 모임 운영에 필요한 모든 기능을 담은 올인원 모임 관
 - 불필요한 재발급 요청 제거  
 - 토큰 만료 시 재로그인 플로우 제거로 사용자 경험 개선  
 
+<!--
 ## <span id='8'>8. 트러블 슈팅</span>
 
-<!--
 1. **이미지 에러 처리** 
 * **문제**  
 초기에는 에러이미지가 포스팅의 절반을 차지 했습니다. 
@@ -266,7 +260,7 @@ interceptor 기능을 활용해 header 안에 token이 undefined일 경우 로�
 프로필 페이지 하위 컴포넌트들의 useEffect depth가 빈 배열이어서 하위 컴포넌트들이 리렌더링 되지 않았습니다.
 * **해결**  
 useEffect의 depth 배열에 useParams로 받아온 user 값을 넣어서 user 값이 변할 때마다 리렌더링과 동시에 유저 정보를 얻어오는 api 요청 함수를 실행하도록 했습니다.
--->
+
 
 
 
@@ -274,7 +268,6 @@ useEffect의 depth 배열에 useParams로 받아온 user 값을 넣어서 user �
 ## <span id='9'>9. 기능 시연</span>
 링크를 누르면 상세 설명 페이지로 이동합니다.
 
-<!--
 ### 1) 홈+채팅
 
 |              [Splash](https://github.com/20th-lion/camperz/wiki/%ED%8E%98%EC%9D%B4%EC%A7%80-%EC%83%81%EC%84%B8-%EC%84%A4%EB%AA%85#1-splash)               | [회원가입/프로필 설정](https://github.com/20th-lion/camperz/wiki/%ED%8E%98%EC%9D%B4%EC%A7%80-%EC%83%81%EC%84%B8-%EC%84%A4%EB%AA%85#2-%ED%9A%8C%EC%9B%90%EA%B0%80%EC%9E%85%ED%94%84%EB%A1%9C%ED%95%84-%EC%84%A4%EC%A0%95) |         [로그인](https://github.com/20th-lion/camperz/wiki/%ED%8E%98%EC%9D%B4%EC%A7%80-%EC%83%81%EC%84%B8-%EC%84%A4%EB%AA%85#3-%EB%A1%9C%EA%B7%B8%EC%9D%B8)         |
@@ -297,7 +290,9 @@ useEffect의 depth 배열에 useParams로 받아온 user 값을 넣어서 user �
 | [**상품 수정/삭제**](https://github.com/20th-lion/camperz/wiki/%ED%8E%98%EC%9D%B4%EC%A7%80-%EC%83%81%EC%84%B8-%EC%84%A4%EB%AA%85#4-%EC%83%81%ED%92%88-%EC%88%98%EC%A0%95%EC%82%AD%EC%A0%9C) | [**팔로잉/팔로워**](https://github.com/20th-lion/camperz/wiki/%ED%8E%98%EC%9D%B4%EC%A7%80-%EC%83%81%EC%84%B8-%EC%84%A4%EB%AA%85#5-%ED%8C%94%EB%A1%9C%EC%9E%89%ED%8C%94%EB%A1%9C%EC%9B%8C) |  [**로그아웃**](https://github.com/20th-lion/camperz/wiki/%ED%8E%98%EC%9D%B4%EC%A7%80-%EC%83%81%EC%84%B8-%EC%84%A4%EB%AA%85#6-%EB%A1%9C%EA%B7%B8%EC%95%84%EC%9B%83)  |
 |                                 <img width=250 src='https://user-images.githubusercontent.com/70703716/210488517-05b3ce4b-004a-403e-8c31-9b1f4158c713.gif'>                                 |                                <img width=250 src='https://user-images.githubusercontent.com/70703716/210491754-e77b8eb2-a005-4b45-8be1-c614b6a180ee.gif'>                                |                     <img width=250 src='https://user-images.githubusercontent.com/70703716/210491136-4d216436-bfbe-4776-b012-837e9a1333a3.gif'>                      |
 -->
-## <span id='10'>10. 폴더 구조</span>
+
+
+## <span id='7'>7. 폴더 구조</span>
 ```
 │README.md
 │package.json
@@ -386,8 +381,10 @@ useEffect의 depth 배열에 useParams로 받아온 user 값을 넣어서 user �
        ├─📁my-schedule-list
        └─📁schedule-list
 ```
-## <span id='11'>11. 코드 특징과 구현 방식</span>
+
+
 <!--
+## <span id='11'>11. 코드 특징과 구현 방식</span>
 1. **컴포넌트 구조화**  
 * common 폴더로 공통 컴포넌트를 구조화 했습니다.
 * apis 폴더로 사용되는 api를 일괄 관리 했습니다.
@@ -423,29 +420,8 @@ useModals 훅을 생성하여 모달을 열고 닫는 함수를 반환할 수 �
 -->
 
 
-## <span id='12'>12. 컨벤션</span>
-<!--
-
-* [GitHub-flow 전략](https://inpa.tistory.com/entry/GIT-%E2%9A%A1%EF%B8%8F-github-flow-git-flow-%F0%9F%93%88-%EB%B8%8C%EB%9E%9C%EC%B9%98-%EC%A0%84%EB%9E%B5#GITHUB-FLOW_%EC%A0%84%EB%9E%B5): 깃헙 초심자가 쉽게 접근할 수 있는 방법 채택
-  
-* 브랜치 네임 컨벤션
-  
-* 커밋 컨벤션
-```
-- feat: 새로운 기능 구현
-- fix: 오류 수정
-- docs: readme.md, json 파일 등 수정, 라이브러리 설치(문서 관련)
-- refactor: 코드 리팩토링
-- chore: 빌드 부분 혹은 패키지 매니저 수정 사항
-- rename: 파일 혹은 폴더명 수정, 옮기기
-- remove: 파일 삭제
-```
-* GitHub Issue / PR 템플릿 사용
-  
-* [코드 컨벤션](https://github.com/20th-lion/camperz/wiki/%EC%BD%94%EB%94%A9-%EC%BB%A8%EB%B2%A4%EC%85%98)
--->
-
-### 12.1 브랜치 전략
+## <span id='8'>8. 컨벤션</span>
+### 8.1 브랜치 전략
 ```
 gir-flow 전략을 적용하되, release 브랜치는 사용하지 않는다. 
 
@@ -461,7 +437,7 @@ gir-flow 전략을 적용하되, release 브랜치는 사용하지 않는다.
 > e.g. `feature/3-kebab-case`
 > 이외의 브랜치는 팀원들과 상의를 통해 생성한다.
 ```
-### 12.2 커밋 컨벤션
+### 8.2 커밋 컨벤션
 ```
 > Feat : 내용 (#이슈번호)
 > e.g. Feat: 아무말 대잔치입니다 (#5)
@@ -478,14 +454,14 @@ gir-flow 전략을 적용하되, release 브랜치는 사용하지 않는다.
 - `Chore`: 그 이외의 잡일/ 버전 코드 수정, 패키지 구조 변경, 파일 이동, 파일이름 변경
 ```
 
-### 12.3 Issue 컨벤션
+### 8.3 Issue 컨벤션
 [이슈 템플릿 파일](https://github.com/100-hours-a-week/6-nemo-fe/tree/main/.github/ISSUE_TEMPLATE) <br/>
 
-### 12.4 Pull Request 컨벤션
+### 8.4 Pull Request 컨벤션
 [커밋 템플릿 파일](https://github.com/100-hours-a-week/6-nemo-fe/blob/main/.github/pull_request_template.md)
 
 
-## <span id='13'>13. 협업 방식</span>
+## <span id='9'>9. 협업 방식</span>
 <!--
 ### - 협업 방법
 * 사전 스터디 진행: 팀원들의 리액트 실력을 상향 평준화하고, 깃헙 브랜치 전략에 익숙해지는 시간을 갖음  
@@ -499,14 +475,14 @@ gir-flow 전략을 적용하되, release 브랜치는 사용하지 않는다.
 * 무기명 설문과 투표로 의견 취합, 피그잼 브레인스토밍, 페어 프로그래밍
 -->
 - 2주 단위 스프린트 진행
-- 마일스톤을 활용한 버전 업데이트
-- 작업 추적을 용이하도록 설계한 칸반보드
-- 매일 오전 09:10 ~ 09:30 데일리 스크럼
-- 매일 오후 17:50 ~ 18:00 데일리 회고
+- [마일스톤](https://github.com/100-hours-a-week/6-nemo-fe/milestones) 단위 버전 업데이트 진행
+- 작업 추적을 용이하도록 설계한 [칸반보드](https://github.com/orgs/100-hours-a-week/projects/146)
+- 매일 오전 09:10 ~ 09:30 [데일리 스크럼](https://github.com/100-hours-a-week/6-nemo-wiki/issues?q=is%3Aissue%20state%3Aopen%20label%3A%22%F0%9F%94%86%20%EB%8D%B0%EC%9D%BC%EB%A6%AC%20%EC%8A%A4%ED%81%AC%EB%9F%BC%22)
+- 매일 오후 17:50 ~ 18:00 데일리 회고 (작업 병목 상황에 짧게 대해 공유합니다)
 - 디스코드를 통한 비동기 커뮤니케이션
 - 동기 커뮤니케이션 필요 시, 회의실과 타운홀 활용
 
-## <span id='14'>14. 기타 문서</span>
+## <span id='10'>10. 기타 문서</span>
 
 | 문서(링크) |
 |-----------|
@@ -519,8 +495,9 @@ gir-flow 전략을 적용하되, release 브랜치는 사용하지 않는다.
 | [ERD](https://github.com/100-hours-a-week/6-nemo-wiki/wiki/ERD) |
 | [API 명세서](https://docs.google.com/spreadsheets/d/1M_VFphwh0QZr7blsEwtBvqLFhf6ugvtMzaih_n2fahs/edit?gid=2058590026#gid=2058590026) | 
 
-## <span id='15'>15. 회고</span>
 <!--
+## <span id='15'>15. 회고</span>
 |   김진우(Ray)   | 
 | :-: |
 | 우연찮게 팀장 자리를 맡아서 프로젝트 때문에 마음의 상처를 입는 분이 없도록 하는 게 저의 1순위였습니다. 너무나 좋은 팀원들을 기적처럼 만나서 멋진 첫 프로젝트 경험을 얻고, 또 생각치 못한 좋은 피드백까지 받아서 뿌듯합니다. 처음에 말씀해주셨던 팀원들 각자의 목표를 잊지 않고 있습니다. 우리의 캠퍼즈는 약간의 리팩토링을 거쳐 곧바로 취업에 사용할 수도 있고, 이 경험을 발판 삼아 다음 프로젝트로 도전할 수 있는 계기가 될 수도 있겠습니다. 완벽한 결과물은 아닐 수 있겠지만 목표로 하던 그대로 이루어내었다는 점에 무척 기쁘고요, 번아웃으로 시작한 프로젝트였는데 저도 리액트가 좋아졌습니다. 곧장 다음 프로젝트 시작할 거예요 ㅎㅎㅎ 부트캠프에 참가했던 목표를 20세기라이언에서 모두 이룬 것 같아요. 그동안 저와 함께 해주셔서 우리 20팀원들께 진심으로 감사드립니다. |
+-->
