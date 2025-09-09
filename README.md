@@ -476,7 +476,7 @@ gir-flow 전략을 적용하되, release 브랜치는 사용하지 않는다.
 -->
 - 2주 단위 스프린트 진행
 - [마일스톤](https://github.com/100-hours-a-week/6-nemo-fe/milestones) 단위 버전 업데이트 진행
-- 작업 추적을 용이하도록 설계한 [칸반보드](https://github.com/orgs/100-hours-a-week/projects/146)
+- [칸반보드](https://github.com/orgs/100-hours-a-week/projects/146) 티켓 기반 태스크 매니징
 - 매일 오전 09:10 ~ 09:30 [데일리 스크럼](https://github.com/100-hours-a-week/6-nemo-wiki/issues?q=is%3Aissue%20state%3Aopen%20label%3A%22%F0%9F%94%86%20%EB%8D%B0%EC%9D%BC%EB%A6%AC%20%EC%8A%A4%ED%81%AC%EB%9F%BC%22)
 - 매일 오후 17:50 ~ 18:00 데일리 회고 (작업 병목 상황에 짧게 대해 공유합니다)
 - 디스코드를 통한 비동기 커뮤니케이션
