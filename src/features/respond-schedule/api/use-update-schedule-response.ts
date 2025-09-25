@@ -74,7 +74,6 @@ export const useUpdateScheduleResponse = (scheduleId: number) => {
         );
       }
 
-      // 롤백을 위한 컨텍스트 반환
       return { previousDetail };
     },
     onError: (error, _variables, context) => {
@@ -89,16 +88,17 @@ export const useUpdateScheduleResponse = (scheduleId: number) => {
       GAerrorTracking("api_error", error as Error, "schedule_response");
     },
     onSuccess: () => {
+      successToast(RESPOND_SCHEDULE_MESSAGES.SUCCESS);
+      GAscheduleAction(`response_success`, scheduleId.toString());
+    },
+    onSettled: () => {
+      // 성공/실패와 관계없이 최신 상태로 동기화
       queryClient.refetchQueries({
         queryKey: scheduleQuery.detail(scheduleId).queryKey,
       });
       queryClient.invalidateQueries({
         queryKey: scheduleQuery.myList().queryKey,
       });
-
-      successToast(RESPOND_SCHEDULE_MESSAGES.SUCCESS);
-
-      GAscheduleAction(`response_success`, scheduleId.toString());
     },
   });
 };
